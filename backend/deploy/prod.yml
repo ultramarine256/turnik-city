@@ -26,8 +26,8 @@ steps:
 
   - powershell: |
       $file = "app.service.ts"
-      (Get-Content $indexHtml).replace("-build.id-", "$(Build.BuildNumber)") | Set-Content $file
-      (Get-Content $indexHtml).replace("-branch.name-", "$(Build.SourceBranchName)") | Set-Content $file
+      (Get-Content $file).replace("-build.id-", "$(Build.BuildNumber)") | Set-Content $file
+      (Get-Content $file).replace("-branch.name-", "$(Build.SourceBranchName)") | Set-Content $file
     workingDirectory: 'backend/src'
     displayName: 'PowerShell Script'
 
