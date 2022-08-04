@@ -2,10 +2,9 @@
   "name": "turnik-city",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve --proxy-config proxy.conf.json",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
+    "start:local": "ng serve -c=local --proxy-config proxy.conf.json",
+    "start:prod": "ng serve -c=prod --proxy-config proxy.conf.json",
+    "build:prod": "ng build -c=prod",
     "test": "ng test"
   },
   "private": true,

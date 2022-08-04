@@ -40,7 +40,7 @@
             "scripts": []
           },
           "configurations": {
-            "production": {
+            "build-prod": {
               "budgets": [
                 {
                   "type": "initial",
@@ -61,7 +61,27 @@
               ],
               "outputHashing": "all"
             },
-            "development": {
+            "serve-local": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.local.ts"
+                }
+              ],
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            },
+            "serve-prod": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
               "buildOptimizer": false,
               "optimization": false,
               "vendorChunk": true,
@@ -75,11 +95,11 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
-            "production": {
-              "browserTarget": "my-app:build:production"
+            "local": {
+              "browserTarget": "my-app:build:serve-local"
             },
-            "development": {
-              "browserTarget": "my-app:build:development"
+            "prod": {
+              "browserTarget": "my-app:build:serve-prod"
             }
           },
           "defaultConfiguration": "development"

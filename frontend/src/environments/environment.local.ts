@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  apiBaseUrl: null,
+  apiBaseUrl: 'http://localhost:3000',
   googleMapsApiKey: null,
-  gtagId: null
+  gtagId: null,
 };

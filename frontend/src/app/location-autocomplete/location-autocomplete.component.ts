@@ -10,6 +10,7 @@ import {
   Subject,
   switchMap,
 } from 'rxjs';
+import {environment} from "../../environments/environment";
 
 class City {
   constructor(readonly city: string, readonly country: string) {}
@@ -31,6 +32,7 @@ const databaseMockData: readonly City[] = [
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LocationAutocompleteComponent {
+  readonly apiBaseUrl = environment.apiBaseUrl;
   readonly search$: Subject<string | null> = new Subject();
 
   readonly cities$: Observable<readonly City[] | null> = this.search$.pipe(
