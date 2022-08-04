@@ -17,19 +17,19 @@ steps:
       versionSpec: '18.x'
     displayName: 'Install Node.js'
 
+  - powershell: |
+      $file = "app.service.ts"
+      (Get-Content $file).replace("-build.id-", "$(Build.BuildNumber)") | Set-Content $file
+      (Get-Content $file).replace("-branch.name-", "$(Build.SourceBranchName)") | Set-Content $file
+    workingDirectory: 'backend/src'
+    displayName: 'Build Counters'
+
   - script: |
       npm install -g nest-cli
       npm install
       npm run build
     workingDirectory: backend
     displayName: 'npm install and build'
-
-  - powershell: |
-      $file = "app.service.ts"
-      (Get-Content $file).replace("-build.id-", "$(Build.BuildNumber)") | Set-Content $file
-      (Get-Content $file).replace("-branch.name-", "$(Build.SourceBranchName)") | Set-Content $file
-    workingDirectory: 'backend/src'
-    displayName: 'PowerShell Script'
 
   - task: ArchiveFiles@2
     displayName: 'Archive files'
