@@ -1,3 +1,14 @@
-<ng-container *ngIf="hello$ | async as hello">
-  <h1>{{ hello | json }}</h1>
-</ng-container>
+<tui-root>
+  <div class="container">
+    <div class="sidebar">
+      <app-location-autocomplete></app-location-autocomplete>
+    </div>
+
+    <div class="map">
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/b/b1/European_Union_in_Europe_%28relief%29.svg"
+        alt=""
+      />
+    </div>
+  </div>
+</tui-root>
