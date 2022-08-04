@@ -25,16 +25,16 @@ steps:
     displayName: 'npm install and build'
 
   - powershell: |
-      $indexHtml = "index.html"
-      (Get-Content $indexHtml).replace("-build.id-", "$(Build.BuildNumber)") | Set-Content $indexHtml
-      (Get-Content $indexHtml).replace("-branch.name-", "$(Build.SourceBranchName)") | Set-Content $indexHtml
-    workingDirectory: 'backend/dist'
+      $file = "app.service.ts"
+      (Get-Content $indexHtml).replace("-build.id-", "$(Build.BuildNumber)") | Set-Content $file
+      (Get-Content $indexHtml).replace("-branch.name-", "$(Build.SourceBranchName)") | Set-Content $file
+    workingDirectory: 'backend/src'
     displayName: 'PowerShell Script'
 
   - task: ArchiveFiles@2
     displayName: 'Archive files'
     inputs:
-      rootFolderOrFile: 'frontend/dist/app'
+      rootFolderOrFile: 'backend/dist'
       includeRootFolder: false
 
   - task: PublishBuildArtifacts@1
