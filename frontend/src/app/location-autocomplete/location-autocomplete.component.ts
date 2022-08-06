@@ -42,11 +42,9 @@ export class LocationAutocompleteComponent {
     return (event.target as HTMLInputElement)?.value || null;
   }
 
-  private serverRequest(
-    searchQuery: string | null
-  ): Observable<CityViewModel[]> {
+  private serverRequest(searchQuery: string): Observable<CityViewModel[]> {
     return this.citiesService
-      .cities(searchQuery || '')
+      .cities(searchQuery)
       .pipe(
         map((cities) =>
           cities.map((city) => new CityViewModel(city.title, city.country))
