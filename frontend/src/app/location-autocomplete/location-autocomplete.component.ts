@@ -1,29 +1,16 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { TUI_DEFAULT_MATCHER } from '@taiga-ui/cdk';
-import {
-  delay,
-  filter,
-  Observable,
-  of,
-  startWith,
-  Subject,
-  switchMap,
-} from 'rxjs';
-import {environment} from "../../environments/environment";
+import { Observable, startWith, Subject, switchMap } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { CitiesService } from 'src/app/cities.service';
 
-class City {
+class CityViewModel {
   constructor(readonly city: string, readonly country: string) {}
 
   toString(): string {
     return `${this.country}, ${this.city}`;
   }
 }
-
-const databaseMockData: readonly City[] = [
-  new City(`Kiev`, `Ukraine`),
-  new City(`Kharkov`, `Ukraine`),
-];
 
 @Component({
   selector: 'app-location-autocomplete',
@@ -32,21 +19,23 @@ const databaseMockData: readonly City[] = [
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LocationAutocompleteComponent {
-  readonly apiBaseUrl = environment.apiBaseUrl;
-  readonly search$: Subject<string | null> = new Subject();
+  readonly search$: Subject<string> = new Subject();
 
-  readonly cities$: Observable<readonly City[] | null> = this.search$.pipe(
-    filter((value) => value !== null),
-    switchMap((search) =>
-      this.serverRequest(search).pipe(startWith<readonly City[] | null>(null))
-    ),
-    startWith(databaseMockData)
-  );
+  readonly cities$: Observable<readonly CityViewModel[] | null> =
+    this.search$.pipe(
+      switchMap((search) =>
+        this.serverRequest(search).pipe(
+          startWith<readonly CityViewModel[] | null>(null)
+        )
+      )
+    );
 
   readonly selectedCity = new FormControl(null);
 
+  constructor(private citiesService: CitiesService) {}
+
   onSearchChange(searchQuery: string | null): void {
-    this.search$.next(searchQuery);
+    this.search$.next(searchQuery || '');
   }
 
   extractValueFromEvent(event: Event): string | null {
@@ -55,11 +44,13 @@ export class LocationAutocompleteComponent {
 
   private serverRequest(
     searchQuery: string | null
-  ): Observable<readonly City[]> {
-    const result = databaseMockData.filter((user) =>
-      TUI_DEFAULT_MATCHER(user, searchQuery || ``)
-    );
-
-    return of(result).pipe(delay(Math.random() * 1000 + 500));
+  ): Observable<CityViewModel[]> {
+    return this.citiesService
+      .cities(searchQuery || '')
+      .pipe(
+        map((cities) =>
+          cities.map((city) => new CityViewModel(city.title, city.country))
+        )
+      );
   }
 }
