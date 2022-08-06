@@ -1,7 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import * as A from 'fp-ts/Array';
-import * as S from 'fp-ts/string';
-import { pipe } from 'fp-ts/function';
 
 type City = {
   id: string;
@@ -30,16 +27,11 @@ const CITIES = [
 @Injectable()
 export class CitiesService {
   getCitiesByQuery(query: string): City[] {
-    if (!S.isEmpty(query)) {
+    if (!query.trim()) {
       return CITIES;
     }
-
-    const searchQuery = pipe(query, S.toLowerCase);
-    return (
-      A.filter<City>((city) =>
-        S.startsWith(S.toLowerCase(city.title))(searchQuery),
-      ),
-      CITIES
+    return CITIES.filter((city) =>
+      city.title.toLowerCase().startsWith(query.toLocaleLowerCase()),
     );
   }
 }
