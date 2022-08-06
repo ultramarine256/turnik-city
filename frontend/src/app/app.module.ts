@@ -11,6 +11,7 @@ import {
 import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CoreModule } from 'src/app/core/core.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LocationAutocompleteModule } from './location-autocomplete/location-autocomplete.module';
@@ -27,6 +28,7 @@ import { LocationAutocompleteModule } from './location-autocomplete/location-aut
     TuiRootModule,
     TuiDialogModule,
     TuiAlertModule,
+    CoreModule,
     LocationAutocompleteModule,
   ],
   providers: [{ provide: TUI_SANITIZER, useClass: NgDompurifySanitizer }],
