@@ -27,6 +27,7 @@ const CITIES = [
 @Injectable()
 export class CitiesService {
   getCitiesByQuery(query: string): City[] {
+    // TODO: refactor with fp-ts
     if (!query.trim()) {
       return CITIES;
     }
