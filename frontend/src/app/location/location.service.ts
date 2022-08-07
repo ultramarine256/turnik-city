@@ -12,13 +12,11 @@ export type City = {
 @Injectable({
   providedIn: 'root',
 })
-export class CitiesService {
+export class LocationService {
   // TODO: extract to separate API service or create interceptor for apiBaseUrl
   private readonly apiBaseUrl = environment.apiBaseUrl;
 
-  constructor(private http: HttpClient) {
-    console.log('http cities', http);
-  }
+  constructor(private http: HttpClient) {}
 
   cities(query: string): Observable<readonly City[]> {
     return this.http.get<readonly City[]>(

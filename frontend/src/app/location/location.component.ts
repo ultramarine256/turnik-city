@@ -9,7 +9,7 @@ import { pipe } from 'fp-ts/lib/function';
 import * as O from 'fp-ts/lib/Option';
 import { of } from 'rxjs';
 import { debounceTime, startWith, switchMap } from 'rxjs/operators';
-import { CitiesService } from 'src/app/location/cities.service';
+import { LocationService } from 'src/app/location/location.service';
 
 @Component({
   selector: 'app-location',
@@ -24,11 +24,13 @@ export class LocationAutocompleteComponent {
 
   cities$ = this.cityCtrl.valueChanges.pipe(
     debounceTime(200),
-    switchMap((value) => (!value ? of([]) : this.citiesService.cities(value))),
+    switchMap((value) =>
+      !value ? of([]) : this.locationService.cities(value)
+    ),
     startWith([])
   );
 
-  constructor(private citiesService: CitiesService) {}
+  constructor(private locationService: LocationService) {}
 
   onCitySelected() {
     this.cityChanged.emit(
