@@ -18,7 +18,7 @@ import { LocationService } from 'src/app/location/location.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LocationAutocompleteComponent {
-  @Output() cityChanged = new EventEmitter<string>();
+  @Output() selectedCityChanged = new EventEmitter<string>();
 
   readonly cityCtrl = new FormControl('');
 
@@ -33,7 +33,7 @@ export class LocationAutocompleteComponent {
   constructor(private locationService: LocationService) {}
 
   onCitySelected() {
-    this.cityChanged.emit(
+    this.selectedCityChanged.emit(
       pipe(
         this.cityCtrl.value,
         O.fromNullable,
@@ -44,7 +44,7 @@ export class LocationAutocompleteComponent {
 
   clear() {
     this.cityCtrl.setValue('');
-    this.cityChanged.emit('');
+    this.selectedCityChanged.emit('');
   }
 
   displayWith(city: string | null): string {

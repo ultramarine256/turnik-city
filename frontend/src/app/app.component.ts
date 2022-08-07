@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { of, Subject, switchMap } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { City } from 'src/app/location/location.service';
 import { PlacesService } from 'src/app/places/places.service';
 
 @Component({
@@ -22,8 +20,7 @@ export class AppComponent {
 
   constructor(private placesService: PlacesService) {}
 
-  onCityChanged(city: string) {
-    console.log(city);
+  onSelectedCityChanged(city: string) {
     this.selectedCity.next(city);
   }
 }
