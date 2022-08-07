@@ -26,7 +26,7 @@ steps:
 
   - script: |
       npm install -g nest-cli
-      npm install
+      npm install --only-production
       npm run build
     workingDirectory: backend
     displayName: 'npm install and build'
