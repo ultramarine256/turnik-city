@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { toAsyncState } from '@ngneat/loadoff';
+import { delay, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 export type City = {
@@ -18,7 +19,7 @@ export class LocationService {
 
   constructor(private http: HttpClient) {}
 
-  cities(query: string): Observable<readonly City[]> {
+  cities(query: string) {
     return this.http.get<readonly City[]>(
       `${this.apiBaseUrl}/cities?search=${query}`
     );

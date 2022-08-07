@@ -2,13 +2,23 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  OnDestroy,
   Output,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { pipe } from 'fp-ts/lib/function';
+import { toAsyncState } from '@ngneat/loadoff';
+import { constFalse, flow, identity, pipe } from 'fp-ts/lib/function';
 import * as O from 'fp-ts/lib/Option';
-import { of } from 'rxjs';
-import { debounceTime, startWith, switchMap } from 'rxjs/operators';
+import * as S from 'fp-ts/lib/string';
+import { combineLatest, of } from 'rxjs';
+import {
+  debounceTime,
+  filter,
+  map,
+  startWith,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 import { LocationService } from 'src/app/location/location.service';
 
 @Component({
@@ -17,34 +27,51 @@ import { LocationService } from 'src/app/location/location.service';
   styleUrls: ['./location.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LocationAutocompleteComponent {
-  @Output() selectedCityChanged = new EventEmitter<string>();
+export class LocationAutocompleteComponent implements OnDestroy {
+  @Output() selectedCityChanged = new EventEmitter<O.Option<string>>();
 
-  readonly cityCtrl = new FormControl('');
+  readonly selectedCity = new FormControl('');
 
-  cities$ = this.cityCtrl.valueChanges.pipe(
+  private readonly selectedCityChanged$ = this.selectedCity.valueChanges.pipe(
+    startWith('')
+  );
+
+  private readonly resetSelectedCity$ = this.selectedCityChanged$.pipe(
+    map(flow(O.fromNullable, O.map(S.isEmpty), O.getOrElse(constFalse))),
+    filter(identity),
+    tap(() => this.selectedCityChanged.emit(O.none))
+  );
+
+  private readonly cities$ = this.selectedCityChanged$.pipe(
     debounceTime(200),
     switchMap((value) =>
-      !value ? of([]) : this.locationService.cities(value)
-    ),
-    startWith([])
+      !value
+        ? of([]).pipe(toAsyncState())
+        : this.locationService.cities(value).pipe(toAsyncState())
+    )
   );
+
+  readonly vm$ = combineLatest([this.cities$]).pipe(
+    map(([cities]) => ({ cities }))
+  );
+
+  private resetSelectedCitySubscription = this.resetSelectedCity$.subscribe();
 
   constructor(private locationService: LocationService) {}
 
+  ngOnDestroy() {
+    this.resetSelectedCitySubscription.unsubscribe();
+  }
+
   onCitySelected() {
     this.selectedCityChanged.emit(
-      pipe(
-        this.cityCtrl.value,
-        O.fromNullable,
-        O.getOrElse(() => '')
-      )
+      pipe(this.selectedCity.value, O.fromNullable)
     );
   }
 
   clear() {
-    this.cityCtrl.setValue('');
-    this.selectedCityChanged.emit('');
+    this.selectedCity.setValue('');
+    this.selectedCityChanged.emit(O.none);
   }
 
   displayWith(city: string | null): string {

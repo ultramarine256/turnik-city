@@ -7,6 +7,7 @@ import { PlacesModule } from 'src/app/places/places.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LocationModule } from './location/location.module';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [AppComponent],
@@ -19,6 +20,7 @@ import { LocationModule } from './location/location.module';
     ReactiveFormsModule,
     LocationModule,
     PlacesModule,
+    MatExpansionModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

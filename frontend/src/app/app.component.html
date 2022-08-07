@@ -1,19 +1,14 @@
-<div class="container">
-  <div class="sidebar">
-    <app-location
-      class="autocomplete"
-      (selectedCityChanged)="onSelectedCityChanged($event)"
-    ></app-location>
+<ng-container *ngIf="vm$ | async as vm">
+  <div class="container">
+    <div class="sidebar">
+      <app-location
+        class="autocomplete"
+        (selectedCityChanged)="onSelectedCityChanged($event)"
+      ></app-location>
 
-    <ng-container *ngIf="places$ | async as places">
-      <app-places [places]="places"></app-places>
-    </ng-container>
-  </div>
+      <app-places *ngIf="vm.places.res" [places]="vm.places.res"></app-places>
+    </div>
 
-  <div class="map">
-    <img
-      src="https://upload.wikimedia.org/wikipedia/commons/b/b1/European_Union_in_Europe_%28relief%29.svg"
-      alt=""
-    />
+    <div class="map"></div>
   </div>
-</div>
+</ng-container>

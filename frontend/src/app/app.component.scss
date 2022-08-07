@@ -5,16 +5,10 @@
 .sidebar {
     width: 20rem;
     background: #fff;
-    height: calc(100vh - 1rem);
+    height: calc(100vh);
 }
 
 .map {
     flex: 1;
-
-    img {
-        width: 100%;
-        height: calc(100vh);
-        object-fit: cover;
-        object-position: center;
-    }
+    background: lightblue;
 }

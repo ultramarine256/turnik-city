@@ -1,15 +1,16 @@
 <div class="container">
-  <ng-container *ngIf="cities$ | async as cities">
+  <ng-container *ngIf="vm$ | async; let vm">
     <mat-form-field class="autocomplete">
       <input
         matInput
         placeholder="Your city"
         [matAutocomplete]="auto"
-        [formControl]="cityCtrl"
+        [formControl]="selectedCity"
         placeholder="Your city"
       />
+
       <button
-        *ngIf="cityCtrl.value"
+        *ngIf="selectedCity.value"
         matSuffix
         mat-icon-button
         aria-label="Clear"
@@ -24,7 +25,7 @@
         [displayWith]="displayWith"
         autoActiveFirstOption
       >
-        <mat-option *ngFor="let movie of cities" [value]="movie.title">
+        <mat-option *ngFor="let movie of vm.cities.res" [value]="movie.title">
           {{ movie.title }}
         </mat-option>
       </mat-autocomplete>
