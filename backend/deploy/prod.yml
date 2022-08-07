@@ -34,7 +34,7 @@ steps:
   - task: ArchiveFiles@2
     displayName: 'Archive files'
     inputs:
-      rootFolderOrFile: 'backend/dist'
+      rootFolderOrFile: 'backend'
       includeRootFolder: false
 
   - task: PublishBuildArtifacts@1
