@@ -1,0 +1,13 @@
+.places {
+    overflow-y: scroll;
+    height: calc(100% - 5rem);
+}
+
+.place {
+    border-bottom: 1px solid #ccc;
+    padding: 1rem;
+
+    &:last-child {
+        border-bottom: 0;
+    }
+}

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
-type City = {
+export type City = {
   id: string;
   title: string;
   country: string;
@@ -16,7 +16,9 @@ export class CitiesService {
   // TODO: extract to separate API service or create interceptor for apiBaseUrl
   private readonly apiBaseUrl = environment.apiBaseUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    console.log('http cities', http);
+  }
 
   cities(query: string): Observable<readonly City[]> {
     return this.http.get<readonly City[]>(

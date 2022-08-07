@@ -1,14 +1,19 @@
-<tui-root>
-  <div class="container">
-    <div class="sidebar">
-      <app-location-autocomplete></app-location-autocomplete>
-    </div>
+<div class="container">
+  <div class="sidebar">
+    <app-location
+      class="autocomplete"
+      (cityChanged)="onCityChanged($event)"
+    ></app-location>
 
-    <div class="map">
-      <img
-        src="https://upload.wikimedia.org/wikipedia/commons/b/b1/European_Union_in_Europe_%28relief%29.svg"
-        alt=""
-      />
-    </div>
+    <ng-container *ngIf="places$ | async as places">
+      <app-places [places]="places"></app-places>
+    </ng-container>
   </div>
-</tui-root>
+
+  <div class="map">
+    <img
+      src="https://upload.wikimedia.org/wikipedia/commons/b/b1/European_Union_in_Europe_%28relief%29.svg"
+      alt=""
+    />
+  </div>
+</div>

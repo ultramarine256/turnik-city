@@ -26,13 +26,15 @@ const CITIES = [
 
 @Injectable()
 export class CitiesService {
-  getCitiesByQuery(query: string): City[] {
+  async getCitiesByQuery(query: string): Promise<City[]> {
     // TODO: refactor with fp-ts
     if (!query.trim()) {
-      return CITIES;
+      return Promise.resolve(CITIES);
     }
-    return CITIES.filter((city) =>
-      city.title.toLowerCase().startsWith(query.toLocaleLowerCase()),
+    return Promise.resolve(
+      CITIES.filter((city) =>
+        city.title.toLowerCase().startsWith(query.toLocaleLowerCase()),
+      ),
     );
   }
 }

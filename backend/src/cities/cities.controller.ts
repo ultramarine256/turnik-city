@@ -8,12 +8,12 @@ export class CitiesController {
   constructor(private citiesService: CitiesService) {}
 
   @Get()
-  cities(@Query() query) {
+  async cities(@Query() query) {
     const search = pipe(
       query?.search,
       O.fromNullable,
       O.getOrElse(() => ''),
     );
-    return this.citiesService.getCitiesByQuery(search);
+    return await this.citiesService.getCitiesByQuery(search);
   }
 }

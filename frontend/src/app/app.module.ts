@@ -1,20 +1,12 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {
-  TuiAlertModule,
-  TuiDialogModule,
-  TuiRootModule,
-  TUI_SANITIZER,
-} from '@taiga-ui/core';
-import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
-
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CoreModule } from 'src/app/core/core.module';
+import { PlacesModule } from 'src/app/places/places.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LocationAutocompleteModule } from './location-autocomplete/location-autocomplete.module';
+import { LocationModule } from './location/location.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,13 +17,10 @@ import { LocationAutocompleteModule } from './location-autocomplete/location-aut
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    TuiRootModule,
-    TuiDialogModule,
-    TuiAlertModule,
-    CoreModule,
-    LocationAutocompleteModule,
+    LocationModule,
+    PlacesModule,
   ],
-  providers: [{ provide: TUI_SANITIZER, useClass: NgDompurifySanitizer }],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
