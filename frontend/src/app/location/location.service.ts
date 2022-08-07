@@ -1,7 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { toAsyncState } from '@ngneat/loadoff';
-import { delay, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 export type City = {
