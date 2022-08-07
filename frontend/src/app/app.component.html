@@ -2,7 +2,7 @@
   <div class="sidebar">
     <app-location
       class="autocomplete"
-      (selectedCityChanged)="onCityChanged($event)"
+      (selectedCityChanged)="onSelectedCityChanged($event)"
     ></app-location>
 
     <ng-container *ngIf="places$ | async as places">
