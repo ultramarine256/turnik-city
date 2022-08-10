@@ -25,7 +25,7 @@ steps:
     displayName: 'Build Counters'
 
   - script: |
-      npm install -g nest-cli
+      npm install -g @nestjs/cli
       npm install --only-production
       npm run build
     workingDirectory: backend
