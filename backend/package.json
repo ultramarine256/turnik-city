@@ -28,7 +28,8 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
-    "webpack": "^5.74.0"
+    "webpack": "^5.74.0",
+    "mongoose": "^6.5.2"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",
@@ -51,7 +52,8 @@
     "ts-loader": "^9.2.3",
     "ts-node": "^10.0.0",
     "tsconfig-paths": "4.0.0",
-    "typescript": "^4.3.5"
+    "typescript": "^4.3.5",
+    "@types/mongoose": "^5.11.97"
   },
   "jest": {
     "moduleFileExtensions": [
