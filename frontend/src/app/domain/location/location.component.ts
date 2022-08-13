@@ -19,7 +19,7 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
-import { LocationService } from 'src/app/location/location.service';
+import { LocationService } from './location.service';
 
 @Component({
   selector: 'app-location',

@@ -1,0 +1,8 @@
+<ng-container *ngIf="vm$ | async as vm">
+  <div *ngIf="vm.playgrounds.loading">loading...</div>
+  <app-map
+    class="map"
+    *ngIf="!vm.playgrounds.loading"
+    [playgrounds]="vm.playgrounds.res"
+  ></app-map>
+</ng-container>

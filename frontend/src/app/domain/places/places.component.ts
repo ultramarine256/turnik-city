@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Place } from 'src/app/places/places.service';
+import { Place } from './places.service';
 
 @Component({
   selector: 'app-places',

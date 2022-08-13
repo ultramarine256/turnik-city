@@ -3,14 +3,14 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { PlacesModule } from 'src/app/places/places.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LocationModule } from './location/location.module';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { HomePageComponent } from './pages/home-page.component';
+import { LocationModule, PlacesModule, MapModule } from './domain';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, HomePageComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -21,6 +21,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     LocationModule,
     PlacesModule,
     MatExpansionModule,
+    MapModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
