@@ -69,7 +69,7 @@ export class AdminComponent {
 
   constructor(private adminService: AdminService) {}
 
-  execute(
+  private execute(
     operation: PlaygroundOperation
   ): Observable<AsyncState<PlaygroundOperation>> {
     const playground = operation.item;
@@ -96,7 +96,7 @@ export class AdminComponent {
     }
   }
 
-  update(
+  private update(
     playgrounds: Playground[],
     operation: PlaygroundOperation
   ): Playground[] {
