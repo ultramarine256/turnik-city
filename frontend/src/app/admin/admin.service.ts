@@ -14,10 +14,8 @@ export class AdminService {
     console.log('http places', http);
   }
 
-  playgrounds(): Observable<readonly Playground[]> {
-    return this.http.get<readonly Playground[]>(
-      `${this.apiBaseUrl}/playground`
-    );
+  playgrounds(): Observable<Playground[]> {
+    return this.http.get<Playground[]>(`${this.apiBaseUrl}/playground`);
   }
 
   create(playground: Partial<Playground>): Observable<Playground> {

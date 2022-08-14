@@ -4,7 +4,7 @@
 
     <div
       class="spinner-container"
-      *ngIf="vm.playgrounds.loading && !vm.playgrounds.res"
+      *ngIf="vm.playgrounds.loading && !vm.playgrounds.res?.length"
     >
       <mat-spinner diameter="100"></mat-spinner>
     </div>

@@ -1,8 +1,14 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { AsyncState, createAsyncState, toAsyncState } from '@ngneat/loadoff';
+import {
+  AsyncState,
+  createAsyncState,
+  isSuccess,
+  toAsyncState,
+} from '@ngneat/loadoff';
 import {
   combineLatest,
   concatMap,
+  filter,
   map,
   merge,
   Observable,
@@ -32,35 +38,28 @@ export class AdminComponent {
 
   selectedPlayground: Playground | undefined;
 
-  private readonly playgrounds$ = merge(
-    this.adminService.playgrounds().pipe(toAsyncState()),
+  private playgroundsData$ = this.adminService
+    .playgrounds()
+    .pipe(toAsyncState());
+
+  private playgroundsMutations$ = combineLatest([
+    this.playgroundsData$.pipe(filter(isSuccess)),
     this.actionDispatcher$.pipe(
-      concatMap((operation) => this.execute(operation))
-    )
-  ).pipe(
-    scan((acc, value) => {
-      if (Array.isArray(value.res)) {
-        return {
-          ...acc,
-          ...value,
-          res: value.res as Playground[],
-        };
-      } else if (value.res) {
-        return {
-          ...acc,
-          ...value,
-          res: this.update(
-            acc.res as Playground[],
-            value.res as PlaygroundOperation
-          ),
-        };
-      }
+      concatMap((operaton) => this.execute(operaton))
+    ),
+  ]).pipe(
+    scan((acc, [playgrounds, result]) => {
       return {
         ...acc,
-        ...value,
-        res: acc.res,
+        ...result,
+        res: this.update(acc.res || playgrounds.res, result.res),
       };
     }, createAsyncState<Playground[]>())
+  );
+
+  private playgrounds$ = merge(
+    this.playgroundsData$,
+    this.playgroundsMutations$
   );
 
   readonly vm$ = combineLatest([this.playgrounds$]).pipe(
@@ -98,8 +97,11 @@ export class AdminComponent {
 
   private update(
     playgrounds: Playground[],
-    operation: PlaygroundOperation
+    operation: PlaygroundOperation | undefined
   ): Playground[] {
+    if (!operation) {
+      return playgrounds;
+    }
     switch (operation.action) {
       case PlaygroundAction.Update:
         this.selectedPlayground = operation.item;
