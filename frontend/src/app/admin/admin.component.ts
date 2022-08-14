@@ -1,21 +1,70 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { toAsyncState } from '@ngneat/loadoff';
-import { combineLatest, map } from 'rxjs';
+import { Component } from '@angular/core';
+import { AsyncState, createAsyncState, toAsyncState } from '@ngneat/loadoff';
+import {
+  combineLatest,
+  concatMap,
+  map,
+  merge,
+  Observable,
+  scan,
+  Subject,
+} from 'rxjs';
 import { Playground } from '../domain/playground/playgorund';
 import { AdminService } from './admin.service';
+import { Action, assertNever } from './util';
+
+enum PlaygroundAction {
+  Update = 'Update',
+  Delete = 'Delete',
+}
+
+type PlaygroundOperation = Action<Playground, PlaygroundAction>;
 
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminComponent {
   private readonly playgrounds$ = this.adminService
     .playgrounds()
     .pipe(toAsyncState());
+  private playgroundModifiedSubject = new Subject<PlaygroundOperation>();
+  private playgroundModifiedAction$ =
+    this.playgroundModifiedSubject.asObservable();
 
-  readonly vm$ = combineLatest([this.playgrounds$]).pipe(
+  private readonly playgroundsCRUD$ = merge(
+    this.playgrounds$,
+    this.playgroundModifiedAction$.pipe(
+      concatMap((operation) => this.savePlayground(operation))
+    )
+  ).pipe(
+    scan((acc, value) => {
+      if (Array.isArray(value.res)) {
+        return {
+          ...acc,
+          ...value,
+          res: value.res,
+        };
+      } else if (value.res) {
+        return {
+          ...acc,
+          ...value,
+          res: this.modifyPlaygrounds(
+            acc.res as Playground[],
+            value.res as PlaygroundOperation
+          ),
+        };
+      }
+      return {
+        ...acc,
+        ...value,
+        res: acc.res,
+      };
+    }, createAsyncState<Playground[]>())
+  );
+
+  readonly vm$ = combineLatest([this.playgroundsCRUD$]).pipe(
     map(([playgrounds]) => ({ playgrounds }))
   );
 
@@ -23,9 +72,69 @@ export class AdminComponent {
 
   constructor(private adminService: AdminService) {}
 
+  savePlayground(
+    operation: PlaygroundOperation
+  ): Observable<AsyncState<PlaygroundOperation>> {
+    const playground = operation.item;
+    switch (operation.action) {
+      case PlaygroundAction.Update:
+        return this.adminService.update(playground).pipe(
+          map((playground) => ({
+            item: playground,
+            action: operation.action,
+          })),
+          toAsyncState()
+        );
+      case PlaygroundAction.Delete:
+        return this.adminService.remove(playground._id).pipe(
+          map((_) => ({ item: playground, action: operation.action })),
+          toAsyncState()
+        );
+      default:
+        return assertNever(operation.action);
+    }
+  }
+
+  modifyPlaygrounds(
+    playgrounds: Playground[],
+    operation: PlaygroundOperation
+  ): Playground[] {
+    if (!operation) {
+      return playgrounds;
+    }
+    switch (operation.action) {
+      case PlaygroundAction.Update:
+        this.selectedPlayground = operation.item;
+        console.log('selected change', this.selectedPlayground);
+        return playgrounds.map((playground) =>
+          playground._id === operation.item._id ? operation.item : playground
+        );
+      case PlaygroundAction.Delete:
+        this.selectedPlayground = undefined;
+        return playgrounds.filter(
+          (playground) => playground._id !== operation.item._id
+        );
+      default:
+        return assertNever(operation.action);
+    }
+  }
+
   onSelectedPlaygroundChange(playground: Playground) {
-    console.log('Selected', playground);
     this.selectedPlayground = playground;
+  }
+
+  onUpdate(playground: Playground) {
+    this.playgroundModifiedSubject.next({
+      item: playground,
+      action: PlaygroundAction.Update,
+    });
+  }
+
+  onDelete(playground: Playground) {
+    this.playgroundModifiedSubject.next({
+      item: playground,
+      action: PlaygroundAction.Delete,
+    });
   }
 
   onClosed() {

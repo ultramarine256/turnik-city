@@ -15,12 +15,10 @@ import { Playground } from '../../domain/playground/playgorund';
 })
 export class PlaygroundManagementComponent {
   @Input() playgrounds: readonly Playground[] | undefined = [];
+  @Input() selectedPlayground: Playground | undefined;
   @Output() selectedPlaygroundChange = new EventEmitter<Playground>();
-
-  selectedPlayground: Playground | undefined;
 
   select(playground: Playground) {
     this.selectedPlaygroundChange.next(playground);
-    this.selectedPlayground = playground;
   }
 }
