@@ -5,4 +5,6 @@ export function assertNever(x: never): never {
 export interface Action<T, A> {
   item: T;
   action: A;
+  onSuccess?: ($event?: any) => void;
+  onError?: ($event?: any) => void;
 }

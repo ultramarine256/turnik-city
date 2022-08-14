@@ -78,12 +78,16 @@ export class AdminComponent {
           map((playground) => ({
             item: playground,
             action: operation.action,
+            onSuccess: operation.onSuccess,
           })),
           toAsyncState()
         );
       case PlaygroundAction.Delete:
         return this.adminService.remove(playground._id).pipe(
-          map((_) => ({ item: playground, action: operation.action })),
+          map((_) => ({
+            item: playground,
+            action: operation.action,
+          })),
           toAsyncState()
         );
       default:
@@ -98,6 +102,9 @@ export class AdminComponent {
     switch (operation.action) {
       case PlaygroundAction.Update:
         this.selectedPlayground = operation.item;
+        if (operation.onSuccess) {
+          operation.onSuccess();
+        }
         return playgrounds.map((playground) =>
           playground._id === operation.item._id ? operation.item : playground
         );
@@ -115,10 +122,11 @@ export class AdminComponent {
     this.selectedPlayground = playground;
   }
 
-  onUpdate(playground: Playground) {
+  onUpdate(data: { playground: Playground; onSuccess: () => void }) {
     this.actionDispatcher.next({
-      item: playground,
       action: PlaygroundAction.Update,
+      item: data.playground,
+      onSuccess: data.onSuccess,
     });
   }
 

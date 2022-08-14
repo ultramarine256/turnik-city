@@ -8,6 +8,13 @@
     text-align: center;
   }
 
+  .spinner-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 4rem);
+  }
+
   .container {
     display: flex;
     height: calc(100vh - 4rem);

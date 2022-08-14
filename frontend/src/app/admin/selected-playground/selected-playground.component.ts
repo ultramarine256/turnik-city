@@ -26,7 +26,10 @@ export class SelectedPlaygroundComponent implements OnChanges {
   @Input() selectedPlayground: Playground | undefined;
   @Input() loading = false;
   @Output() closed = new EventEmitter();
-  @Output() updated = new EventEmitter<Playground>();
+  @Output() updated = new EventEmitter<{
+    playground: Playground;
+    onSuccess: () => void;
+  }>();
   @Output() deleted = new EventEmitter<Playground>();
 
   viewMode: ViewMode = ViewMode.View;
@@ -72,11 +75,14 @@ export class SelectedPlaygroundComponent implements OnChanges {
     invariant(address, 'Address field not found');
     invariant(city, 'City field not found');
     invariant(this.selectedPlayground, 'Selected playground is undefined');
-    this.viewMode = ViewMode.View;
+
     this.updated.emit({
-      ...this.selectedPlayground,
-      address,
-      city,
+      playground: {
+        ...this.selectedPlayground,
+        address,
+        city,
+      },
+      onSuccess: () => (this.viewMode = ViewMode.View),
     });
   }
 }

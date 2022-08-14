@@ -2,7 +2,12 @@
   <div class="admin">
     <h2>Playground management</h2>
 
-    <div *ngIf="vm.playgrounds.loading && !vm.playgrounds.res">loading...</div>
+    <div
+      class="spinner-container"
+      *ngIf="vm.playgrounds.loading && !vm.playgrounds.res"
+    >
+      <mat-spinner diameter="100"></mat-spinner>
+    </div>
     <ng-container *ngIf="vm.playgrounds.complete || vm.playgrounds.res">
       <div class="container">
         <app-playground-management
