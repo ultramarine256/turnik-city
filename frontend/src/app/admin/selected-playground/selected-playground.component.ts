@@ -29,14 +29,14 @@ export class SelectedPlaygroundComponent implements OnChanges {
   @Output() updated = new EventEmitter<Playground>();
   @Output() deleted = new EventEmitter<Playground>();
 
-  mode: ViewMode = ViewMode.View;
+  viewMode: ViewMode = ViewMode.View;
   playgroundForm = this.fb.group({
     address: ['', [Validators.required]],
     city: ['', [Validators.required]],
   });
 
   get isViewMode() {
-    return this.mode === ViewMode.View;
+    return this.viewMode === ViewMode.View;
   }
 
   constructor(private fb: FormBuilder) {}
@@ -45,17 +45,17 @@ export class SelectedPlaygroundComponent implements OnChanges {
     const prev = changes['selectedPlayground']?.previousValue?.['_id'];
     const next = changes['selectedPlayground']?.currentValue?.['_id'];
     if (prev !== next) {
-      this.mode = ViewMode.View;
+      this.viewMode = ViewMode.View;
     }
   }
 
   read() {
-    this.mode = ViewMode.View;
+    this.viewMode = ViewMode.View;
   }
 
   update() {
     invariant(this.selectedPlayground, 'Selected playground is undefined');
-    this.mode = ViewMode.Update;
+    this.viewMode = ViewMode.Update;
     const { address, city } = this.selectedPlayground;
     this.playgroundForm.patchValue({
       address,
@@ -72,7 +72,7 @@ export class SelectedPlaygroundComponent implements OnChanges {
     invariant(address, 'Address field not found');
     invariant(city, 'City field not found');
     invariant(this.selectedPlayground, 'Selected playground is undefined');
-
+    this.viewMode = ViewMode.View;
     this.updated.emit({
       ...this.selectedPlayground,
       address,
