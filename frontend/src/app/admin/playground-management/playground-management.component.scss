@@ -1,0 +1,24 @@
+.playgrounds {
+    border: 1px solid #eee;
+    max-height: 40rem;
+    overflow-y: scroll;
+}
+
+.playground {
+    padding: 0.5rem;
+    border-bottom: 1px solid #eee;
+    
+    &.selected {
+        background: #eee;
+        font-weight: 500;
+    }
+   
+    &:hover {
+        background: #eee;
+        cursor: pointer;
+    }
+  
+    &:last-child {
+        border: none;
+    }
+}

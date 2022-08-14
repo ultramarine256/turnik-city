@@ -1,4 +1,5 @@
 export type Playground = {
+  _id: string;
   title: string;
   size: string;
   type: string;

@@ -1,0 +1,21 @@
+<ng-container *ngIf="vm$ | async as vm">
+  <h2>Admin</h2>
+
+  <div *ngIf="vm.playgrounds.loading">loading...</div>
+  <div *ngIf="!vm.playgrounds.loading">
+    <div class="container">
+      <app-playground-management
+        class="playground-management"
+        [playgrounds]="vm.playgrounds.res"
+        (selectedPlaygroundChange)="onSelectedPlaygroundChange($event)"
+      ></app-playground-management>
+
+      <app-selected-playground
+        *ngIf="selectedPlayground"
+        class="selected-playground"
+        [selectedPlayground]="selectedPlayground"
+        (closed)="onClosed()"
+      ></app-selected-playground>
+    </div>
+  </div>
+</ng-container>

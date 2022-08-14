@@ -1,0 +1,50 @@
+<div class="playground" *ngIf="selectedPlayground">
+  <div class="close" (click)="closed.emit()">
+    <mat-icon
+      aria-hidden="false"
+      aria-label="Example home icon"
+      fontIcon="close"
+    ></mat-icon>
+  </div>
+
+  <ng-container *ngIf="mode === 'READ'">
+    <h3>View info</h3>
+    <div>Address: {{ selectedPlayground.address }}</div>
+    <div>City: {{ selectedPlayground.city }}</div>
+    <div>Lat: {{ selectedPlayground.latitude }}</div>
+    <div>Long: {{ selectedPlayground.longitude }}</div>
+  </ng-container>
+
+  <ng-container *ngIf="mode === 'UPDATE'">
+    <h3>Update info</h3>
+    <form (submit)="submit()">
+      <div>
+        <mat-form-field appearance="fill">
+          <mat-label>Address</mat-label>
+          <input matInput />
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field appearance="fill">
+          <mat-label>City</mat-label>
+          <input matInput />
+        </mat-form-field>
+      </div>
+    </form>
+  </ng-container>
+
+  <div class="controls">
+    <ng-container *ngIf="mode === 'READ'">
+      <button (click)="update()" mat-stroked-button color="primary">
+        Update
+      </button>
+    </ng-container>
+
+    <ng-container *ngIf="mode === 'UPDATE'">
+      <button (click)="read()" mat-stroked-button color="primary">View</button>
+    </ng-container>
+
+    <button (click)="remove()" mat-stroked-button color="warn">Remove</button>
+  </div>
+</div>

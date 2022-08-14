@@ -1,0 +1,18 @@
+.playground-management {
+    display: block;
+    max-width: 20rem;
+}
+
+.container {
+    display: flex;
+
+    .selected-playground {
+        display: block;
+        flex: 1;
+    }
+}
+
+h2 {
+    padding: 1rem;
+    text-align: center;
+}

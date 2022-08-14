@@ -21,7 +21,6 @@
     "@angular/router": "^14.1.0",
     "@asymmetrik/ngx-leaflet": "^14.0.1",
     "@ngneat/loadoff": "^2.1.0",
-
     "fp-ts": "^2.12.2",
     "leaflet": "^1.8.0",
     "rxjs": "~7.5.0",
