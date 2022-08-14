@@ -1,25 +1,26 @@
 <ng-container *ngIf="vm$ | async as vm">
-  <h2>Admin</h2>
+  <div class="admin">
+    <h2>Playground management</h2>
 
-  <div *ngIf="vm.playgrounds.loading && !vm.playgrounds.res">loading...</div>
-  <div *ngIf="vm.playgrounds.complete || vm.playgrounds.res">
-    <div class="container">
-      <app-playground-management
-        class="playground-management"
-        [selectedPlayground]="selectedPlayground"
-        [playgrounds]="vm.playgrounds.res"
-        (selectedPlaygroundChange)="onSelectedPlaygroundChange($event)"
-      ></app-playground-management>
+    <div *ngIf="vm.playgrounds.loading && !vm.playgrounds.res">loading...</div>
+    <ng-container *ngIf="vm.playgrounds.complete || vm.playgrounds.res">
+      <div class="container">
+        <app-playground-management
+          class="playground-management"
+          [selectedPlayground]="selectedPlayground"
+          [playgrounds]="vm.playgrounds.res"
+          (selectedPlaygroundChange)="onSelectedPlaygroundChange($event)"
+        ></app-playground-management>
 
-      <app-selected-playground
-        *ngIf="selectedPlayground"
-        class="selected-playground"
-        [selectedPlayground]="selectedPlayground"
-        [loading]="vm.playgrounds.loading"
-        (updated)="onUpdate($event)"
-        (deleted)="onDelete($event)"
-        (closed)="onClosed()"
-      ></app-selected-playground>
-    </div>
+        <app-selected-playground
+          class="selected-playground"
+          [selectedPlayground]="selectedPlayground"
+          [loading]="vm.playgrounds.loading"
+          (updated)="onUpdate($event)"
+          (deleted)="onDelete($event)"
+          (closed)="onClosed()"
+        ></app-selected-playground>
+      </div>
+    </ng-container>
   </div>
 </ng-container>

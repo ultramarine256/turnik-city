@@ -75,8 +75,8 @@ export class SelectedPlaygroundComponent implements OnChanges {
 
     this.updated.emit({
       ...this.selectedPlayground,
-      address: address,
-      city: address,
+      address,
+      city,
     });
   }
 }
