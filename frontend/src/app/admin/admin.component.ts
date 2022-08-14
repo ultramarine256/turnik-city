@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AsyncState, createAsyncState, toAsyncState } from '@ngneat/loadoff';
 import {
   combineLatest,
@@ -24,6 +24,7 @@ type PlaygroundOperation = Action<Playground, PlaygroundAction>;
   selector: 'app-admin',
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminComponent {
   private actionDispatcher = new Subject<PlaygroundOperation>();
@@ -42,7 +43,7 @@ export class AdminComponent {
         return {
           ...acc,
           ...value,
-          res: value.res,
+          res: value.res as Playground[],
         };
       } else if (value.res) {
         return {
