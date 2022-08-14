@@ -4,11 +4,11 @@ import {
   EventEmitter,
   Input,
   OnChanges,
-  OnInit,
   Output,
   SimpleChanges,
 } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import invariant from 'tiny-invariant';
 import { Playground } from '../../domain/playground/playgorund';
 
 enum ViewMode {
@@ -43,9 +43,8 @@ export class SelectedPlaygroundComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     const prev = changes['selectedPlayground']?.previousValue?.['_id'];
-    const curr = changes['selectedPlayground']?.currentValue?.['_id'];
-
-    if (prev !== curr) {
+    const next = changes['selectedPlayground']?.currentValue?.['_id'];
+    if (prev !== next) {
       this.mode = ViewMode.View;
     }
   }
@@ -55,10 +54,12 @@ export class SelectedPlaygroundComponent implements OnChanges {
   }
 
   update() {
+    invariant(this.selectedPlayground, 'Selected playground is undefined');
     this.mode = ViewMode.Update;
+    const { address, city } = this.selectedPlayground;
     this.playgroundForm.patchValue({
-      address: this.selectedPlayground?.address,
-      city: this.selectedPlayground?.city,
+      address,
+      city,
     });
   }
 
@@ -67,14 +68,15 @@ export class SelectedPlaygroundComponent implements OnChanges {
   }
 
   submit() {
-    if (!this.selectedPlayground) return;
-    const address = this.playgroundForm.get('address')?.value || '';
-    const city = this.playgroundForm.get('city')?.value || '';
-    const updatedPlayground = {
+    const { address, city } = this.playgroundForm.value;
+    invariant(address, 'Address field not found');
+    invariant(city, 'City field not found');
+    invariant(this.selectedPlayground, 'Selected playground is undefined');
+
+    this.updated.emit({
       ...this.selectedPlayground,
-      address,
-      city,
-    };
-    this.updated.emit(updatedPlayground);
+      address: address,
+      city: address,
+    });
   }
 }

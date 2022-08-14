@@ -1,25 +1,25 @@
 .playground {
-    padding: 1rem;
-    border: 1px solid #eee;
-    border-left: none;
-    height: 40rem;
-    position: relative;
+  padding: 1rem;
+  border: 1px solid #eee;
+  border-left: none;
+  height: 40rem;
+  position: relative;
 
-    .close {
-        position: absolute;
-        top: 1rem;
-        right: 1rem;
-        cursor: pointer;
+  .close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    cursor: pointer;
+  }
+
+  .controls {
+    margin-top: 1rem;
+    button {
+      margin-right: 0.5rem;
     }
-    
-    mat-form-field {
-        width: 100%;
-    }
-    
-    .controls {
-        margin-top: 1rem;
-        button {
-            margin-right: 0.5rem;
-        }
-    }
+  }
+
+  mat-form-field {
+    width: 100%;
+  }
 }

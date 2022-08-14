@@ -26,17 +26,15 @@ type PlaygroundOperation = Action<Playground, PlaygroundAction>;
   styleUrls: ['./admin.component.scss'],
 })
 export class AdminComponent {
-  private readonly playgrounds$ = this.adminService
-    .playgrounds()
-    .pipe(toAsyncState());
-  private playgroundModifiedSubject = new Subject<PlaygroundOperation>();
-  private playgroundModifiedAction$ =
-    this.playgroundModifiedSubject.asObservable();
+  private actionDispatcher = new Subject<PlaygroundOperation>();
+  private actionDispatcher$ = this.actionDispatcher.asObservable();
 
-  private readonly playgroundsCRUD$ = merge(
-    this.playgrounds$,
-    this.playgroundModifiedAction$.pipe(
-      concatMap((operation) => this.savePlayground(operation))
+  selectedPlayground: Playground | undefined;
+
+  private readonly playgrounds$ = merge(
+    this.adminService.playgrounds().pipe(toAsyncState()),
+    this.actionDispatcher$.pipe(
+      concatMap((operation) => this.execute(operation))
     )
   ).pipe(
     scan((acc, value) => {
@@ -50,7 +48,7 @@ export class AdminComponent {
         return {
           ...acc,
           ...value,
-          res: this.modifyPlaygrounds(
+          res: this.update(
             acc.res as Playground[],
             value.res as PlaygroundOperation
           ),
@@ -64,15 +62,13 @@ export class AdminComponent {
     }, createAsyncState<Playground[]>())
   );
 
-  readonly vm$ = combineLatest([this.playgroundsCRUD$]).pipe(
+  readonly vm$ = combineLatest([this.playgrounds$]).pipe(
     map(([playgrounds]) => ({ playgrounds }))
   );
 
-  selectedPlayground: Playground | undefined;
-
   constructor(private adminService: AdminService) {}
 
-  savePlayground(
+  execute(
     operation: PlaygroundOperation
   ): Observable<AsyncState<PlaygroundOperation>> {
     const playground = operation.item;
@@ -95,17 +91,13 @@ export class AdminComponent {
     }
   }
 
-  modifyPlaygrounds(
+  update(
     playgrounds: Playground[],
     operation: PlaygroundOperation
   ): Playground[] {
-    if (!operation) {
-      return playgrounds;
-    }
     switch (operation.action) {
       case PlaygroundAction.Update:
         this.selectedPlayground = operation.item;
-        console.log('selected change', this.selectedPlayground);
         return playgrounds.map((playground) =>
           playground._id === operation.item._id ? operation.item : playground
         );
@@ -124,14 +116,14 @@ export class AdminComponent {
   }
 
   onUpdate(playground: Playground) {
-    this.playgroundModifiedSubject.next({
+    this.actionDispatcher.next({
       item: playground,
       action: PlaygroundAction.Update,
     });
   }
 
   onDelete(playground: Playground) {
-    this.playgroundModifiedSubject.next({
+    this.actionDispatcher.next({
       item: playground,
       action: PlaygroundAction.Delete,
     });
