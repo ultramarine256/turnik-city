@@ -16,7 +16,9 @@ import { Playground } from '../../domain/playground/playgorund';
 export class PlaygroundManagementComponent {
   @Input() playgrounds: readonly Playground[] | undefined = [];
   @Input() selectedPlayground: Playground | undefined;
+  @Input() loading = false;
   @Output() selectedPlaygroundChange = new EventEmitter<Playground>();
+  @Output() loadMore = new EventEmitter();
 
   select(playground: Playground) {
     this.selectedPlaygroundChange.next(playground);

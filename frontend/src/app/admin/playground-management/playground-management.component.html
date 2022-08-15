@@ -9,4 +9,15 @@
       <div>{{ playground.address }}</div>
     </div>
   </div>
+
+  <div class="controls">
+    <button
+      [disabled]="loading"
+      (click)="loadMore.emit()"
+      mat-stroked-button
+      color="primary"
+    >
+      Load more
+    </button>
+  </div>
 </div>
