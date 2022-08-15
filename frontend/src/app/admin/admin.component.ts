@@ -6,13 +6,15 @@ import {
   toAsyncState,
 } from '@ngneat/loadoff';
 import {
+  BehaviorSubject,
   combineLatest,
-  concatMap,
+  exhaustMap,
   filter,
   map,
   merge,
   Observable,
   scan,
+  shareReplay,
   Subject,
 } from 'rxjs';
 import { Playground } from '../domain/playground/playgorund';
@@ -35,32 +37,49 @@ type PlaygroundOperation = Action<Playground, PlaygroundAction>;
 export class AdminComponent {
   private actionDispatcher = new Subject<PlaygroundOperation>();
   private actionDispatcher$ = this.actionDispatcher.asObservable();
+  private fetchPlaygrounds = new BehaviorSubject(1);
+  private fetchPlaygrounds$ = this.fetchPlaygrounds.asObservable();
 
   selectedPlayground: Playground | undefined;
 
-  private playgroundsData$ = this.adminService
-    .playgrounds()
-    .pipe(toAsyncState());
+  private playgroundsData$ = this.fetchPlaygrounds$
+    .pipe(
+      exhaustMap((page) =>
+        this.adminService.playgrounds(page).pipe(toAsyncState())
+      )
+    )
+    .pipe(
+      scan(
+        (savedPlaygrounds, newPlaygrounds) => ({
+          ...savedPlaygrounds,
+          ...newPlaygrounds,
+          res: newPlaygrounds.res || savedPlaygrounds.res,
+        }),
+        createAsyncState<Playground[]>()
+      ),
+      shareReplay(1)
+    );
 
-  private playgroundsMutations$ = combineLatest([
+  private playgroundsUpdates$ = combineLatest([
     this.playgroundsData$.pipe(filter(isSuccess)),
     this.actionDispatcher$.pipe(
-      concatMap((operaton) => this.execute(operaton))
+      exhaustMap((operaton) => this.execute(operaton))
     ),
   ]).pipe(
-    scan((acc, [playgrounds, result]) => {
-      return {
-        ...acc,
-        ...result,
-        res: this.update(acc.res || playgrounds.res, result.res),
-      };
-    }, createAsyncState<Playground[]>())
+    scan(
+      (savedPlaygrounds, [newPlaygrounds, operationResult]) => ({
+        ...savedPlaygrounds,
+        ...operationResult,
+        res: this.update(
+          savedPlaygrounds.res || newPlaygrounds.res,
+          operationResult.res
+        ),
+      }),
+      createAsyncState<Playground[]>()
+    )
   );
 
-  private playgrounds$ = merge(
-    this.playgroundsData$,
-    this.playgroundsMutations$
-  );
+  private playgrounds$ = merge(this.playgroundsData$, this.playgroundsUpdates$);
 
   readonly vm$ = combineLatest([this.playgrounds$]).pipe(
     map(([playgrounds]) => ({ playgrounds }))
@@ -119,6 +138,10 @@ export class AdminComponent {
       default:
         return assertNever(operation.action);
     }
+  }
+
+  onLoadMore() {
+    this.fetchPlaygrounds.next(this.fetchPlaygrounds.getValue() + 1);
   }
 
   onSelectedPlaygroundChange(playground: Playground) {

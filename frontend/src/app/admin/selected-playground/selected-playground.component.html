@@ -47,34 +47,15 @@
 
   <div class="controls">
     <ng-container *ngIf="isViewMode">
-      <button
-        [disabled]="loading"
-        (click)="update()"
-        mat-stroked-button
-        color="primary"
-      >
+      <button (click)="update()" mat-stroked-button color="primary">
         Update
       </button>
     </ng-container>
 
     <ng-container *ngIf="!isViewMode">
-      <button
-        [disabled]="loading"
-        (click)="read()"
-        mat-stroked-button
-        color="primary"
-      >
-        View
-      </button>
+      <button (click)="read()" mat-stroked-button color="primary">View</button>
     </ng-container>
 
-    <button
-      [disabled]="loading"
-      (click)="remove()"
-      mat-stroked-button
-      color="warn"
-    >
-      Remove
-    </button>
+    <button (click)="remove()" mat-stroked-button color="warn">Remove</button>
   </div>
 </div>
