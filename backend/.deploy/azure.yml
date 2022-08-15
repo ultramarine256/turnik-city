@@ -12,32 +12,11 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-  - task: NodeTool@0
+  - task: Docker@2
+    displayName: 'Build and Push'
     inputs:
-      versionSpec: '18.x'
-    displayName: 'Install Node.js'
-
-  - powershell: |
-      $file = "app.service.ts"
-      (Get-Content $file).replace("-build.id-", "$(Build.BuildNumber)") | Set-Content $file
-      (Get-Content $file).replace("-branch.name-", "$(Build.SourceBranchName)") | Set-Content $file
-    workingDirectory: 'backend/src'
-    displayName: 'Build Counters'
-
-  - script: |
-      npm install -g @nestjs/cli
-      npm install --only-production
-      npm run build
-    workingDirectory: backend
-    displayName: 'npm install and build'
-
-  - task: ArchiveFiles@2
-    displayName: 'Archive files'
-    inputs:
-      rootFolderOrFile: 'backend'
-      includeRootFolder: false
-
-  - task: PublishBuildArtifacts@1
-    displayName: 'Publish artifacts: drop'
-
-
+      containerRegistry: 'docker-connection'
+      repository: CiContainerRepo
+      Dockerfile: backend/.docker/Dockerfile
+      buildContext: backend
+      tags: latest
