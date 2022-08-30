@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { toAsyncState } from '@ngneat/loadoff';
-import { PlaygroundService } from '../domain/playground/playground.service';
+import { PlaygroundService } from '../services/playground.service';
 
 @Component({
   selector: 'app-home-page',
@@ -11,9 +10,7 @@ import { PlaygroundService } from '../domain/playground/playground.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomePageComponent {
-  private readonly playgrounds$ = this.playgroundService
-    .items()
-    .pipe(toAsyncState());
+  private playgrounds$ = this.playgroundService.items();
 
   readonly vm$ = combineLatest([this.playgrounds$]).pipe(
     map(([playgrounds]) => ({ playgrounds }))

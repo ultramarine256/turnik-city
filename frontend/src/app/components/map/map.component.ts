@@ -15,7 +15,7 @@ import {
   polygon,
   tileLayer,
 } from 'leaflet';
-import { Playground } from '../playground/playgorund';
+import { Playground } from '../../playgorund';
 
 @Component({
   selector: 'app-map',
@@ -24,13 +24,12 @@ import { Playground } from '../playground/playgorund';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MapComponent implements OnChanges {
-  @Input() playgrounds: readonly Playground[] | undefined = [];
+  @Input() playgrounds: readonly Playground[] = [];
 
   options = {
     layers: [
       tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 18,
-        attribution: '...',
+        minZoom: 5,
       }),
     ],
     zoom: 5,
