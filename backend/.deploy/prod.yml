@@ -26,7 +26,7 @@ steps:
    $appSettings = "appsettings.json";
    (Get-Content $appSettings).replace("-build.counter-", $(Build.BuildId)) | Set-Content $appSettings
    (Get-Content $appSettings).replace("-deploy.date-time-", [DateTime]::UtcNow.ToString('u')) | Set-Content $appSettings
-  workingDirectory: WebApi
+  workingDirectory: backend/WebApi
   displayName: 'Build Counter'
 
 - task: DotNetCoreCLI@2
@@ -34,14 +34,14 @@ steps:
   inputs:
     command: restore
     projects: '**/*.csproj'
-    workingDirectory: /
+    workingDirectory: backend
 
 - task: DotNetCoreCLI@2
   displayName: Build
   inputs:
     projects: '**/*.csproj'
     arguments: '--configuration $(BuildConfiguration)'
-    workingDirectory: /
+    workingDirectory: backend
     command: 'build'
 
 - task: DotNetCoreCLI@2
@@ -50,7 +50,7 @@ steps:
     command: test
     projects: '**/*.csproj'
     arguments: '--configuration $(BuildConfiguration)'
-    workingDirectory: /
+    workingDirectory: backend
   enabled: false
 
 - task: DotNetCoreCLI@2
@@ -58,7 +58,7 @@ steps:
   inputs:
     command: publish
     publishWebProjects: false
-    projects: WebApi/WebApi.csproj
+    projects: backend/WebApi/WebApi.csproj
     arguments: '--configuration $(BuildConfiguration) --output $(Build.artifactstagingdirectory)'
     zipAfterPublish: True
 
