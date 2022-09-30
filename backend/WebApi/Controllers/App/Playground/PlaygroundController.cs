@@ -22,6 +22,7 @@ namespace WebApi.Controllers.App.Playground
 
         [EnableQuery]
         [HttpGet("")]
+        [AllowAnonymous]
         public IQueryable<PlaygroundDto> Get()
             => BaseQuery();
 

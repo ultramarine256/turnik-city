@@ -11,7 +11,7 @@ builder.Services.AddCors(options =>
         {
             builder.WithOrigins(
                     "https://turnik.city",
-                    "https://turnik.city")
+                    "http://localhost:4601")
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader();

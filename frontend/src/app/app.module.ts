@@ -12,7 +12,7 @@ import { HomePageComponent } from './pages/home-page.component';
 @NgModule({
   declarations: [AppComponent, HomePageComponent, MapComponent],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
