@@ -28,13 +28,13 @@ steps:
       $indexHtml = "index.html"
       (Get-Content $indexHtml).replace("-build.id-", "$(Build.BuildNumber)") | Set-Content $indexHtml
       (Get-Content $indexHtml).replace("-branch.name-", "$(Build.SourceBranchName)") | Set-Content $indexHtml
-    workingDirectory: 'frontend/dist/app'
+    workingDirectory: 'frontend/dist/turnik-app/browser'
     displayName: 'PowerShell Script'
 
   - task: ArchiveFiles@2
     displayName: 'Archive files'
     inputs:
-      rootFolderOrFile: 'frontend/dist/app'
+      rootFolderOrFile: 'frontend/dist/turnik-app/browser'
       includeRootFolder: false
 
   - task: PublishBuildArtifacts@1
