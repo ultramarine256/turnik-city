@@ -1,0 +1,100 @@
+/**
+* ------------------------------------------------------------------------
+* Fonts
+* ------------------------------------------------------------------------
+*/
+
+@font-face {
+  font-family: Graphik;
+  font-display: swap;
+  font-weight: 400;
+  src: url(/assets/fonts/Graphik-400-Regular.otf) format('opentype');
+}
+
+@font-face {
+  font-family: Graphik;
+  font-display: swap;
+  font-weight: 500;
+  src: url(/assets/fonts/Graphik-500-Medium.otf) format('opentype');
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Graphik', 'arial', sans-serif;
+}
+
+/**
+* ------------------------------------------------------------------------
+* Global Styles
+* ------------------------------------------------------------------------
+*/
+
+.container--grow {
+  max-width: 1140px;
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin: 0 auto;
+}
+
+.font-weight-400 {
+  font-weight: 400;
+}
+
+.font-weight-500 {
+  font-weight: 500;
+}
+
+.cursor--pointer {
+  cursor: pointer;
+}
+
+.border-eee {
+  border: 1px solid #eee;
+}
+
+.border-dee {
+  border: 1px solid #dee2e6;
+}
+
+.bg-eee {
+  background-color: #eee;
+}
+
+hr {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.border-right-md {
+  @media (min-width: 1200px) {
+    border-right: 1px solid #dee2e6 !important;
+  }
+}
+
+.border-left-md {
+  @media (min-width: 1200px) {
+    border-left: 1px solid #dee2e6 !important;
+  }
+}
+
+.h-300 {
+  height: 300px;
+}
+
+.h-150 {
+  height: 150px;
+}
+
+.content__center {
+  display: flex;
+  justify-content: center;
+}
+
+.word--break-all {
+  word-break: break-all;
+}

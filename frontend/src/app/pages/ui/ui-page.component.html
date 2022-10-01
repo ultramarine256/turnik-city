@@ -1,0 +1,98 @@
+<div class="container mt-5">
+  <!-- menu -->
+  <div class="row">
+    <div class="col-12 mt-5 buttons-col">
+      <button mat-flat-button color="primary" [matMenuTriggerFor]="menu">Menu</button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>
+          <mat-icon>dialpad</mat-icon>
+          <span>Redial</span>
+        </button>
+        <button mat-menu-item disabled>
+          <mat-icon>voicemail</mat-icon>
+          <span>Check voice mail</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>notifications_off</mat-icon>
+          <span>Disable alerts</span>
+        </button>
+      </mat-menu>
+    </div>
+  </div>
+
+  <!-- autocomplete -->
+  <div class="row">
+    <div class="col-12 mt-5 buttons-col"></div>
+  </div>
+
+  <!-- select -->
+  <div class="row">
+    <div class="col-12 mt-5 buttons-col">
+      <mat-form-field appearance="outline">
+        <mat-label></mat-label>
+        <mat-select [formControl]="toppings">
+          <mat-select-trigger>
+            {{toppings.value?.[0] || ''}}
+            <span *ngIf="(toppings.value?.length || 0) > 1" class="example-additional-selection">
+              (+{{ (toppings.value?.length || 0) - 1 }} {{ toppings.value?.length === 2 ? 'other' : 'others' }})
+            </span>
+          </mat-select-trigger>
+          <mat-option *ngFor="let topping of toppingList" [value]="topping">{{ topping }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="col-12 mt-5 buttons-col">
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="Email" autocomplete="email" />
+        <app-icon matSuffix icon="person_add"></app-icon>
+        <mat-icon matSuffix>mail_outline</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div class="col-12 mt-5 buttons-col">
+      <button mat-flat-button color="primary">Book Now</button>
+      <button mat-flat-button color="accent">Accent</button>
+      <button mat-flat-button color="warn">Warn</button>
+      <button mat-flat-button disabled>Disabled</button>
+      <button mat-flat-button>Basic</button>
+    </div>
+
+    <div class="col-12 mt-5 buttons-col">
+      <button mat-flat-button color="primary">
+        <mat-icon>delete_outline</mat-icon>
+        ICON BUTTON
+      </button>
+    </div>
+
+    <div class="col-12 mt-5 buttons-col">
+      <button mat-flat-button color="primary" [disabled]="true">
+        <mat-icon>delete_outline</mat-icon>
+        SPINNER BUTTON
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      </button>
+      <button mat-flat-button color="primary" class="spinner-button">
+        SPINNER BUTTON
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      </button>
+    </div>
+
+    <div class="col-12 mt-5">
+      <mat-radio-group aria-label="Select an option">
+        <mat-radio-button [checked]="true" (click)="$event.preventDefault()">Test</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <div class="col-12 mt-5">
+      <mat-checkbox [color]="'primary'" [checked]="true"> Test Checkbox</mat-checkbox>
+    </div>
+
+    <div class="col-12 mt-5">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+    <div class="col-12 mt-5">
+      <mat-spinner></mat-spinner>
+    </div>
+  </div>
+</div>

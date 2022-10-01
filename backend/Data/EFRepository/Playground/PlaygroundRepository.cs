@@ -30,7 +30,7 @@ namespace Data.EFRepository.Playground
             if (value == null)
             {
                 // Not found, get from DB
-                value = Query.Select(r =>
+                value = Query.Where(r => r.Lat != 0).Select(r =>
                     new PlaygroundMarker()
                     {
                         Caption = r.Slug,

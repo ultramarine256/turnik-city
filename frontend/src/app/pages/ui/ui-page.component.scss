@@ -1,0 +1,51 @@
+.buttons-col {
+  button {
+    margin: 0px 6px 0px 0px;
+  }
+}
+
+.mat-button-wrapper {
+  .mat-icon {
+    font-size: 22px;
+    margin-left: -6px;
+  }
+}
+
+// calendar
+.calendar-svg {
+  @media (max-width: 767px) {
+    // margin-bottom: 20px;
+  }
+
+  .calendar-svg__container {
+    margin-bottom: 5px;
+    background-color: #fff;
+  }
+
+  .calendar-svg__month {
+    background: var(--themeColor);
+    color: #fff;
+    text-align: center;
+    padding: 5px;
+    font-size: 16px;
+    text-transform: uppercase;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+  }
+
+  .calendar-svg__day {
+    border: 1px solid #dadada;
+    border-top: none;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    font-size: 28px;
+    text-align: center;
+    padding: 5px;
+  }
+
+  .calendar-svg__time {
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
+  }
+}

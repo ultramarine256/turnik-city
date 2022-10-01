@@ -1,0 +1,79 @@
+/**
+* ------------------------------------------------------------------------
+* Material Rewrite
+* ------------------------------------------------------------------------
+*/
+
+.mat-form-field-wrapper {
+  margin: 0px !important;
+  // padding-bottom: 0px !important;
+}
+
+// checkbox
+.mat-checkbox-checked.mat-primary .mat-checkbox-background {
+  background-color: var(--themeColor) !important;
+}
+
+// radio
+.mat-radio-group {
+  .mat-radio-label {
+    margin-bottom: 0px;
+  }
+  .mat-radio-inner-circle {
+    background-color: var(--themeColor) !important;
+  }
+
+  .mat-radio-outer-circle {
+    border-color: var(--themeColor) !important;
+  }
+
+  .mat-radio-persistent-ripple {
+    background-color: var(--themeColor) !important;
+  }
+}
+
+// input
+.mat-focused {
+  .mat-form-field-outline-thick {
+    color: var(--themeColor) !important;
+  }
+  .mat-form-field-label {
+    color: var(--themeColor) !important;
+  }
+}
+
+// button
+.mat-flat-button.mat-primary {
+  background-color: var(--themeColor);
+}
+
+// progress
+.mat-progress-bar-fill::after {
+  background-color: var(--themeColor);
+}
+
+// spinner
+.mat-progress-spinner circle,
+.mat-spinner circle {
+  stroke: var(--themeColor);
+  // stroke: #007bff;
+  // stroke: #eee;
+}
+
+// spinner button
+.mat-button-wrapper .mat-progress-bar {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+}
+
+// icon button
+.mat-button-wrapper .mat-icon {
+  // font-size: 21px;
+  margin-right: 6px;
+}
+
+// icon prefix
+.mat-form-field-suffix .mat-icon {
+  color: rgba(0, 0, 0, 0.6);
+}

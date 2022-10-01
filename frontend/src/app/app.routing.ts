@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomePageComponent } from './pages/home-page.component';
+import { PagesModule } from './pages/pages.module';
 
 export const routes: Routes = [
   {
     path: '',
-    component: HomePageComponent,
+    loadChildren: () => PagesModule,
   },
   {
     path: '**',
@@ -14,9 +14,11 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {
-    initialNavigation: 'enabledBlocking'
-})],
+  imports: [
+    RouterModule.forRoot(routes, {
+      initialNavigation: 'enabledBlocking',
+    }),
+  ],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRouting {}

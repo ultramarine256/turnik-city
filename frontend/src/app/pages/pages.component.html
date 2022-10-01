@@ -1,0 +1,43 @@
+<div class="page__wrapper">
+  <!-- header -->
+  <header class="page__header header">
+    <div class="container-fluid header__content">
+      <!-- header-logo -->
+      <a class="header-logo" [routerLink]="'/'">
+        <img class="header-logo__img" [src]="'/assets/img/logo/logo__menu.png'" alt="" />
+      </a>
+
+      <!-- header-nav -->
+      <div class="header-nav">
+        <div class="header-nav__section">
+          <button mat-stroked-button class="nav-button">Playgrounds</button>
+          <button mat-stroked-button class="nav-button">Kiev</button>
+        </div>
+        <div class="header-nav__section">
+          <button mat-stroked-button class="nav-button">
+            <mat-icon>add</mat-icon>
+            <span class="nav-button__text">Add</span>
+          </button>
+
+          <button mat-stroked-button class="nav-button">
+            <mat-icon>language_outline</mat-icon>
+            <span class="nav-button__text">Eng</span>
+          </button>
+
+          <a mat-stroked-button class="nav-button" [routerLink]="'/liked'">
+            <mat-icon>favorite_outline</mat-icon>
+            <span class="nav-button__text">Liked</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- content -->
+  <div class="page__content">
+    <router-outlet></router-outlet>
+  </div>
+
+  <!-- footer -->
+  <div class="page__footer footer"></div>
+</div>

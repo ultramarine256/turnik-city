@@ -2,14 +2,15 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
+    "strictPropertyInitialization": false,
     "outDir": "./out-tsc/app",
-    "types": []
+    "types": [],
+    "paths": {
+      "@turnik/common": ["src/app/common/index.ts"],
+      "@turnik/data": ["src/app/data/index.ts"],
+      "@turnik/domain": ["src/app/domain/index.ts"]
+    },
   },
-  "files": [
-    "src/main.ts",
-    "src/polyfills.ts"
-  ],
-  "include": [
-    "src/**/*.d.ts"
-  ]
+  "files": ["src/main.ts", "src/polyfills.ts"],
+  "include": ["src/**/*.d.ts"]
 }

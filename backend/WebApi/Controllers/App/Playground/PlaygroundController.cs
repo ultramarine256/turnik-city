@@ -20,12 +20,13 @@ namespace WebApi.Controllers.App.Playground
             Domain = domain;
         }
 
+        [AllowAnonymous]
         [EnableQuery]
         [HttpGet("")]
-        [AllowAnonymous]
-        public IQueryable<PlaygroundDto> Get()
-            => BaseQuery();
+        public IQueryable<object> Get() // TODO: replace "object" with "PlaygroundDto"
+            =>  BaseQuery();
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public Task<PlaygroundDto> GetById(int id)
             => BaseGetAsync(id);
@@ -42,8 +43,8 @@ namespace WebApi.Controllers.App.Playground
         public Task DeleteAsync(int id)
             => BaseDelete(id);
 
-        [HttpGet("markers")]
         [AllowAnonymous]
+        [HttpGet("markers")]
         public Task<IEnumerable<PlaygroundMarker>> Markers()
             => Domain.GetMarkers();
     }
