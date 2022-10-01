@@ -23,8 +23,8 @@ namespace WebApi.Controllers.App.Playground
         [AllowAnonymous]
         [EnableQuery]
         [HttpGet("")]
-        public IQueryable<object> Get() // TODO: replace "object" with "PlaygroundDto"
-            =>  BaseQuery();
+        public IEnumerable<PlaygroundDto> Get()
+            =>  BaseQueryEnumerable();
 
         [AllowAnonymous]
         [HttpGet("{id}")]
