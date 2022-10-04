@@ -1,10 +1,10 @@
 trigger:
- branches:
-   include:
-    - main
- paths:
-   include: 
-    - backend/*
+  branches:
+    include:
+      - main
+  paths:
+    include: 
+      - backend/*
     
 pr: none
 
@@ -15,55 +15,55 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- task: UseDotNet@2
-  displayName: 'Install .NET Core SDK'
-  inputs:
-    version: 6.0.x
-    performMultiLevelLookup: true
-    includePreviewVersions: true # Required for preview versions
-
-- powershell: |
-   $appSettings = "appsettings.json";
-   (Get-Content $appSettings).replace("-build.counter-", $(Build.BuildId)) | Set-Content $appSettings
-   (Get-Content $appSettings).replace("-deploy.date-time-", [DateTime]::UtcNow.ToString('u')) | Set-Content $appSettings
-  workingDirectory: backend/WebApi
-  displayName: 'Build Counter'
-
-- task: DotNetCoreCLI@2
-  displayName: Restore
-  inputs:
-    command: restore
-    projects: '**/*.csproj'
-    workingDirectory: backend
-
-- task: DotNetCoreCLI@2
-  displayName: Build
-  inputs:
-    projects: '**/*.csproj'
-    arguments: '--configuration $(BuildConfiguration)'
-    workingDirectory: backend
-    command: 'build'
-
-- task: DotNetCoreCLI@2
-  displayName: Test
-  inputs:
-    command: test
-    projects: '**/*.csproj'
-    arguments: '--configuration $(BuildConfiguration)'
-    workingDirectory: backend
-  enabled: false
-
-- task: DotNetCoreCLI@2
-  displayName: Publish
-  inputs:
-    command: publish
-    publishWebProjects: false
-    projects: backend/WebApi/WebApi.csproj
-    arguments: '--configuration $(BuildConfiguration) --output $(Build.artifactstagingdirectory)'
-    zipAfterPublish: True
-
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact'
-  inputs:
-    PathtoPublish: '$(Build.artifactstagingdirectory)'
-  condition: succeededOrFailed()
+  - task: UseDotNet@2
+    displayName: 'Install .NET Core SDK'
+    inputs:
+      version: 6.0.x
+      performMultiLevelLookup: true
+      includePreviewVersions: true # Required for preview versions
+  
+  - powershell: |
+     $appSettings = "appsettings.json";
+     (Get-Content $appSettings).replace("-build.counter-", $(Build.BuildId)) | Set-Content $appSettings
+     (Get-Content $appSettings).replace("-deploy.date-time-", [DateTime]::UtcNow.ToString('u')) | Set-Content $appSettings
+    workingDirectory: backend/WebApi
+    displayName: 'Build Counter'
+  
+  - task: DotNetCoreCLI@2
+    displayName: Restore
+    inputs:
+      command: restore
+      projects: '**/*.csproj'
+      workingDirectory: backend
+  
+  - task: DotNetCoreCLI@2
+    displayName: Build
+    inputs:
+      projects: '**/*.csproj'
+      arguments: '--configuration $(BuildConfiguration)'
+      workingDirectory: backend
+      command: 'build'
+  
+  - task: DotNetCoreCLI@2
+    displayName: Test
+    inputs:
+      command: test
+      projects: '**/*.csproj'
+      arguments: '--configuration $(BuildConfiguration)'
+      workingDirectory: backend
+    enabled: false
+  
+  - task: DotNetCoreCLI@2
+    displayName: Publish
+    inputs:
+      command: publish
+      publishWebProjects: false
+      projects: backend/WebApi/WebApi.csproj
+      arguments: '--configuration $(BuildConfiguration) --output $(Build.artifactstagingdirectory)'
+      zipAfterPublish: True
+  
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact'
+    inputs:
+      PathtoPublish: '$(Build.artifactstagingdirectory)'
+    condition: succeededOrFailed()
