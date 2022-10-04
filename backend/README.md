@@ -21,5 +21,5 @@ Support: [ultramarine256@gmail.com](ultramarine256@gmail.com)
 1. Run ```cd ./Data```
 2. Run ```dotnet ef database update``` to Update Database
 3. Run ```dotnet ef migrations add 'asd'``` to Create Migration
-4. Run ```dotnet ef migrations add 'asd'``` to Create Migration
-More details on [ef-core tools](https://learn.microsoft.com/en-us/ef/core/cli/dotnet).
+
+More details on [ef-core tools](https://learn.microsoft.com/en-us/ef/core/cli/dotnet)
