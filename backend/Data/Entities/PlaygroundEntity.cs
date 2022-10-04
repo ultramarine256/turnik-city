@@ -59,4 +59,10 @@ namespace Data.Entities
             Medium = "medium",
             Large = "large";
     }
+
+    public class LocationType
+    {
+        public const string
+            Playground = "playground";
+    }
 }

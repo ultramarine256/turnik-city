@@ -1,4 +1,4 @@
-import { IMappable } from '../../crud.repository';
+import { IMappable } from '../../_abstractions';
 
 export class PlaygroundDto implements IMappable {
   id: number;

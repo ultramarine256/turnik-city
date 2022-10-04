@@ -2,21 +2,19 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { SharedModule } from './modules/shared/shared.module';
+import { MapComponent } from './map/map.component';
+
+const COMPONENTS = [MapComponent];
 
 @NgModule({
-  declarations: [],
+  declarations: [...COMPONENTS],
   imports: [
     /// angular
     CommonModule,
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
-
-    /// app
-    SharedModule,
   ],
-  exports: [],
-  providers: [],
+  exports: [...COMPONENTS],
 })
-export class DomainModule {}
+export class SharedModule {}

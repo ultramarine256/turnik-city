@@ -1,5 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { combineLatest } from 'rxjs';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { PlaygroundRepository } from '@turnik/data';
 
@@ -9,14 +8,9 @@ import { PlaygroundRepository } from '@turnik/data';
   styleUrls: ['./map-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MapPageComponent implements OnInit {
-  // private playgrounds$ = this.playgroundService.items();
-  // readonly vm$ = combineLatest([this.playgrounds$]).pipe(map(([playgrounds]) => ({ playgrounds })));
-
-  public playgrounds$ = this.playgroundRepository.query('?top=10');
-  public markers$ = this.playgroundRepository.query('');
+export class MapPageComponent {
+  public playgrounds$ = this.playgroundRepository.query('?top=25&orderby=createdUtc desc');
+  public markers$ = this.playgroundRepository.markers().pipe(map(x => x.slice(0, 100)));
 
   constructor(private playgroundRepository: PlaygroundRepository) {}
-
-  ngOnInit() {}
 }

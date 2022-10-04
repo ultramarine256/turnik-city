@@ -11,7 +11,7 @@ namespace Data.ThirdParty.Storage
         protected readonly BlobServiceClient BlobServiceClient;
         protected readonly BlobContainerClient СontainerClient;
 
-        public StorageService(string accountName, string storageKey, string containerName)
+        public StorageService(string? accountName, string? storageKey, string? containerName)
         {
             var uri = new Uri($"https://{accountName}.blob.core.windows.net");
             var creds = new StorageSharedKeyCredential(accountName, storageKey);

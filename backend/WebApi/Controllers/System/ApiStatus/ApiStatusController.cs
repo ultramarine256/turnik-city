@@ -15,7 +15,7 @@ namespace WebApi.Controllers.System.ApiStatus
         }
 
         [HttpGet("")]
-        public async Task<ApiStatusDto> ApiStatus()
+        public Task<ApiStatusDto> ApiStatus()
         {
             var result = new ApiStatusDto(
                 AppSettings.Details.Name,
@@ -25,8 +25,7 @@ namespace WebApi.Controllers.System.ApiStatus
                 AppSettings.Environment,
                 AppSettings.Database.Name,
                 "https://api.turnik.city/swagger");
-
-            return result;
+            return Task.FromResult(result);
         }
     }
 }

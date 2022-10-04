@@ -40,9 +40,9 @@ namespace Domain
 
     public class DomainModuleSettings
     {
-        public string Environment { get; set; }
-        public string IpstackApiKey { get; set; }
-        public string EncryptionKey { get; set; }
-        public string ScrapeWebsiteUrl { get; set; }
+        public string? Environment { get; set; }
+        public string? IpstackApiKey { get; set; }
+        public string? EncryptionKey { get; set; }
+        public string? ScrapeWebsiteUrl { get; set; }
     }
 }

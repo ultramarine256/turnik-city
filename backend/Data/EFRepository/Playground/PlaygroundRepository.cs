@@ -25,7 +25,7 @@ namespace Data.EFRepository.Playground
 
         public IEnumerable<PlaygroundMarker> GetMarkers()
         {
-            var value = _cache.Get<IList<PlaygroundMarker>>("myModelCacheKey");
+            var value = _cache.Get<IList<PlaygroundMarker>>(CacheKeys.Playground);
 
             if (value == null)
             {
@@ -33,16 +33,23 @@ namespace Data.EFRepository.Playground
                 value = Query.Where(r => r.Lat != 0).Select(r =>
                     new PlaygroundMarker()
                     {
-                        Caption = r.Slug,
+                        Title = r.Title,
+                        Slug = r.Slug,
                         Lat = r.Lat,
                         Lng = r.Lng
                     }).ToList();
 
                 // write it to the cache
-                _cache.Set("myModelCacheKey", value, _cacheOptions);
+                _cache.Set(CacheKeys.Playground, value, _cacheOptions);
             }
 
             return value;
         }
+    }
+
+    public class CacheKeys
+    {
+        public const string
+            Playground = "playgroundCacheKey";
     }
 }

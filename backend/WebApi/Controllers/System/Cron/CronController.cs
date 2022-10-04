@@ -11,6 +11,6 @@ namespace WebApi.Controllers.System.Cron
         public CronController() { }
 
         [HttpGet("do-staff")]
-        public async Task<int> ScrapePlaygrounds() => 0;
+        public Task<int> ScrapePlaygrounds() => Task.FromResult(0);
     }
 }

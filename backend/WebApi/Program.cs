@@ -43,11 +43,9 @@ new Bootstrap().ConfigureServices(builder.Services, appSettings);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsEnvironment("Local"))
-{
-    app.UseDeveloperExceptionPage();
-}
+// Debug staff...
+if (app.Environment.IsEnvironment("Local")) { }
+app.UseDeveloperExceptionPage();
 
 // Swagger
 app.UseSwagger();

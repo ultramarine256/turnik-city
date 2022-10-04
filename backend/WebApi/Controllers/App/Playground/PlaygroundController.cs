@@ -13,7 +13,7 @@ namespace WebApi.Controllers.App.Playground
     [Authorize]
     public class PlaygroundController : EntityController<PlaygroundEntity, int, PlaygroundDto>
     {
-        public IPlaygroundDomainService Domain { get; }
+        public new IPlaygroundDomainService Domain { get; }
 
         public PlaygroundController(IPlaygroundDomainService domain) : base(domain)
         {

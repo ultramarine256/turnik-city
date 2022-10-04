@@ -10,7 +10,7 @@ Support: [ultramarine256@gmail.com](ultramarine256@gmail.com)
 
 ## Development
 1. Run ```cd ./WebApi```
-2. Run ```set ASPNETCORE_ENVIRONMENT=Local```
+2. Run ```$Env:ASPNETCORE_ENVIRONMENT = "Local"```
 3. Launch the project using ```dotnet run```
 4. Open ```http://localhost:13203/swagger``` in browser
 

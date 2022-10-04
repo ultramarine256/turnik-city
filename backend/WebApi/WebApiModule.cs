@@ -38,7 +38,6 @@ namespace WebApi
                     options.RequireHttpsMetadata = false;
                     options.SaveToken = true;
                     options.IncludeErrorDetails = true;
-
                     options.TokenValidationParameters = new TokenValidationParameters()
                     {
                         ValidateIssuerSigningKey = true,
@@ -52,7 +51,7 @@ namespace WebApi
 
     public class WebApiModuleSettings
     {
-        public string SecurityKey { get; set; }
-        public string RootPassword { get; set; }
+        public string SecurityKey { get; set; } = null!;
+        public string RootPassword { get; set; } = null!;
     }
 }

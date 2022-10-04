@@ -338,6 +338,7 @@ nCrunchTemp_*
 *.ncrunchsolution
 
 # configs
+appsettings.TEMPLATE.json
 appsettings.Development.json
 appsettings.Production.json
 appsettings.Local.json

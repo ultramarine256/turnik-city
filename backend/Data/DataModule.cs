@@ -40,9 +40,9 @@ namespace Data
 
     public class DataModuleSettings
     {
-        public string PostgreSQLConnectionString { get; set; }
-        public string AccountName { get; set; }
-        public string StorageKey { get; set; }
-        public string ContainerName { get; set; }
+        public string? PostgreSQLConnectionString { get; set; }
+        public string? AccountName { get; set; }
+        public string? StorageKey { get; set; }
+        public string? ContainerName { get; set; }
     }
 }

@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { BaseRepository } from './base.repository';
 import { map } from 'rxjs/operators';
 import { ObjectExtensions } from '@turnik/common';
+import { IMappable } from './_abstractions';
 
 export abstract class CrudRepository<T extends IMappable> extends BaseRepository {
   protected pathName: string;
@@ -39,8 +40,4 @@ export abstract class CrudRepository<T extends IMappable> extends BaseRepository
   delete(id: number): Observable<boolean> {
     return this.httpClient.delete<boolean>(`${this.apiBaseUrl}/${this.pathName}/${id}`);
   }
-}
-
-export interface IMappable {
-  mapFromJson(json: any): this;
 }

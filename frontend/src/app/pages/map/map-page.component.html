@@ -1,7 +1,10 @@
-<div style="display: grid; place-content: center; height: calc(100vh - 64px); background-color: #eee">
-  <span style="font-size: 2rem; margin-bottom: 2rem">Playgrounds Map</span>
-
-  <ng-container *ngIf="playgrounds$ | async as playgrounds">
-    <span *ngFor="let item of playgrounds">{{ item.slug }} ({{ item.lat }}, {{ item.lng }})</span>
-  </ng-container>
+<div class="container-fluid">
+  <h2 class="mt-4">Playground List</h2>
+  <div class="markers">
+    <pre>{{ playgrounds$ | async | json }}</pre>
+  </div>
+  <h2 class="mt-4">Playground Markers</h2>
+  <div class="markers">
+    <pre>{{ markers$ | async | json }}</pre>
+  </div>
 </div>

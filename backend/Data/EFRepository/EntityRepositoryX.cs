@@ -34,8 +34,8 @@ namespace Data.EFRepository
 
         public virtual async Task PatchActivityAsync(TPrimaryKey id, bool isActive)
         {
-            var entity = await Context.Set<TEntity>().FirstOrDefaultAsync(r => r.Id.Equals(id));
-            entity.IsActive = isActive;
+            var entity = await Context.Set<TEntity>().FirstOrDefaultAsync(r => r.Id!.Equals(id));
+            entity!.IsActive = isActive;
         }
 
         public virtual async Task PatchOrderAsync(TPrimaryKey id, int newOrder)
@@ -51,7 +51,8 @@ namespace Data.EFRepository
                 .AsEnumerable()
                 .Count(r => r.GetType().GetProperty(entity.GroupedProperty()).GetValue(r).ToString() == groupedPropertyValue);
 
-            if (newOrder <= 0 || newOrder > entitiesCount) return;
+            if (newOrder <= 0 || newOrder > entitiesCount)
+            { return; }
 
             var entities = Context
                 .Set<TEntity>()
@@ -65,20 +66,20 @@ namespace Data.EFRepository
                 // before all execution we need to detect min and max range, that have changes
                 var min = Math.Min(oldOrder, newOrder);
                 var max = Math.Max(oldOrder, newOrder);
-                
+
                 // create flag that show us that item order is entered the our range
                 var isInRange = item.Order >= min && item.Order <= max;
-                
+
                 // this flag indicate that order is higher than old order
                 var isBigger = newOrder > oldOrder;
-                
+
                 // if order in list equal id that we pass, then we should setup new order for it
-                if (item.Id.ToString() == id.ToString())
+                if (item.Id!.ToString() == id!.ToString())
                 {
                     item.Order = newOrder;
                     return;
                 }
-                
+
                 // if order do not enter range that change, we must ignore it
                 // for example if we have 10 items in total, and we drag second item to 5,
                 // it is mean that range is from 2 to 5
