@@ -11,13 +11,96 @@ namespace Data.EFRepository
         where TEntity : class, IEntity<TPrimaryKey>, new()
     {
         public IStorageService StorageService { get; }
-        public bool OnSystemFilters { get; set; }
+        public bool OnSystemFilters { get; }
         public IQueryable<TEntity> Query => DbContextManager.CurrentContext.Set<TEntity>().AsNoTracking().AsQueryable();
 
         public EntityRepository(IContextManager dbContextManager, IStorageService storageService) : base(dbContextManager)
         {
             StorageService = storageService;
             OnSystemFilters = true;
+        }
+
+        #region CRUD
+
+        public virtual async Task<TEntity> GetAsync(TPrimaryKey id, params Expression<Func<TEntity, object>>[] includes)
+        {
+            var query = Context.Set<TEntity>().AsQueryable();
+            query = ApplyIncludes(query, new TEntity().GetEntityIncludes());
+            return await query.FirstOrDefaultAsync(r => r.Id.Equals(id));
+        }
+
+        public virtual async Task CreateAsync(TEntity entity)
+        {
+            entity = await ExtendedWithStorage(entity);
+            DbContextManager.BuildOrCurrentContext(out _).Add(entity);
+        }
+
+        public virtual async Task CreateRange(IEnumerable<TEntity> entities)
+            => Context.Set<TEntity>().AddRangeAsync(entities);
+
+        public virtual async Task UpdateAsync(TEntity entity)
+        {
+            var createdNew = false;
+            try
+            {
+                entity = await ExtendedWithStorage(entity);
+                DbContextManager.BuildOrCurrentContext(out createdNew).Update(entity);
+            }
+            finally
+            {
+                if (createdNew)
+                {
+                    await DbContextManager.CurrentContext.SaveChangesAsync();
+                    DbContextManager.DisposeContext();
+                }
+            }
+        }
+
+        public virtual async Task DeleteAsync(TEntity entity)
+        {
+            var createdNew = false;
+            try
+            {
+                await RemoveImage(entity);
+                DbContextManager.BuildOrCurrentContext(out createdNew).Remove(entity);
+            }
+            finally
+            {
+                if (createdNew)
+                {
+                    await DbContextManager.CurrentContext.SaveChangesAsync();
+                    DbContextManager.DisposeContext();
+                }
+            }
+        }
+
+        public virtual async Task DeleteRange(Func<IQueryable<TEntity>, IQueryable<TEntity>> queryBuilder)
+        {
+            var createdNew = false;
+            try
+            {
+                var entities = await GetAllAsync(queryBuilder);
+                DbContextManager.BuildOrCurrentContext(out createdNew).RemoveRange(entities);
+            }
+            finally
+            {
+                if (createdNew)
+                {
+                    await DbContextManager.CurrentContext.SaveChangesAsync();
+                    DbContextManager.DisposeContext();
+                }
+            }
+        }
+
+        #endregion
+
+        #region More
+
+        public virtual async Task<TEntity> GetAsNoTrackingAsync(TPrimaryKey id, params Expression<Func<TEntity, object>>[] includes)
+        {
+            var query = Context.Set<TEntity>().AsQueryable();
+            query = ApplyIncludes(query, new TEntity().GetEntityIncludes());
+            return await query.AsNoTracking().FirstOrDefaultAsync(r => r.Id.Equals(id));
         }
 
         public virtual async Task<int> GetTotalCountAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> queryBuilder)
@@ -52,85 +135,7 @@ namespace Data.EFRepository
         public virtual Task<TEntity> FirstOrDefaultTracking(TPrimaryKey id) =>
             Context.Set<TEntity>().FirstOrDefaultAsync(r => r.Id.Equals(id));
 
-        public virtual async Task<TEntity> GetAsync(TPrimaryKey id, params Expression<Func<TEntity, object>>[] includes)
-        {
-            var query = Context.Set<TEntity>().AsQueryable();
-            query = ApplyIncludes(query, new TEntity().GetEntityIncludes());
-            return await query.FirstOrDefaultAsync(r => r.Id.Equals(id));
-        }
-
-        public virtual async Task<TEntity> GetAsNoTrackingAsync(TPrimaryKey id, params Expression<Func<TEntity, object>>[] includes)
-        {
-            var query = Context.Set<TEntity>().AsQueryable();
-            query = ApplyIncludes(query, new TEntity().GetEntityIncludes());
-            return await query.AsNoTracking().FirstOrDefaultAsync(r => r.Id.Equals(id));
-        }
-
-        // Crud
-        public virtual async Task CreateAsync(TEntity entity)
-        {
-            entity = await ExtendedWithStorage(entity);
-            DbContextManager.BuildOrCurrentContext(out _).Add(entity);
-        }
-
-        public virtual async Task CreateRange(IEnumerable<TEntity> entities)
-            => Context.Set<TEntity>().AddRangeAsync(entities);
-
-        public virtual async Task UpdateAsync(TEntity entity)
-        {
-            bool createdNew = false;
-            try
-            {
-                entity = await ExtendedWithStorage(entity);
-                DbContextManager.BuildOrCurrentContext(out createdNew).Update(entity);
-            }
-            finally
-            {
-                if (createdNew)
-                {
-                    await DbContextManager.CurrentContext.SaveChangesAsync();
-                    DbContextManager.DisposeContext();
-                }
-            }
-        }
-
-        public virtual async Task DeleteAsync(TEntity entity)
-        {
-            bool createdNew = false;
-            try
-            {
-                await RemoveImage(entity);
-                DbContextManager.BuildOrCurrentContext(out createdNew).Remove(entity);
-            }
-            finally
-            {
-                if (createdNew)
-                {
-                    await DbContextManager.CurrentContext.SaveChangesAsync();
-                    DbContextManager.DisposeContext();
-                }
-            }
-        }
-
-        public virtual async Task DeleteRange(Func<IQueryable<TEntity>, IQueryable<TEntity>> queryBuilder)
-        {
-            bool createdNew = false;
-            try
-            {
-                var entities = await GetAllAsync(queryBuilder);
-                DbContextManager.BuildOrCurrentContext(out createdNew).RemoveRange(entities);
-            }
-            finally
-            {
-                if (createdNew)
-                {
-                    await DbContextManager.CurrentContext.SaveChangesAsync();
-                    DbContextManager.DisposeContext();
-                }
-            }
-        }
-
-        #region Helpers
+        #endregion
 
         #region Helpers
 
@@ -160,8 +165,6 @@ namespace Data.EFRepository
             }
         }
 
-        #endregion
-
         protected static Expression<Func<TEntity, bool>> CreateEqualityExpressionForId(TPrimaryKey id)
         {
             var lambdaParam = Expression.Parameter(typeof(TEntity));
@@ -169,10 +172,7 @@ namespace Data.EFRepository
             return Expression.Lambda<Func<TEntity, bool>>(lambdaBody, lambdaParam);
         }
 
-        protected virtual Task<IQueryable<TEntity>> ApplySystemFilters(IQueryable<TEntity> query)
-        {
-            return Task.FromResult(query);
-        }
+        protected virtual Task<IQueryable<TEntity>> ApplySystemFilters(IQueryable<TEntity> query) => Task.FromResult(query);
 
         protected IQueryable<TEntity> ApplyIncludes(IQueryable<TEntity> query, Expression<Func<TEntity, object>>[] includes)
         {
