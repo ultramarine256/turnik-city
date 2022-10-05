@@ -18,5 +18,5 @@ steps:
       containerRegistry: 'docker-registry-connection'
       repository: CiContainerRepo
       Dockerfile: frontend/.docker/Dockerfile
-      buildContext: frontend/inventory
+      buildContext: frontend
       tags: turnik-app-latest
