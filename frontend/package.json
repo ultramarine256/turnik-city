@@ -7,7 +7,7 @@
     "build:prod": "ng build -c=build-prod",
     "start:ssr:local": "ng run turnik-app:serve-ssr:local --port 4601",
     "build:ssr:prod": "ng build -c=build-prod && ng run turnik-app:server:build-prod",
-    "serve:ssr": "node dist/server/main.js"
+    "serve:ssr": "node dist/turnik-app/server/main.js"
   },
   "private": true,
   "dependencies": {
