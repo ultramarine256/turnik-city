@@ -1,4 +1,6 @@
+using System.IO.Compression;
 using Microsoft.AspNetCore.OData;
+using Microsoft.AspNetCore.ResponseCompression;
 using WebApi.Infrastructure;
 using WebApi.Infrastructure.AppSettings;
 
@@ -37,6 +39,14 @@ builder.Services.AddSwaggerGen();
 // App Settings
 var appSettings = new AppSettings().MapFromConfiguration(builder.Configuration);
 builder.Services.AddSingleton(appSettings);
+
+// Compression
+builder.Services.AddResponseCompression(opt =>
+{
+    opt.Providers.Add<GzipCompressionProvider>();
+    opt.EnableForHttps = true;
+});
+builder.Services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Fastest);
 
 // Configure Services
 new Bootstrap().ConfigureServices(builder.Services, appSettings);
