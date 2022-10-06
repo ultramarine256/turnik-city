@@ -17,11 +17,11 @@ namespace WebApi.Controllers._Abstract
             Domain = domain;
         }
 
-        protected IQueryable<TEntityDto> BaseQuery()
-            => Domain.Query().Select(r => new TEntityDto().MapFromEntity(r));
-
-        protected IEnumerable<TEntityDto> BaseQueryEnumerable()
+        protected IEnumerable<TEntityDto> BaseQuery()
             => Domain.Query().AsEnumerable().Select(r => new TEntityDto().MapFromEntity(r));
+
+        protected IQueryable<TEntityDto> BaseQueryOptimized()
+            => Domain.Query().Select(r => new TEntityDto().MapFromEntity(r));
 
         protected virtual async Task<TEntityDto> BaseGetAsync(TPrimaryKey id)
         {

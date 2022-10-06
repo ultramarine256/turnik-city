@@ -15,7 +15,7 @@ namespace WebApi.Controllers.App.User
 
         [EnableQuery]
         [HttpGet("")]
-        public IQueryable<UserDto> Get()
+        public IEnumerable<UserDto> Get()
             => BaseQuery();
 
         [HttpGet("{id}")]
