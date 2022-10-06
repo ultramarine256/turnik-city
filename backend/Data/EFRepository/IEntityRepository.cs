@@ -14,6 +14,7 @@ namespace Data.EFRepository
         Task DeleteAsync(TEntity entity);
         Task DeleteRange(Func<IQueryable<TEntity>, IQueryable<TEntity>> queryBuilder);
 
+        Task<TEntity> GetAsNoTrackingAsync(TPrimaryKey id, params Expression<Func<TEntity, object>>[] includes);
         Task<int> GetTotalCountAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> queryBuilder);
         Task<IList<TEntity>> GetAllAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> queryBuilder, params Expression<Func<TEntity, object>>[] includes);
         Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> filter, params Expression<Func<TEntity, object>>[] includes);

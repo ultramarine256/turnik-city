@@ -6,15 +6,15 @@ import * as express from 'express';
 import { existsSync } from 'fs';
 import { join } from 'path';
 
+const compression = require('compression');
+
 import { AppServerModule } from './src/main.server';
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
   const server = express();
   const distFolder = join(process.cwd(), 'dist/turnik-app/browser');
-  const indexHtml = existsSync(join(distFolder, 'index.original.html'))
-    ? 'index.original.html'
-    : 'index';
+  const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
 
   // Our Universal express-engine (found @ https://github.com/angular/universal/tree/main/modules/express-engine)
   server.engine(
@@ -53,6 +53,10 @@ function run(): void {
 
   // Start up the Node server
   const server = app();
+
+  // optimization
+  server.use(compression());
+
   server.listen(port, () => {
     console.log(`Node Express server listening on http://localhost:${port}`);
   });
