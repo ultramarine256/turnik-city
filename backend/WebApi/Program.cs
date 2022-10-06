@@ -43,10 +43,12 @@ builder.Services.AddSingleton(appSettings);
 // Compression
 builder.Services.AddResponseCompression(opt =>
 {
+    opt.Providers.Add<BrotliCompressionProvider>();
     opt.Providers.Add<GzipCompressionProvider>();
     opt.EnableForHttps = true;
 });
-builder.Services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Fastest);
+builder.Services.Configure<BrotliCompressionProviderOptions>(options => options.Level = CompressionLevel.Fastest);
+builder.Services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.SmallestSize);
 
 // Configure Services
 new Bootstrap().ConfigureServices(builder.Services, appSettings);
@@ -67,6 +69,9 @@ app.UseCors(CORS.ALLOW_ALL);
 // Authorization
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Compression
+app.UseResponseCompression();
 
 // Startup
 app.MapControllers();
