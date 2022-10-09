@@ -34,18 +34,7 @@
           },
           "configurations": {
             "build-prod": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
-                }
-              ],
+              "budgets": [],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
