@@ -28,10 +28,6 @@ export class MapComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.initMap();
-    this.markers.forEach(({ lat, lng }) => {
-      const marker = L.marker([lat, lng], { icon: this.markerIcon });
-      marker.addTo(this.map);
-    });
   }
 
   private initMap(): void {
@@ -46,5 +42,9 @@ export class MapComponent implements AfterViewInit {
       accessToken: environment.mapbox.accessToken,
     }).addTo(this.map);
     this.map.setView([this.lat, this.lng], 13);
+    this.markers.forEach(({ lat, lng }) => {
+      const marker = L.marker([lat, lng], { icon: this.markerIcon });
+      marker.addTo(this.map);
+    });
   }
 }
