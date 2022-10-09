@@ -12,7 +12,7 @@ export type UserPosition = {
 export class NavigationService {
   getUserPosition(): Observable<UserPosition> {
     return new Observable(observer => {
-      navigator.geolocation.getCurrentPosition((position: any) => {
+      navigator.geolocation.getCurrentPosition(position => {
         observer.next({
           lat: position.coords.latitude,
           lng: position.coords.longitude,
