@@ -1,0 +1,58 @@
+.section-hero {
+  min-height: 65vh;
+  display: grid;
+  place-items: center;
+  // color: #fff;
+
+  background: #fff url(https://assets.goodfirms.co/images/hero-building-home.svg) 50% 500% repeat-x;
+  //background: #fff url('/assets/img/home/hero-background.svg') 50% -50% repeat-x;
+
+  .hero__title {
+    font-size: calc(1.250125rem + 3.33316667vw);
+  }
+
+  .hero__image {
+    width: 80%;
+  }
+
+  .hero__title {
+    font-size: calc(1.250125rem + 3.33316667vw);
+  }
+
+  .hero__subtitle {
+    font-size: 1.5rem;
+  }
+
+  @media screen and (max-width: 768px) {
+    .hero__image {
+      width: 50% !important;
+    }
+  }
+
+  @media screen and (min-width: 1200px) {
+    .hero__title {
+      font-size: 3.75rem !important;
+    }
+
+    .hero__subtitle {
+      font-size: 1.5rem !important;
+    }
+  }
+}
+
+.s-counters {
+  .s-counters__container {
+    min-height: 300px;
+    background-color: #fff;
+    position: relative;
+  }
+
+  .s-counters__title {
+    position: absolute;
+    top: -15px;
+
+    font-size: 36px;
+    text-align: center;
+    font-weight: 400;
+  }
+}

@@ -17,4 +17,4 @@ const COMPONENTS = [MapComponent];
   ],
   exports: [...COMPONENTS],
 })
-export class SharedModule {}
+export class AppCommonModule {}

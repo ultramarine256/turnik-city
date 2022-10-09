@@ -32,7 +32,7 @@
 */
 
 .container--grow {
-  max-width: 1140px;
+  max-width: 1200px;
   width: 100%;
   padding-right: 15px;
   padding-left: 15px;
@@ -97,4 +97,16 @@ hr {
 
 .word--break-all {
   word-break: break-all;
+}
+
+/**
+* ------------------------------------------------------------------------
+* Components
+* ------------------------------------------------------------------------
+*/
+
+.c-section {
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 10px;
 }

@@ -1,7 +1,7 @@
 <div class="page__wrapper">
   <!-- header -->
   <header class="page__header header">
-    <div class="container-fluid header__content">
+    <div class="container--grow header__content">
       <!-- header-logo -->
       <a class="header-logo" [routerLink]="'/'">
         <img class="header-logo__img" [src]="'/assets/img/logo/logo__menu.png'" alt="" />
@@ -9,9 +9,9 @@
 
       <!-- header-nav -->
       <div class="header-nav">
-        <div class="header-nav__section">
-          <button mat-stroked-button class="nav-button">Playgrounds</button>
-          <button mat-stroked-button class="nav-button">Kiev</button>
+        <div class="header-nav__section pe-2">
+          <a mat-stroked-button class="nav-button nav-button--long" routerLink="/map">Playgrounds</a>
+          <a mat-stroked-button class="nav-button nav-button--long" routerLink="/map">Kiev</a>
         </div>
         <div class="header-nav__section">
           <button mat-stroked-button class="nav-button">
@@ -39,5 +39,57 @@
   </div>
 
   <!-- footer -->
-  <div class="page__footer footer"></div>
+  <footer class="page__footer footer">
+    <div class="container--grow">
+      <div class="row">
+        <div class="col-md-2 col-12">
+          <a routerLink="/" class="c-logo">
+            <img class="c-logo__img" [src]="'/assets/img/logo/logo__menu.png'" alt="" />
+            <span class="c-logo__text">TurnikCity</span>
+          </a>
+        </div>
+        <div class="col-md-4 col-12 my-3 my-md-0">
+          <div class="footer__slogan">
+            <span>Tomorrow, tomorrow, tomorrow, ain't no such thing as tomorrow, we only got today!</span>
+          </div>
+        </div>
+        <div class="col-md-2 col-6 c-list">
+          <h6 class="c-list__title">Quick Nav</h6>
+          <ul class="c-list__ul">
+            <li>
+              <a routerLink="/">Codex</a>
+            </li>
+            <li>
+              <a routerLink="/">Members</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-2 col-6 c-list">
+          <h6 class="c-list__title">Connect</h6>
+          <ul class="c-list__ul">
+            <li>
+              <a href="mailto:info@turnik.city">info@turnik.city</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-2 col-12 c-list">
+          <h6 class="c-list__title">HELLO!</h6>
+          <div class="c-icons">
+            <a href="https://www.instagram.com/los_strong90" target="_blank" class="c-icons__item">
+              <fa-icon [icon]="['fab', 'instagram']" size="2xl"></fa-icon>
+            </a>
+            <a href="https://t.me/+joCpD7hvRMxhMzgy" target="_blank" class="c-icons__item">
+              <fa-icon [icon]="['fab', 'telegram']" size="2xl"></fa-icon>
+            </a>
+            <a href="https://github.com/TurnikCity" target="_blank" class="c-icons__item">
+              <fa-icon [icon]="['fab', 'github']" size="2xl"></fa-icon>
+            </a>
+            <a href="https://turnik-city.notion.site/Main-114dd86dc6554830a7cc0f337f3d3f7c" target="_blank" class="c-icons__item">
+              <fa-icon [icon]="['far', 'folder']" size="2xl"></fa-icon>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
 </div>

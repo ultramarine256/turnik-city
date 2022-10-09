@@ -48,7 +48,7 @@ builder.Services.AddResponseCompression(opt =>
     opt.EnableForHttps = true;
 });
 builder.Services.Configure<BrotliCompressionProviderOptions>(options => options.Level = CompressionLevel.Fastest);
-builder.Services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.SmallestSize);
+builder.Services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Fastest);
 
 // Configure Services
 new Bootstrap().ConfigureServices(builder.Services, appSettings);

@@ -1,10 +1,9 @@
 import { NgModule } from '@angular/core';
-import { PlaygroundRepository } from './playground/playground.repository';
-import { UserRepository } from './user/user.repository';
+import { HttpClientModule } from '@angular/common/http';
+import { CommonRepository, UserRepository, PlaygroundRepository } from './index';
 
 @NgModule({
-  imports: [],
-  declarations: [],
-  providers: [PlaygroundRepository, UserRepository],
+  imports: [HttpClientModule],
+  providers: [PlaygroundRepository, UserRepository, CommonRepository],
 })
 export class RepositoryModule {}

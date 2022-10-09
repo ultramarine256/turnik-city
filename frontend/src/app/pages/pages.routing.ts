@@ -1,10 +1,7 @@
 import { ModuleWithProviders } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PagesComponent } from './pages.component';
 import { PagesModule } from './pages.module';
-import { MapPageComponent } from './map/map-page.component';
-import { FavoritesPageComponent } from './favorites/favorites-page.component';
-import { UIPageComponent } from './ui/ui-page.component';
+import { HomePageComponent, UIPageComponent, FavoritesPageComponent, MapPageComponent, PagesComponent } from './index';
 
 const routes: Routes = [
   {
@@ -13,6 +10,10 @@ const routes: Routes = [
     children: [
       {
         path: '',
+        component: HomePageComponent,
+      },
+      {
+        path: 'map',
         component: MapPageComponent,
       },
       {
