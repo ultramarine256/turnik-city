@@ -5,7 +5,6 @@ import { PlaygroundDto } from './dtos/playground.dto';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { MarkerDto } from './dtos/marker.dto';
-import { BaseRepository } from '../base.repository';
 
 @Injectable()
 export class PlaygroundRepository extends CrudRepository<PlaygroundDto> {

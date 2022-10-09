@@ -2,17 +2,25 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ThemeModule } from '../common';
-import { RepositoryModule } from '../data';
-import { FavoritesPageComponent } from './favorites/favorites-page.component';
-import { MapPageComponent } from './map/map-page.component';
-import { MapComponent } from './map/components/map.component';
-import { PagesComponent } from './pages.component';
-import { PagesRouting } from './pages.routing';
-import { UIPageComponent } from './ui/ui-page.component';
+import { ThemeModule } from '@turnik/common';
+import { PlaygroundMapComponent, DomainModule } from '@turnik/domain';
+import {
+  PagesComponent,
+  PagesRouting,
+  FavoritesPageComponent,
+  PlaygroundPageComponent,
+  UIPageComponent,
+  HomePageComponent,
+} from './index';
 
-const MODULES = [ThemeModule, RepositoryModule];
-const COMPONENTS = [PagesComponent, MapPageComponent, MapComponent, FavoritesPageComponent, UIPageComponent];
+const COMPONENTS = [
+  PagesComponent,
+  PlaygroundPageComponent,
+  PlaygroundMapComponent,
+  FavoritesPageComponent,
+  HomePageComponent,
+  UIPageComponent,
+];
 
 @NgModule({
   declarations: [...COMPONENTS],
@@ -24,7 +32,8 @@ const COMPONENTS = [PagesComponent, MapPageComponent, MapComponent, FavoritesPag
     ReactiveFormsModule,
 
     /// app
-    ...MODULES,
+    ThemeModule,
+    DomainModule,
 
     /// routing
     PagesRouting,

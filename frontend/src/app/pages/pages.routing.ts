@@ -1,7 +1,13 @@
 import { ModuleWithProviders } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PagesModule } from './pages.module';
-import { HomePageComponent, UIPageComponent, FavoritesPageComponent, MapPageComponent, PagesComponent } from './index';
+import {
+  HomePageComponent,
+  UIPageComponent,
+  FavoritesPageComponent,
+  PlaygroundPageComponent,
+  PagesComponent,
+} from './index';
 
 const routes: Routes = [
   {
@@ -13,8 +19,8 @@ const routes: Routes = [
         component: HomePageComponent,
       },
       {
-        path: 'map',
-        component: MapPageComponent,
+        path: 'playground',
+        component: PlaygroundPageComponent,
       },
       {
         path: 'liked',

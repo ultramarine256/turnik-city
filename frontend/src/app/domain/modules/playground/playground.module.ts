@@ -1,22 +1,23 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { AppCommonModule, PlaygroundModule } from './index';
+import { RepositoryModule } from '@turnik/data';
+import { PlaygroundFacade } from './playground.facade';
 
 @NgModule({
   declarations: [],
   imports: [
     /// angular
     CommonModule,
+    FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
 
     /// app
-    AppCommonModule,
-    PlaygroundModule,
+    RepositoryModule,
   ],
   exports: [],
-  providers: [],
+  providers: [PlaygroundFacade],
 })
-export class DomainModule {}
+export class PlaygroundModule {}

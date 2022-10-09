@@ -75,7 +75,7 @@
   padding: 4px 14px;
 
   &:last-child {
-    margin-right: 0px;
+    margin-right: 0;
   }
 
   @media (max-width: $lt-md) {
@@ -87,7 +87,7 @@
     }
 
     .mat-icon {
-      margin-right: 0px !important;
+      margin-right: 0 !important;
     }
 
     .nav-button__text {

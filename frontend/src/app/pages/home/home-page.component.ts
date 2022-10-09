@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { PlaygroundFacade } from '@turnik/domain';
 
 @Component({
   selector: 'app-home-page',

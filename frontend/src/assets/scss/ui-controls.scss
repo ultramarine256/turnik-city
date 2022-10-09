@@ -5,8 +5,8 @@
 */
 
 .mat-form-field-wrapper {
-  margin: 0px !important;
-  // padding-bottom: 0px !important;
+  margin: 0 !important;
+  // padding-bottom: 0 !important;
 }
 
 // checkbox
@@ -17,7 +17,7 @@
 // radio
 .mat-radio-group {
   .mat-radio-label {
-    margin-bottom: 0px;
+    margin-bottom: 0;
   }
   .mat-radio-inner-circle {
     background-color: var(--themeColor) !important;
@@ -63,8 +63,8 @@
 // spinner button
 .mat-button-wrapper .mat-progress-bar {
   position: absolute;
-  bottom: 0px;
-  left: 0px;
+  bottom: 0;
+  left: 0;
 }
 
 // icon button

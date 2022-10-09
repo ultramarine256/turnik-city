@@ -15,7 +15,7 @@ import { environment } from '../../../../environments/environment';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MapComponent implements AfterViewInit {
+export class PlaygroundMapComponent implements AfterViewInit {
   @Input() lat: number;
   @Input() lng: number;
   @Input() markers: { lat: number; lng: number }[];
