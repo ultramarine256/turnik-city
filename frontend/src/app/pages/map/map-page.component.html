@@ -1,4 +1,0 @@
-<ng-template #loading><div class="loading">Loading...</div></ng-template>
-<ng-container *ngIf="vm$ | async as vm; else loading">
-  <app-map [markers]="vm.markers" [userPosition]="vm.userPosition"></app-map>
-</ng-container>

@@ -6,7 +6,7 @@ import { ThemeModule } from '../common';
 import { RepositoryModule } from '../data';
 import { FavoritesPageComponent } from './favorites/favorites-page.component';
 import { MapPageComponent } from './map/map-page.component';
-import { MapComponent } from './map/map.component';
+import { MapComponent } from './map/components/map.component';
 import { PagesComponent } from './pages.component';
 import { PagesRouting } from './pages.routing';
 import { UIPageComponent } from './ui/ui-page.component';

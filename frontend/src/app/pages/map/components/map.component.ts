@@ -1,11 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import * as L from 'leaflet';
-import { environment } from '../../../environments/environment';
-
-export type Position = {
-  lat: number;
-  long: number;
-};
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-map',
@@ -21,7 +16,8 @@ export type Position = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MapComponent implements AfterViewInit {
-  @Input() userPosition: Position;
+  @Input() lat: number;
+  @Input() lng: number;
   @Input() markers: { lat: number; lng: number }[];
   private map: L.Map;
   private markerIcon = L.icon({
@@ -49,6 +45,6 @@ export class MapComponent implements AfterViewInit {
       zoomOffset: -1,
       accessToken: environment.mapbox.accessToken,
     }).addTo(this.map);
-    this.map.setView([this.userPosition.lat, this.userPosition.long], 13);
+    this.map.setView([this.lat, this.lng], 13);
   }
 }
