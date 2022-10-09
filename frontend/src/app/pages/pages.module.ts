@@ -1,17 +1,18 @@
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
-import { ThemeModule } from '@turnik/common';
-import { RepositoryModule } from '@turnik/data';
-import { PagesComponent } from './pages.component';
-import { MapPageComponent } from './map/map-page.component';
+import { ThemeModule } from '../common';
+import { RepositoryModule } from '../data';
 import { FavoritesPageComponent } from './favorites/favorites-page.component';
-import { UIPageComponent } from './ui/ui-page.component';
+import { MapPageComponent } from './map/map-page.component';
+import { MapComponent } from './map/map.component';
+import { PagesComponent } from './pages.component';
 import { PagesRouting } from './pages.routing';
+import { UIPageComponent } from './ui/ui-page.component';
 
 const MODULES = [ThemeModule, RepositoryModule];
-const COMPONENTS = [PagesComponent, MapPageComponent, FavoritesPageComponent, UIPageComponent];
+const COMPONENTS = [PagesComponent, MapPageComponent, MapComponent, FavoritesPageComponent, UIPageComponent];
 
 @NgModule({
   declarations: [...COMPONENTS],

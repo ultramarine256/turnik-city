@@ -3,4 +3,7 @@ export const environment = {
   apiBaseUrl: '',
   googleMapsApiKey: null,
   gtagId: null,
+  mapbox: {
+    accessToken: '',
+  },
 };

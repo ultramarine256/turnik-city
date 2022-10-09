@@ -1,10 +1,4 @@
-<div class="container-fluid">
-  <h2 class="mt-4">Playground List</h2>
-  <div class="markers">
-    <pre>{{ playgrounds$ | async | json }}</pre>
-  </div>
-  <h2 class="mt-4">Playground Markers</h2>
-  <div class="markers">
-    <pre>{{ markers$ | async | json }}</pre>
-  </div>
-</div>
+<ng-template #loading><div class="loading">Loading...</div></ng-template>
+<ng-container *ngIf="vm$ | async as vm; else loading">
+  <app-map [markers]="vm.markers" [userPosition]="vm.userPosition"></app-map>
+</ng-container>
