@@ -39,58 +39,53 @@
   </div>
 
   <!-- footer -->
-  <footer class="page__footer footer">
+  <footer class="page__footer footer" *ngIf="router.url != '/playground'">
     <div class="container--grow">
       <div class="row">
-        <div class="col-md-2 col-12">
-          <a routerLink="/" class="c-logo">
-            <img class="c-logo__img" [src]="'/assets/img/logo/logo__menu.png'" alt="" />
-            <span class="c-logo__text">TurnikCity</span>
-          </a>
-        </div>
-        <div class="col-md-4 col-12 my-3 my-md-0">
-          <div class="footer__slogan">
-            <span>Tomorrow, tomorrow, tomorrow, ain't no such thing as tomorrow, we only got today!</span>
+        <div class="col-md col-12 mb-4 mb-md-0">
+          <div class="f-slogan">
+            <div class="f-slogan__title">TurnikCity</div>
+            <div class="f-slogan__text">
+              Tomorrow, tomorrow, tomorrow, ain't no such thing as tomorrow, we only got today!
+            </div>
+            <div class="c-icons d-flex d-md-none justify-content-center mt-3">
+              <a *ngFor="let s of social" [href]="s.href" target="_blank" class="c-icons__item">
+                <fa-icon [icon]="[s.prefix, s.icon]" size="2xl"></fa-icon>
+              </a>
+            </div>
           </div>
         </div>
-        <div class="col-md-2 col-6 c-list">
-          <h6 class="c-list__title">Quick Nav</h6>
-          <ul class="c-list__ul">
-            <li>
-              <a routerLink="/">Codex</a>
-            </li>
-            <li>
-              <a routerLink="/">Members</a>
-            </li>
-          </ul>
+        <div class="col-md-2 col-6">
+          <div class="c-list">
+            <h6 class="c-list__title">Quick Nav</h6>
+            <ul class="c-list__ul">
+              <li>
+                <a routerLink="/">Codex</a>
+              </li>
+              <li>
+                <a routerLink="/">Members</a>
+              </li>
+            </ul>
+          </div>
         </div>
-        <div class="col-md-2 col-6 c-list">
-          <h6 class="c-list__title">Connect</h6>
-          <ul class="c-list__ul">
-            <li>
-              <a href="mailto:info@turnik.city">info@turnik.city</a>
-            </li>
-          </ul>
+        <div class="col-md-2 col-6">
+          <div class="c-list">
+            <h6 class="c-list__title">Connect</h6>
+            <ul class="c-list__ul">
+              <li>
+                <a href="mailto:info@turnik.city">info@turnik.city</a>
+              </li>
+            </ul>
+          </div>
         </div>
-        <div class="col-md-2 col-12 c-list">
-          <h6 class="c-list__title">HELLO!</h6>
-          <div class="c-icons">
-            <a href="https://www.instagram.com/los_strong90" target="_blank" class="c-icons__item">
-              <fa-icon [icon]="['fab', 'instagram']" size="2xl"></fa-icon>
-            </a>
-            <a href="https://t.me/+joCpD7hvRMxhMzgy" target="_blank" class="c-icons__item">
-              <fa-icon [icon]="['fab', 'telegram']" size="2xl"></fa-icon>
-            </a>
-            <a href="https://github.com/TurnikCity" target="_blank" class="c-icons__item">
-              <fa-icon [icon]="['fab', 'github']" size="2xl"></fa-icon>
-            </a>
-            <a
-              href="https://turnik-city.notion.site/Main-114dd86dc6554830a7cc0f337f3d3f7c"
-              target="_blank"
-              class="c-icons__item"
-            >
-              <fa-icon [icon]="['far', 'folder']" size="2xl"></fa-icon>
-            </a>
+        <div class="col-md-2 col-12 d-none d-md-flex">
+          <div class="c-list">
+            <h6 class="c-list__title">HELLO!</h6>
+            <div class="c-icons">
+              <a *ngFor="let s of social" [href]="s.href" target="_blank" class="c-icons__item">
+                <fa-icon [icon]="[s.prefix, s.icon]" size="2xl"></fa-icon>
+              </a>
+            </div>
           </div>
         </div>
       </div>
