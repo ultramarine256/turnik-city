@@ -20,3 +20,10 @@ steps:
       Dockerfile: frontend/.docker/Dockerfile
       buildContext: frontend
       tags: turnik-app-latest
+
+  - task: AzureWebAppContainer@1
+    displayName: 'Azure Web App on Container Deploy: turnik-app-docker-prod'
+    inputs:
+      azureSubscription: 'elrond-subscription (abf2420f-d2a9-4abb-803d-fa7f0e678809)'
+      appName: 'turnik-app-docker-prod'
+      containers: 'general1.azurecr.io/cicontainerrepo:turnik-app-latest'

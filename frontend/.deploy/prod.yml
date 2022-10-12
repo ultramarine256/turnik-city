@@ -11,11 +11,24 @@ pr: none
 pool:
   vmImage: 'ubuntu-latest'
 
+variables:
+  - group: production-group
+  - name: googleTrackingCode
+    value: '$(googleTrackingCode)'
+  - name: doodle
+    value: 'doodle'
+
 steps:
   - task: NodeTool@0
     inputs:
       versionSpec: '18.x'
     displayName: 'Install Node.js'
+
+  - powershell: |
+      $environmentFile = "environment.prod.ts"
+      (Get-Content $environmentFile).replace("-measurement-id-", "${{ variables.googleTrackingCode }}") | Set-Content $environmentFile
+    workingDirectory: 'frontend/dist/turnik-app/browser'
+    displayName: 'Set Variables'
 
   - script: |
       npm install -g @angular/cli
@@ -29,7 +42,7 @@ steps:
       (Get-Content $indexHtml).replace("-build.id-", "$(Build.BuildNumber)") | Set-Content $indexHtml
       (Get-Content $indexHtml).replace("-branch.name-", "$(Build.SourceBranchName)") | Set-Content $indexHtml
     workingDirectory: 'frontend/dist/turnik-app/browser'
-    displayName: 'PowerShell Script'
+    displayName: 'Build counters'
 
   - task: ArchiveFiles@2
     displayName: 'Archive files'
@@ -38,6 +51,4 @@ steps:
       includeRootFolder: false
 
   - task: PublishBuildArtifacts@1
-    displayName: 'Publish artifacts: drop'
-
-
+    displayName: 'Publish artifacts'
