@@ -24,11 +24,11 @@ steps:
       versionSpec: '18.x'
     displayName: 'Install Node.js'
 
-  - powershell: |
-      $environmentFile = "environment.prod.ts"
-      (Get-Content $environmentFile).replace("-measurement-id-", "${{ variables.googleTrackingCode }}") | Set-Content $environmentFile
-    workingDirectory: 'frontend/src/environments'
-    displayName: 'Set Variables'
+#  - powershell: |
+#      $environmentFile = "environment.prod.ts"
+#      (Get-Content $environmentFile).replace("-measurement-id-", "${{ variables.googleTrackingCode }}") | Set-Content $environmentFile
+#    workingDirectory: 'frontend/src/environments'
+#    displayName: 'Set Variables'
 
   - script: |
       npm install -g @angular/cli
