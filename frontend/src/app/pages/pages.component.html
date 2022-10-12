@@ -4,7 +4,7 @@
     <div class="container--grow header__content">
       <!-- header-logo -->
       <a class="header-logo" [routerLink]="'/'">
-        <img class="header-logo__img" [src]="'/assets/img/logo/logo__menu.png'" alt="" />
+        <img class="header-logo__img" [src]="'/assets/img/logo/logo__menu.png'" alt="TurnikCity Logo" />
       </a>
 
       <!-- header-nav -->
@@ -15,17 +15,16 @@
         </div>
         <div class="header-nav__section">
           <button mat-stroked-button class="nav-button">
-            <mat-icon>add</mat-icon>
+            <fa-icon [icon]="['fas', 'plus']" size="xl"></fa-icon>
             <span class="nav-button__text">Add</span>
           </button>
 
           <button mat-stroked-button class="nav-button">
-            <mat-icon>language_outline</mat-icon>
             <span class="nav-button__text">Eng</span>
           </button>
 
           <a mat-stroked-button class="nav-button" [routerLink]="'/liked'">
-            <mat-icon>favorite_outline</mat-icon>
+            <fa-icon [icon]="['far', 'heart']" size="xl"></fa-icon>
             <span class="nav-button__text">Liked</span>
           </a>
         </div>

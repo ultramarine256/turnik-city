@@ -8,6 +8,7 @@ import {
   PlaygroundPageComponent,
   PagesComponent,
 } from './index';
+import { PagesResolver } from './pages.resolver';
 
 const routes: Routes = [
   {
@@ -17,18 +18,22 @@ const routes: Routes = [
       {
         path: '',
         component: HomePageComponent,
+        resolve: { pagesResolver: PagesResolver },
       },
       {
         path: 'playground',
         component: PlaygroundPageComponent,
+        resolve: { pagesResolver: PagesResolver },
       },
       {
         path: 'liked',
         component: FavoritesPageComponent,
+        resolve: { pagesResolver: PagesResolver },
       },
       {
         path: 'ui',
         component: UIPageComponent,
+        resolve: { pagesResolver: PagesResolver },
       },
     ],
   },

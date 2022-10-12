@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { PlaygroundFacade } from '@turnik/domain';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { PlaygroundFacade, SeoService } from '@turnik/domain';
 
 @Component({
   selector: 'app-map-page',
@@ -18,6 +18,8 @@ import { PlaygroundFacade } from '@turnik/domain';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PlaygroundPageComponent {
+export class PlaygroundPageComponent implements OnInit {
   constructor(public facade: PlaygroundFacade) {}
+
+  ngOnInit() {}
 }

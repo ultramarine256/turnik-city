@@ -75,6 +75,10 @@
     margin-right: 0;
   }
 
+  .ng-fa-icon {
+    margin-right: 6px;
+  }
+
   @media (max-width: $lt-md) {
     padding: 0 5px;
     min-width: 0;
@@ -83,8 +87,9 @@
       padding: 0 10px;
     }
 
-    .mat-icon {
+    .ng-fa-icon {
       margin-right: 0 !important;
+      padding: 0 4px;
     }
 
     .nav-button__text {

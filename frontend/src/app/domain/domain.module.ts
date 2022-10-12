@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AppCommonModule, PlaygroundModule } from './index';
+import { SeoService } from './infrastructure/services';
 
 @NgModule({
   declarations: [],
@@ -17,6 +18,6 @@ import { AppCommonModule, PlaygroundModule } from './index';
     PlaygroundModule,
   ],
   exports: [],
-  providers: [],
+  providers: [SeoService],
 })
 export class DomainModule {}
