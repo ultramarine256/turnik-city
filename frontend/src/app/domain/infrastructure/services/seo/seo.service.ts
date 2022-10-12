@@ -8,7 +8,6 @@ export class SeoService {
   constructor(private metaService: Meta, private titleService: Title) {}
 
   public homePage() {
-    console.log('home-resolver');
     this.titleService.setTitle(SEO_CONST.TITLE);
     this.metaService.updateTag({ name: 'description', content: SEO_CONST.DESCRIPTION });
     this.metaService.updateTag({ name: 'keywords', content: SEO_CONST.KEYWORDS_RU });

@@ -27,7 +27,7 @@ steps:
   - powershell: |
       $environmentFile = "environment.prod.ts"
       (Get-Content $environmentFile).replace("-measurement-id-", "${{ variables.googleTrackingCode }}") | Set-Content $environmentFile
-    workingDirectory: 'frontend/dist/turnik-app/browser'
+    workingDirectory: 'frontend/src/environments'
     displayName: 'Set Variables'
 
   - script: |
