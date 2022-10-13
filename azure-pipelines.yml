@@ -16,6 +16,9 @@ steps:
 - powershell: |
       $environmentFile = "environment.prod.ts"
       (Get-Content $environmentFile).replace("-measurement-id-", "${env:TESTVARNAME}") | Set-Content $environmentFile
+      echo start---123
+      echo my var: ${env:TESTVARNAME}
+      echo start---123
   workingDirectory: 'frontend/src/environments'
   displayName: 'Set Variables'
     
