@@ -15,9 +15,9 @@ steps:
 
 - powershell: |
       $environmentFile = "environment.prod.ts"
-      (Get-Content $environmentFile).replace("-measurement-id-", "${{ variables.googleTrackingCode }}") | Set-Content $environmentFile
-    workingDirectory: 'frontend/src/environments'
-    displayName: 'Set Variables'
+      (Get-Content $environmentFile).replace("-measurement-id-", "${env:TESTVARNAME}") | Set-Content $environmentFile
+  workingDirectory: 'frontend/src/environments'
+  displayName: 'Set Variables'
     
 - script: |
     echo Add other tasks to build, test, and deploy your project.
