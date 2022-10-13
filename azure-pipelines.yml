@@ -13,9 +13,14 @@ steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
 
-
+- powershell: |
+      $environmentFile = "environment.prod.ts"
+      (Get-Content $environmentFile).replace("-measurement-id-", "${{ variables.googleTrackingCode }}") | Set-Content $environmentFile
+    workingDirectory: 'frontend/src/environments'
+    displayName: 'Set Variables'
+    
 - script: |
     echo Add other tasks to build, test, and deploy your project.
     echo See https://aka.ms/yaml
-    echщ ${env:TESTVARNAME}
+    echo ${env:TESTVARNAME}
   displayName: 'Run a multi-line script'
