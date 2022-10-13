@@ -3,25 +3,28 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxGoogleAnalyticsModule } from 'ngx-google-analytics';
-import { ThemeModule } from '@turnik/common';
 import { PlaygroundMapComponent, DomainModule } from '@turnik/domain';
 import {
   PagesComponent,
   PagesRouting,
   FavoritesPageComponent,
-  PlaygroundPageComponent,
+  PlaygroundMapPageComponent,
   UIPageComponent,
   HomePageComponent,
+  PlaygroundDetailsPageComponent,
 } from './index';
 import { environment } from '../../environments/environment';
+import { AboutPageComponent } from './about/about-page.component';
 
 const COMPONENTS = [
-  PagesComponent,
-  PlaygroundPageComponent,
-  PlaygroundMapComponent,
+  AboutPageComponent,
   FavoritesPageComponent,
   HomePageComponent,
+  PlaygroundMapPageComponent,
+  PlaygroundMapComponent,
+  PlaygroundDetailsPageComponent,
   UIPageComponent,
+  PagesComponent,
 ];
 
 @NgModule({
@@ -34,9 +37,8 @@ const COMPONENTS = [
     ReactiveFormsModule,
 
     /// app
-    NgxGoogleAnalyticsModule.forRoot(environment.googleTrackingCode),
-    ThemeModule,
     DomainModule,
+    NgxGoogleAnalyticsModule.forRoot(environment.googleTrackingCode),
 
     /// routing
     PagesRouting,

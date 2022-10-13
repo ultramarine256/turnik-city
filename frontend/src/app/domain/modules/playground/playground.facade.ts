@@ -8,7 +8,7 @@ import { PlaygroundRepository, CommonRepository } from '@turnik/data';
 })
 export class PlaygroundFacade {
   private readonly playgrounds$ = this.playgroundRepository.query('?top=25&orderby=createdUtc desc');
-  private readonly markers$ = this.playgroundRepository.markers().pipe(map(x => x.slice(0, 100)));
+  private readonly markers$ = this.playgroundRepository.markers();
   private readonly ipDetails$ = this.commonRepository.ipDetails();
 
   readonly vm$ = combineLatest([this.playgrounds$, this.markers$, this.ipDetails$]).pipe(

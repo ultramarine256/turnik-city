@@ -1,53 +1,17 @@
 .section-hero {
-  min-height: 65vh;
-  display: grid;
-  place-items: center;
-  // color: #fff;
-
-  background: #fff url(https://assets.goodfirms.co/images/hero-building-home.svg) 50% 500% repeat-x;
-  //background: #fff url('/assets/img/home/hero-background.svg') 50% -50% repeat-x;
-
-  .hero__title {
-    font-size: calc(1.250125rem + 3.33316667vw);
-  }
-
-  .hero__image {
-    width: 80%;
-  }
-
-  .hero__title {
-    font-size: calc(1.250125rem + 3.33316667vw);
-  }
-
-  .hero__subtitle {
-    font-size: 1.5rem;
-  }
+  min-height: 50vh;
+  background: #fff url(https://assets.goodfirms.co/images/hero-building-home.svg) 50% -30% repeat-x;
 
   @media screen and (max-width: 768px) {
-    .hero__image {
-      width: 50% !important;
-    }
-  }
-
-  @media screen and (min-width: 1200px) {
-    .hero__title {
-      font-size: 3.75rem !important;
-    }
-
-    .hero__subtitle {
-      font-size: 1.5rem !important;
-    }
+    background: #fff url(https://assets.goodfirms.co/images/hero-building-home.svg) 50% 0 repeat-x;
   }
 }
 
 .s-counters {
-  .s-counters__container {
-    min-height: 300px;
-    background-color: #fff;
-    position: relative;
-    top: -60px;
-    padding: 24px;
-  }
+  min-height: 300px;
+  position: relative;
+  top: -75px;
+  padding: 2rem;
 
   .s-counters__title {
     font-size: 36px;

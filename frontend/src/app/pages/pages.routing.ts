@@ -5,8 +5,10 @@ import {
   HomePageComponent,
   UIPageComponent,
   FavoritesPageComponent,
-  PlaygroundPageComponent,
+  PlaygroundMapPageComponent,
   PagesComponent,
+  PlaygroundDetailsPageComponent,
+  AboutPageComponent,
 } from './index';
 import { PagesResolver } from './pages.resolver';
 
@@ -22,8 +24,20 @@ const routes: Routes = [
       },
       {
         path: 'playground',
-        component: PlaygroundPageComponent,
+        component: PlaygroundMapPageComponent,
         resolve: { pagesResolver: PagesResolver },
+      },
+      {
+        path: 'playground/:slug',
+        component: PlaygroundDetailsPageComponent,
+      },
+      {
+        path: 'about',
+        component: AboutPageComponent,
+      },
+      {
+        path: 'codex',
+        component: AboutPageComponent,
       },
       {
         path: 'liked',

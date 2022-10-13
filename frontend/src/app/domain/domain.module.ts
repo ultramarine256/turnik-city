@@ -2,8 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { AppCommonModule, PlaygroundModule } from './index';
-import { SeoService } from './infrastructure/services';
+import { DirectivesModule, ThemeModule } from '@turnik/common';
+import { AppCommonModule, AppStore, InterceptorsModule, PlaygroundModule } from './index';
+import { SeoService } from './infrastructure';
 
 @NgModule({
   declarations: [],
@@ -14,10 +15,13 @@ import { SeoService } from './infrastructure/services';
     ReactiveFormsModule,
 
     /// app
+    InterceptorsModule,
+    ThemeModule,
+    DirectivesModule,
     AppCommonModule,
     PlaygroundModule,
   ],
-  exports: [],
-  providers: [SeoService],
+  exports: [InterceptorsModule, ThemeModule, DirectivesModule, AppCommonModule, PlaygroundModule],
+  providers: [SeoService, AppStore],
 })
 export class DomainModule {}

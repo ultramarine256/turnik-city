@@ -12,15 +12,14 @@ export class PagesResolver implements Resolve<Observable<string>> {
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<string> {
     switch (state.url) {
       case '/': {
-        this.seoService.homePage();
+        // this.seoService.homePage();
         break;
       }
       case '/playground': {
-        this.seoService.playgroundPage();
+        // this.seoService.playgroundPage();
         break;
       }
       default: {
-        //statements;
         break;
       }
     }

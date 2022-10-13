@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types';
+import { AppStore } from '@turnik/domain';
 
 @Component({
   selector: 'app-pages-component',
@@ -25,13 +26,18 @@ export class PagesComponent implements OnInit {
       href: 'https://github.com/TurnikCity',
     },
     {
-      icon: 'folder',
-      prefix: 'far',
-      href: 'https://turnik-city.notion.site/Main-114dd86dc6554830a7cc0f337f3d3f7c',
+      icon: 'trello',
+      prefix: 'fab',
+      href: 'https://trello.com/b/dzdlmCE2/turnikcity',
     },
+    // {
+    //   icon: 'folder',
+    //   prefix: 'far',
+    //   href: 'https://turnik-city.notion.site/Main-114dd86dc6554830a7cc0f337f3d3f7c',
+    // },
   ];
 
-  constructor(public router: Router) {}
+  constructor(public router: Router, public store: AppStore) {}
 
   ngOnInit() {}
 }

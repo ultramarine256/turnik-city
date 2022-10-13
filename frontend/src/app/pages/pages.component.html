@@ -1,4 +1,4 @@
-<div class="page__wrapper">
+<div class="page__wrapper" *ngLet="store.vm$ | async as vm">
   <!-- header -->
   <header class="page__header header">
     <div class="container--grow header__content">
@@ -10,23 +10,22 @@
       <!-- header-nav -->
       <div class="header-nav">
         <div class="header-nav__section pe-2">
-          <a mat-stroked-button class="nav-button nav-button--long" routerLink="/playground">Playgrounds</a>
-          <a mat-stroked-button class="nav-button nav-button--long" routerLink="/playground">Kiev</a>
+          <a mat-stroked-button class="nav-button nav-button--long" routerLink="/playground">Map</a>
+          <button mat-stroked-button class="nav-button nav-button--long">{{ vm.ipDetails.city }}</button>
         </div>
+
         <div class="header-nav__section">
           <button mat-stroked-button class="nav-button">
             <fa-icon [icon]="['fas', 'plus']" size="xl"></fa-icon>
             <span class="nav-button__text">Add</span>
           </button>
-
-          <button mat-stroked-button class="nav-button">
-            <span class="nav-button__text">Eng</span>
-          </button>
-
-          <a mat-stroked-button class="nav-button" [routerLink]="'/liked'">
+          <!--          <button mat-stroked-button class="nav-button">-->
+          <!--            <span class="nav-button__text">Eng</span>-->
+          <!--          </button>-->
+          <button mat-stroked-button class="nav-button" [routerLink]="'/liked'">
             <fa-icon [icon]="['far', 'heart']" size="xl"></fa-icon>
             <span class="nav-button__text">Liked</span>
-          </a>
+          </button>
         </div>
       </div>
     </div>
@@ -59,11 +58,14 @@
             <h6 class="c-list__title">Quick Nav</h6>
             <ul class="c-list__ul">
               <li>
-                <a routerLink="/">Codex</a>
+                <a routerLink="/about">About Us</a>
               </li>
-              <li>
-                <a routerLink="/">Members</a>
-              </li>
+              <!--              <li>-->
+              <!--                <a routerLink="/">Codex</a>-->
+              <!--              </li>-->
+              <!--              <li>-->
+              <!--                <a routerLink="/">Members</a>-->
+              <!--              </li>-->
             </ul>
           </div>
         </div>

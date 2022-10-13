@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BaseRepository } from './base.repository';
 import { map } from 'rxjs/operators';
@@ -15,15 +15,19 @@ export abstract class CrudRepository<T extends IMappable> extends BaseRepository
     this.type = type;
   }
 
-  query(query: string): Observable<T[]> {
+  query(query: string, reset: boolean = false): Observable<T[]> {
     return this.httpClient
-      .get<T[]>(`${this.apiBaseUrl}/${this.pathName}${query}`)
+      .get<T[]>(`${this.apiBaseUrl}/${this.pathName}${query}`, {
+        headers: new HttpHeaders({ reset: reset ? 'y' : '' }),
+      })
       .pipe(map(items => items.map(r => new this.type().mapFromJson(r))));
   }
 
-  get(id: number): Observable<T> {
+  get(id: number, reset: boolean = false): Observable<T> {
     return this.httpClient
-      .get<T>(`${this.apiBaseUrl}/${this.pathName}/${id}`)
+      .get<T>(`${this.apiBaseUrl}/${this.pathName}/${id}`, {
+        headers: new HttpHeaders({ reset: reset ? 'y' : '' }),
+      })
       .pipe(map(json => new this.type().mapFromJson(json)));
   }
 

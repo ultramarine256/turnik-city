@@ -8,7 +8,7 @@ import { environment } from '../../../../environments/environment';
   styles: [
     `
       #map {
-        height: calc(100vh - 4rem);
+        height: calc(100vh - 4.2rem);
         width: 100%;
       }
     `,
@@ -20,31 +20,63 @@ export class PlaygroundMapComponent implements AfterViewInit {
   @Input() lng: number;
   @Input() markers: { lat: number; lng: number }[];
   private map: L.Map;
-  private markerIcon = L.icon({
-    iconUrl: 'assets/img/marker-icon.png',
-    shadowUrl: 'assets/img/marker-shadow.png',
-    popupAnchor: [13, 0],
-  });
 
   ngAfterViewInit(): void {
     this.initMap();
   }
 
   private initMap(): void {
-    this.map = L.map('map').setView([0, 0], 1);
+    this.map = L.map('map', {
+      preferCanvas: true,
+      minZoom: 4,
+    });
+
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-      attribution:
-        'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-      maxZoom: 18,
+      attribution: 'TurnikCity',
       id: 'mapbox/streets-v11',
       tileSize: 512,
       zoomOffset: -1,
       accessToken: environment.mapbox.accessToken,
     }).addTo(this.map);
+
     this.map.setView([this.lat, this.lng], 13);
     this.markers.forEach(({ lat, lng }) => {
-      const marker = L.marker([lat, lng], { icon: this.markerIcon });
+      const marker = new PlaygroundMarker([lat, lng], {
+        color: '#3388ff',
+        radius: 4,
+        opacity: 0.9,
+        type: 'playground',
+        slug: 'aaa',
+      }).on('click', (e: any) => {
+        this.testMethod(e);
+      });
       marker.addTo(this.map);
     });
   }
+
+  public testMethod(e: any) {
+    console.log(e.sourceTarget.options.type);
+  }
+}
+
+export class PlaygroundMarker extends L.CircleMarker {
+  data: any;
+
+  constructor(latLng: L.LatLngExpression, options?: PlaygroundMarkerOptions) {
+    super(latLng, options);
+  }
+
+  getData() {
+    return this.data;
+  }
+
+  setData(data: any) {
+    this.data = data;
+  }
+}
+
+export interface PlaygroundMarkerOptions extends L.CircleMarkerOptions {
+  type: 'playground';
+  slug: string;
+  level?: string;
 }

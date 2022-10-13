@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faGithub, faInstagram, faTelegram } from '@fortawesome/free-brands-svg-icons';
+import { faGithub, faInstagram, faTelegram, faTrello } from '@fortawesome/free-brands-svg-icons';
 import { faFolder, faHeart, faNewspaper } from '@fortawesome/free-regular-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
@@ -10,6 +10,6 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 })
 export class AppFontAwesomeModule {
   constructor(library: FaIconLibrary) {
-    library.addIcons(...[faInstagram, faTelegram, faGithub, faNewspaper, faFolder, faHeart, faPlus]);
+    library.addIcons(...[faInstagram, faTelegram, faGithub, faNewspaper, faFolder, faHeart, faPlus, faTrello]);
   }
 }
