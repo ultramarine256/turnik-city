@@ -10,6 +10,7 @@ export class AppStore {
   private readonly ipDetails$ = this.commonRepository.ipDetails();
 
   readonly vm$ = combineLatest([this.ipDetails$]).pipe(map(([ipDetails]) => ({ ipDetails })));
+  readonly counters$ = this.commonRepository.counters();
 
   constructor(private commonRepository: CommonRepository) {}
 }

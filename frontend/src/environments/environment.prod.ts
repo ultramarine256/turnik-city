@@ -2,8 +2,8 @@ export const environment = {
   production: true,
   apiBaseUrl: 'https://api.turnik.city',
   googleMapsApiKey: 'google-maps-api-key',
-  googleTrackingCode: '-measurement-id-',
+  googleTrackingCode: '-',
   mapbox: {
-    accessToken: '-access-token-',
+    accessToken: 'pk.eyJ1IjoiYnJhc2thbSIsImEiOiJja3NqcXBzbWoyZ3ZvMm5ybzA4N2dzaDR6In0.RUAYJFnNgOnn80wXkrV9ZA',
   },
 };

@@ -1,19 +1,19 @@
-<div class="container mt-5">
+<div class="container my-5">
   <!-- menu -->
   <div class="row">
     <div class="col-12 mt-5 buttons-col">
       <button mat-flat-button color="primary" [matMenuTriggerFor]="menu">Menu</button>
       <mat-menu #menu="matMenu">
         <button mat-menu-item>
-          <mat-icon>dialpad</mat-icon>
+          <fa-icon class="s-counter__icon" [icon]="['far', 'heart']" size="xl"></fa-icon>
           <span>Redial</span>
         </button>
         <button mat-menu-item disabled>
-          <mat-icon>voicemail</mat-icon>
+          <fa-icon class="s-counter__icon" [icon]="['far', 'heart']" size="xl"></fa-icon>
           <span>Check voice mail</span>
         </button>
         <button mat-menu-item>
-          <mat-icon>notifications_off</mat-icon>
+          <fa-icon class="s-counter__icon" [icon]="['far', 'heart']" size="xl"></fa-icon>
           <span>Disable alerts</span>
         </button>
       </mat-menu>
@@ -46,9 +46,11 @@
       <mat-form-field appearance="outline">
         <mat-label>Email</mat-label>
         <input matInput placeholder="Email" autocomplete="email" />
-        <app-icon matSuffix icon="person_add"></app-icon>
-        <mat-icon matSuffix>mail_outline</mat-icon>
       </mat-form-field>
+    </div>
+
+    <div class="col-12 mt-5 buttons-col">
+      <a mat-stroked-button class="app-stroked-button" routerLink="/playground">Kiev 231</a>
     </div>
 
     <div class="col-12 mt-5 buttons-col">
@@ -61,14 +63,14 @@
 
     <div class="col-12 mt-5 buttons-col">
       <button mat-flat-button color="primary">
-        <mat-icon>delete_outline</mat-icon>
+        <fa-icon class="s-counter__icon" [icon]="['far', 'heart']" size="xl"></fa-icon>
         ICON BUTTON
       </button>
     </div>
 
     <div class="col-12 mt-5 buttons-col">
       <button mat-flat-button color="primary" [disabled]="true">
-        <mat-icon>delete_outline</mat-icon>
+        <fa-icon class="s-counter__icon" [icon]="['far', 'heart']" size="xl"></fa-icon>
         SPINNER BUTTON
         <mat-progress-bar mode="indeterminate"></mat-progress-bar>
       </button>

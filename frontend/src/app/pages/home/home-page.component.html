@@ -3,13 +3,49 @@
 <div class="container--grow">
   <div class="row">
     <div class="col-12">
-      <div class="s-counters c-section">
-        <h2 class="s-counters__title">Карта турников и спортивных площадок в твоем городе</h2>
+      <div class="s-hero c-section">
+        <h2 class="s-hero__title">Карта турников и спортивных площадок в твоем городе</h2>
 
-        <div class="s-list">
-          <div class="s-list__item">1</div>
-          <div class="s-list__item">2</div>
-          <div class="s-list__item">3</div>
+        <!-- counters -->
+        <div class="row my-5" *ngIf="store.counters$ | async as counters">
+          <div class="col-md-3 col-6 s-counter">
+            <fa-icon class="s-counter__icon" [icon]="['fas', 'location-dot']" size="2xl"></fa-icon>
+            <div class="s-counter__right">
+              <div class="s-counter__value">{{ counters.playgrounds }}</div>
+              <div class="s-counter__title">Locations</div>
+            </div>
+          </div>
+          <div class="col-md-3 col-6 s-counter">
+            <fa-icon class="s-counter__icon" [icon]="['fas', 'people-group']" size="2xl"></fa-icon>
+            <div class="s-counter__right">
+              <div class="s-counter__value">{{ counters.users }}</div>
+              <div class="s-counter__title">Athletes</div>
+            </div>
+          </div>
+          <div class="col-md-3 col-6 s-counter">
+            <fa-icon class="s-counter__icon" [icon]="['fas', 'tree-city']" size="2xl"></fa-icon>
+            <div class="s-counter__right">
+              <div class="s-counter__value">{{ counters.cities }}</div>
+              <div class="s-counter__title">Cities</div>
+            </div>
+          </div>
+          <div class="col-md-3 col-6 s-counter">
+            <fa-icon class="s-counter__icon" [icon]="['far', 'heart']" size="2xl"></fa-icon>
+            <div class="s-counter__right">
+              <div class="s-counter__value">{{ counters.likes }}</div>
+              <div class="s-counter__title">Likes</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- buttons -->
+        <div class="row">
+          <div class="col-12 justify-content-center d-flex">
+            <a mat-stroked-button class="app-stroked-button hero-button" routerLink="/playground">
+              <fa-icon class="me-1" [icon]="['fas', 'location-crosshairs']" size="lg"></fa-icon>
+              Explore Now
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -19,12 +55,17 @@
 <div class="container--grow my-4" style="top: -70px; position: relative">
   <div class="row">
     <div class="col-12 mb-4">
-      <div class="c-section">123</div>
+      <div class="c-section">
+        <a mat-stroked-button class="app-stroked-button me-2" routerLink="/playground">Kiev 231</a>
+        <a mat-stroked-button class="app-stroked-button me-2" routerLink="/playground">Kiev 231</a>
+        <a mat-stroked-button class="app-stroked-button" routerLink="/playground">Kiev 231</a>
+      </div>
     </div>
 
     <div class="col-12 col-md-6">
-      <section class="c-section">
-        <h4>New Playgrounds</h4>
+      <section class="c-section c-updates">
+        <h4 class="c-updates__title">New Locations</h4>
+
         <mat-list>
           <mat-list-item>Item 1</mat-list-item>
           <mat-divider></mat-divider>
@@ -36,7 +77,7 @@
     </div>
     <div class="col-12 col-md-6">
       <section class="c-section">
-        <h3 class="text-center">New Members</h3>
+        <h4 class="text-center">New Members</h4>
         <mat-list>
           <mat-list-item>Item 1</mat-list-item>
           <mat-divider></mat-divider>

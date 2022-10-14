@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { SeoService } from '@turnik/domain';
+import { Component, OnInit } from '@angular/core';
+import { AppStore } from '@turnik/domain';
 
 @Component({
   selector: 'app-home-page',
@@ -7,7 +7,7 @@ import { SeoService } from '@turnik/domain';
   styleUrls: ['./home-page.component.scss'],
 })
 export class HomePageComponent implements OnInit {
-  constructor() {}
+  constructor(public store: AppStore) {}
 
   ngOnInit() {}
 }

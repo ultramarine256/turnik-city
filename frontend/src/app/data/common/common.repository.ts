@@ -20,7 +20,7 @@ export class CommonRepository extends BaseRepository {
     const mock = new CountersDto({
       playgrounds: 2174,
       users: 2,
-      cities: 182,
+      cities: 17,
       likes: 1,
     });
     return of(mock);
