@@ -38,7 +38,6 @@ const COMPONENTS = [
 
     /// app
     DomainModule,
-    NgxGoogleAnalyticsModule.forRoot(environment.googleTrackingCode),
 
     /// routing
     PagesRouting,
