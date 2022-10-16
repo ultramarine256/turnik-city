@@ -16,11 +16,11 @@ export class PagesComponent implements OnInit {
       prefix: 'fab',
       href: 'https://www.instagram.com/los_strong90',
     },
-    {
-      icon: 'telegram',
-      prefix: 'fab',
-      href: 'https://t.me/+joCpD7hvRMxhMzgy',
-    },
+    // {
+    //   icon: 'telegram',
+    //   prefix: 'fab',
+    //   href: 'https://t.me/+joCpD7hvRMxhMzgy',
+    // },
     {
       icon: 'github',
       prefix: 'fab',
