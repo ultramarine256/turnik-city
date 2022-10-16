@@ -8,7 +8,7 @@
         public DatabaseSettings Database { get; }
         public StorageSettings Storage { get; }
         public TelegramSettings Telegram { get; }
-        public ScrapperSettings Scrapper { get; }
+        public string IpStackApiKey { get; set; }
 
         public AppSettings()
         {
@@ -18,7 +18,6 @@
             Database = new DatabaseSettings();
             Storage = new StorageSettings();
             Telegram = new TelegramSettings();
-            Scrapper = new ScrapperSettings();
         }
 
         public AppSettings MapFromConfiguration(IConfiguration configuration)
@@ -45,7 +44,7 @@
 
             Telegram.Token = configuration["telegram:token"];
             
-            Scrapper.Primary = configuration["scrapper:primary"];
+            IpStackApiKey = configuration["apiStack:key"];
 
             return this;
         }

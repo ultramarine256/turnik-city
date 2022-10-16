@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { AppFontAwesomeModule, LibsModule } from './libs';
-import { SnackbarModule } from './custom';
+import { ExtendedDialogModule, SnackbarModule } from './custom';
 
-const MODULES = [LibsModule, SnackbarModule, AppFontAwesomeModule];
+const MODULES = [LibsModule, SnackbarModule, AppFontAwesomeModule, ExtendedDialogModule];
 
 @NgModule({
   imports: [...MODULES],

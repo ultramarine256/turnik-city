@@ -4,6 +4,7 @@ using Data.Infrastructure.ContextManager;
 using Data.Infrastructure.Extensions;
 using Data.ThirdParty.Storage;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Data.EFRepository
 {
@@ -14,7 +15,7 @@ namespace Data.EFRepository
         public bool OnSystemFilters { get; }
         public IQueryable<TEntity> Query => DbContextManager.CurrentContext.Set<TEntity>().AsNoTracking().AsQueryable();
 
-        public EntityRepository(IContextManager dbContextManager, IStorageService storageService) : base(dbContextManager)
+        public EntityRepository(IContextManager dbContextManager, IStorageService storageService, IMemoryCache cache) : base(dbContextManager, cache)
         {
             StorageService = storageService;
             OnSystemFilters = true;

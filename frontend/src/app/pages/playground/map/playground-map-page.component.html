@@ -3,7 +3,10 @@
 <!--  <div class="content__map"></div>-->
 <!--</div>-->
 
-<ng-template #loading><div class="loading">Loading...</div></ng-template>
-<ng-container *ngIf="facade.vm$ | async as vm; else loading">
-  <app-map [markers]="vm.markers" [lat]="vm.ipDetails.lat" [lng]="vm.ipDetails.lng"></app-map>
-</ng-container>
+<app-map
+  class="map-component"
+  [accessToken]="token"
+  [center]="center$"
+  [markers]="markers$"
+  (markerClick)="markerClick($event)"
+></app-map>

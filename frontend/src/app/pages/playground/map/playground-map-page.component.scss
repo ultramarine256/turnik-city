@@ -1,8 +1,23 @@
-.loading {
-  padding: 1rem;
-}
-
 .content {
   display: flex;
   flex-direction: row;
+  width: 100%;
+  height: calc(100vh - 5rem);
+
+  .content__list {
+    flex: 1 1 40%;
+
+    @media screen and (max-width: 768px) {
+      display: none;
+    }
+  }
+
+  .content__map {
+    flex: 1 1 60%;
+  }
+}
+
+.map-component {
+  width: 100%;
+  height: calc(100vh - 5rem);
 }

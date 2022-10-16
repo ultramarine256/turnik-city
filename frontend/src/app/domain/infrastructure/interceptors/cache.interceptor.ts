@@ -4,16 +4,18 @@ import { Observable, of, share, tap } from 'rxjs';
 
 @Injectable()
 export class CacheInterceptor implements HttpInterceptor {
-  private cache: Map<HttpRequest<any>, HttpResponse<any>> = new Map();
+  private cache: Map<string, HttpResponse<any>> = new Map();
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (req.method !== 'GET') {
       return next.handle(req);
     }
+
     if (req.headers.get('reset')) {
-      this.cache.delete(req);
+      this.cache.delete(req.url);
     }
-    const cachedResponse = this.cache.get(req);
+    const cachedResponse = this.cache.get(req.url);
+
     if (cachedResponse) {
       return of(cachedResponse.clone());
     } else {
@@ -22,7 +24,7 @@ export class CacheInterceptor implements HttpInterceptor {
         .pipe(
           tap(stateEvent => {
             if (stateEvent instanceof HttpResponse) {
-              this.cache.set(req, stateEvent.clone());
+              this.cache.set(req.url, stateEvent.clone());
             }
           })
         )

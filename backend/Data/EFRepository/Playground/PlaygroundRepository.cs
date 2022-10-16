@@ -13,19 +13,12 @@ namespace Data.EFRepository.Playground
 
     public class PlaygroundRepository : EntityRepository<PlaygroundEntity, int>, IPlaygroundRepository
     {
-        private readonly IMemoryCache _cache;
-        private MemoryCacheEntryOptions _cacheOptions;
-
         public PlaygroundRepository(IContextManager dbContextManager, IStorageService storageService, IMemoryCache cache)
-            : base(dbContextManager, storageService)
-        {
-            _cache = cache;
-            _cacheOptions = new MemoryCacheEntryOptions().SetAbsoluteExpiration(relative: TimeSpan.FromDays(1));
-        }
+            : base(dbContextManager, storageService, cache) { }
 
         public IEnumerable<PlaygroundMarker> GetMarkers()
         {
-            var value = _cache.Get<IList<PlaygroundMarker>>(CacheKeys.Playground);
+            var value = Cache.Get<IList<PlaygroundMarker>>(CacheKeys.Playground);
 
             if (value == null)
             {
@@ -33,23 +26,17 @@ namespace Data.EFRepository.Playground
                 value = Query.Where(r => r.Lat != 0).Select(r =>
                     new PlaygroundMarker()
                     {
-                        Title = r.Title,
-                        Slug = r.Slug,
+                        Id = r.Id,
+                        Type = r.Type,
                         Lat = r.Lat,
                         Lng = r.Lng
                     }).ToList();
 
                 // write it to the cache
-                _cache.Set(CacheKeys.Playground, value, _cacheOptions);
+                Cache.Set(CacheKeys.Playground, value, CacheOptions);
             }
 
             return value;
         }
-    }
-
-    public class CacheKeys
-    {
-        public const string
-            Playground = "playgroundCacheKey";
     }
 }

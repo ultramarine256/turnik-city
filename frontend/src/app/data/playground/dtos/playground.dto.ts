@@ -11,6 +11,10 @@ export class PlaygroundDto implements IMappable {
   imageUrls: string[] = [];
   equipment: string[] = [];
 
+  createdUtc: Date;
+  likes: number;
+  views: number;
+
   mapFromJson(json: any): this {
     this.id = json.id;
     this.slug = json.slug;
@@ -21,6 +25,11 @@ export class PlaygroundDto implements IMappable {
     this.lng = json.lng;
     this.imageUrls = json.imageUrls || [];
     this.equipment = json.equipment || [];
+
+    this.createdUtc = new Date(json.createdUtc);
+    this.likes = json.likesCount;
+    this.views = json.viewsCount;
+
     return this;
   }
 }

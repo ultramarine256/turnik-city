@@ -1,5 +1,6 @@
 ﻿using Data.EFContext;
 using Data.Infrastructure.ContextManager;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Data.EFRepository
 {
@@ -7,11 +8,21 @@ namespace Data.EFRepository
     {
         protected IContextManager DbContextManager { get; }
         public AppDbContext Context => DbContextManager.BuildOrCurrentContext();
+        protected IMemoryCache Cache { get; }
+        protected readonly MemoryCacheEntryOptions CacheOptions = new MemoryCacheEntryOptions().SetAbsoluteExpiration(relative: TimeSpan.FromDays(10));
 
-        public BaseRepository(IContextManager dbContextManager)
+        public BaseRepository(IContextManager contextManager, IMemoryCache cache)
         {
-            DbContextManager = dbContextManager;
-            DbContextManager.BuildOrCurrentContext();
+            DbContextManager = contextManager;
+            DbContextManager.BuildOrCurrentContext(); // TODO: simplify
+            Cache = cache;
         }
+    }
+
+    public static class CacheKeys
+    {
+        public const string
+            Playground = "playgroundCacheKey",
+            Counters = "counters";
     }
 }

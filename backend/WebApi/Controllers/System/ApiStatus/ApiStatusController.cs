@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Azure.Core;
+using Microsoft.AspNetCore.Mvc;
 using WebApi.Controllers.System.ApiStatus.Dtos;
 using WebApi.Infrastructure.AppSettings;
 

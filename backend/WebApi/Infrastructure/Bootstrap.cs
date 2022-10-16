@@ -12,16 +12,15 @@ namespace WebApi.Infrastructure
                 AccountName = settings.Storage.AccountName,
                 StorageKey = settings.Storage.StorageKey,
                 ContainerName = settings.Storage.ContainerName,
-                PostgreSQLConnectionString = settings.Database.PostgreSQLConnectionString
+                PostgreSQLConnectionString = settings.Database.PostgreSQLConnectionString,
+                IPStackApiKey = settings.IpStackApiKey
             });
 
             var domainModule = new DomainModule(new DomainModuleSettings()
             {
                 Environment = settings.Environment,
-                EncryptionKey = settings.Authorization.EncryptionKey,
-                ScrapeWebsiteUrl = settings.Scrapper.Primary
+                EncryptionKey = settings.Authorization.EncryptionKey
             });
-
             
             var webApiModule = new WebApiModule(new WebApiModuleSettings()
             {

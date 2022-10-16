@@ -1,0 +1,22 @@
+<ng-template #loading><div class="loading">Loading...</div></ng-template>
+<div class="details" *ngIf="entity$ | async as vm; else loading">
+  <img class="details__img" [src]="vm.imageUrls[0]" alt="playground image" />
+  <div class="details__body">
+    <h4 class="t-title">#{{ vm.id }} {{ vm.size }} {{ vm.type }}</h4>
+    <div class="t-added">{{ vm.createdUtc | date: 'd MMM yyyy' }}</div>
+    <div class="t-actions">
+      <div class="t-actions__item">
+        <fa-icon class="t-counter__icon" [icon]="['far', 'heart']" size="lg"></fa-icon>
+        <span>{{ vm.likes }}</span>
+      </div>
+      <div class="t-actions__item">
+        <fa-icon class="t-counter__icon" [icon]="['far', 'eye']" size="lg"></fa-icon>
+        <span>{{ vm.views }}</span>
+      </div>
+      <div class="t-actions__item">
+        <fa-icon class="t-counter__icon" [icon]="['far', 'comment']" size="lg"></fa-icon>
+        <span>{{ vm.views }}</span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,10 @@
+<h2 mat-dialog-title class="text-center">
+  {{ text }}
+</h2>
+<mat-dialog-content class="mat-typography">
+  <ng-content></ng-content>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button color="primary" [mat-dialog-close]="true" cdkFocusInitial (click)="confirm()">Yes</button>
+</mat-dialog-actions>

@@ -1,4 +1,5 @@
 ﻿using Domain.DomainServices._Abstractions;
+using Domain.DomainServices.Common;
 using Domain.Infrastructure.Authorization;
 using Domain.Policy;
 using Microsoft.Extensions.DependencyInjection;
@@ -6,7 +7,6 @@ using Domain.DomainServices.Playground;
 using Domain.Policy._Abstract;
 using Domain.Policy._Abstract.Permission;
 using Domain.Policy.Playground;
-using Domain.Services.IpDecoder;
 
 namespace Domain
 {
@@ -24,6 +24,7 @@ namespace Domain
             // domain services
             services.Add(ServiceDescriptor.Scoped(typeof(IEntityDomainService<,>), typeof(EntityDomainService<,>)));
             services.Add(ServiceDescriptor.Scoped(typeof(IEntityExtendedDomainService<,>), typeof(EntityExtendedDomainService<,>)));
+            services.AddScoped<CommonDomainService, CommonDomainService>();
             services.AddScoped<IPlaygroundDomainService, PlaygroundDomainService>();
 
             // policy
@@ -33,7 +34,6 @@ namespace Domain
             services.AddScoped<IPlaygroundPolicy, PlaygroundPolicy>();
 
             // services
-            services.AddSingleton<IIpDecoder>(sp => new IpDecoder(Settings.IpstackApiKey));
             services.AddSingleton<IPasswordEncryptor>(sp => new PasswordEncryptor(Settings.EncryptionKey));
         }
     }
@@ -41,8 +41,6 @@ namespace Domain
     public class DomainModuleSettings
     {
         public string? Environment { get; set; }
-        public string? IpstackApiKey { get; set; }
         public string? EncryptionKey { get; set; }
-        public string? ScrapeWebsiteUrl { get; set; }
     }
 }

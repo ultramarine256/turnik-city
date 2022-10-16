@@ -1,9 +1,11 @@
 ﻿using System.Net;
 using Data.EFContext;
 using Data.EFRepository;
+using Data.EFRepository.Common;
 using Data.EFRepository.Playground;
 using Data.Infrastructure.ContextManager;
 using Data.Infrastructure.UnitOfWork;
+using Data.ThirdParty.IPStack;
 using Data.ThirdParty.Storage;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,20 +31,23 @@ namespace Data
             services.Add(ServiceDescriptor.Transient(typeof(IEntityRepository<,>), typeof(EntityRepository<,>)));
             services.Add(ServiceDescriptor.Transient(typeof(IEntityRepositoryX<,>), typeof(EntityRepositoryX<,>)));
             services.AddTransient<IPlaygroundRepository, PlaygroundRepository>();
+            services.AddTransient<ICommonRepository, CommonRepository>();
 
             // services
             services.AddSingleton<IStorageService>(sp => new StorageService(
                 Settings.AccountName,
                 Settings.StorageKey,
                 Settings.ContainerName));
+            services.AddSingleton<IIpDecoder>(sp => new IpDecoder(Settings.IPStackApiKey));
         }
     }
 
     public class DataModuleSettings
     {
-        public string? PostgreSQLConnectionString { get; set; }
-        public string? AccountName { get; set; }
-        public string? StorageKey { get; set; }
-        public string? ContainerName { get; set; }
+        public string PostgreSQLConnectionString { get; set; }
+        public string AccountName { get; set; }
+        public string StorageKey { get; set; }
+        public string ContainerName { get; set; }
+        public string IPStackApiKey { get; set; }
     }
 }

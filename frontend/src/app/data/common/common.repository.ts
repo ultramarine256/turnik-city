@@ -17,12 +17,8 @@ export class CommonRepository extends BaseRepository {
   }
 
   counters(): Observable<CountersDto> {
-    const mock = new CountersDto({
-      playgrounds: 2174,
-      users: 2,
-      cities: 17,
-      likes: 1,
-    });
-    return of(mock);
+    return this.httpClient
+      .get<CountersDto>(`${this.apiBaseUrl}/common/counters`)
+      .pipe(map(_ => new CountersDto().mapFromJson(_)));
   }
 }

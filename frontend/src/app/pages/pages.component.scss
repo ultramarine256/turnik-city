@@ -50,8 +50,24 @@
     border-radius: 6px;
 
     @media (max-width: $lt-md) {
-      height: 32px;
+      height: 34px;
     }
+  }
+}
+
+.t-location {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 40px;
+  margin-top: 4px;
+
+  .t-location__city {
+    font-weight: 500;
+  }
+
+  .t-location__ip {
+    font-size: 90%;
   }
 }
 
@@ -167,4 +183,8 @@
       padding-right: 0;
     }
   }
+}
+
+.w-20 {
+  max-width: 20px;
 }

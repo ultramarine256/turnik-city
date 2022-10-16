@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types';
-import { AppStore } from '@turnik/domain';
+import { AppStore, PlaygroundCreateComponent } from '@turnik/domain';
+import { ExtendedDialogService } from '@turnik/common';
 
 @Component({
   selector: 'app-pages-component',
@@ -37,7 +38,11 @@ export class PagesComponent implements OnInit {
     // },
   ];
 
-  constructor(public router: Router, public store: AppStore) {}
+  constructor(public router: Router, public store: AppStore, private dialogService: ExtendedDialogService) {}
 
   ngOnInit() {}
+
+  test() {
+    this.dialogService.openDialog(PlaygroundCreateComponent);
+  }
 }

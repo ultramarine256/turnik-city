@@ -13,7 +13,6 @@ import {
   HomePageComponent,
   PlaygroundDetailsPageComponent,
 } from './index';
-import { environment } from '../../environments/environment';
 import { AboutPageComponent } from './about/about-page.component';
 
 const COMPONENTS = [

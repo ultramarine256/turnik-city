@@ -1,7 +1,17 @@
 import { NgModule } from '@angular/core';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faGithub, faInstagram, faTelegram, faTrello } from '@fortawesome/free-brands-svg-icons';
-import { faCircleUser, faFaceSmile, faFolder, faHeart, faNewspaper, faUser } from '@fortawesome/free-regular-svg-icons';
+import {
+  faCircleUser,
+  faComment,
+  faEye,
+  faFaceSmile,
+  faFolder,
+  faHeart,
+  faMap,
+  faNewspaper,
+  faUser,
+} from '@fortawesome/free-regular-svg-icons';
 import {
   faEarthEurope,
   faLocationCrosshairs,
@@ -41,6 +51,9 @@ export class AppFontAwesomeModule {
         faStreetView,
         faFaceSmile,
         faLocationCrosshairs,
+        faMap,
+        faEye,
+        faComment,
       ]
     );
   }

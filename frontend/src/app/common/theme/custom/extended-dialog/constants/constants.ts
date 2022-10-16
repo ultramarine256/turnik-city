@@ -1,0 +1,3 @@
+export const EXTENDED_MODAL_CONSTANTS = {
+  CONFIRMATION_DELETE_MESSAGE: 'Are you sure ?',
+};

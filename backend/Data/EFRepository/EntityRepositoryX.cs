@@ -3,13 +3,14 @@ using Data.Infrastructure.ContextManager;
 using Data.Infrastructure.Extensions;
 using Data.ThirdParty.Storage;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Data.EFRepository
 {
     public class EntityRepositoryX<TEntity, TPrimaryKey> : EntityRepository<TEntity, TPrimaryKey>, IEntityRepositoryX<TEntity, TPrimaryKey>
         where TEntity : class, IEntity<TPrimaryKey>, IPassivable, IOrderable, new()
     {
-        public EntityRepositoryX(IContextManager dbContextManager, IStorageService storageService) : base(dbContextManager, storageService) { }
+        public EntityRepositoryX(IContextManager dbContextManager, IStorageService storageService, IMemoryCache cache) : base(dbContextManager, storageService, cache) { }
 
         public override async Task CreateAsync(TEntity entity)
         {
