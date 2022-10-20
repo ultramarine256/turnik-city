@@ -1,9 +1,22 @@
+![Git Extensions logo](https://turnikcity.blob.core.windows.net/logo/logo-80.svg)
 # Turnik City
 
-Easily app to find a calisthenics park near you is.
+TurnikCity is a simple web-app to find a calisthenics park near you.
+Seems to be largest playgrounds base in the world.
 
-The app has near 5 parks on our platform, which means the chance of you finding a park near you is quite high.
+Have a question? Come and talk to us:
+<img src="https://img.shields.io/badge/-Telegram-0088cc?style=flat-square&logo=telegram" alt="Telegram">
 
-Just put in a city in the search bar will generate every calisthenics park within that city.
+## Current Status
 
-You can also be an active member on the platform and add spots to the platform if they aren’t already on it, which brings a sense of community.
+<a href="#backers" alt="sponsors on Open Collective"><img src="https://opencollective.com/gitextensions/backers/badge.svg" /></a> <a href="#sponsors" alt="Sponsors on Open Collective"><img src="https://opencollective.com/gitextensions/sponsors/badge.svg" /></a>
+
+## Conduct
+
+Project maintainers pledge to foster an open and welcoming environment, and ask contributors to do the same.
+
+## Useful Links
+
+* Website: [turnik.city](https://www.turnik.city)
+* Source code: [github.com/TurnikCity/turnik-city](https://github.com/TurnikCity/turnik-city)
+* Issue tracker: [trello.com/b/dzdlmCE2/turnikcity](https://trello.com/b/dzdlmCE2/turnikcity)
