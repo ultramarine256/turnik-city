@@ -23,7 +23,7 @@ const routes: Routes = [
         resolve: { pagesResolver: PagesResolver },
       },
       {
-        path: 'playground',
+        path: 'map',
         component: PlaygroundMapPageComponent,
         resolve: { pagesResolver: PagesResolver },
       },

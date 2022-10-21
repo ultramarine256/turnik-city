@@ -27,9 +27,10 @@
             "styles": [
               "./src/assets/scss/index.scss",
               "./node_modules/bootstrap/dist/css/bootstrap-grid.min.css",
-              "./node_modules/leaflet/dist/leaflet.css"
+              "./node_modules/leaflet/dist/leaflet.css",
+              "./node_modules/flickity/dist/flickity.min.css"
             ],
-            "scripts": []
+            "scripts": ["./node_modules/flickity/dist/flickity.pkgd.min.js"]
           },
           "configurations": {
             "build-prod": {
