@@ -1,24 +1,28 @@
 # Expires map
 map $sent_http_content_type $expires {
-  default                    off;
-  text/html                  epoch;
-  text/css                   max;
-  application/javascript     max;
-  font/otf                   max;
-  ~img/                      max;
-  ~assets/                   max;
+  default                      off;
+  text/html                    epoch;
+  text/css                     max;
+  image/png                    max;
+  application/javascript       max;
+  application/x-font-opentype  max;
 }
 
 server {
   set $prerender 0;
 
   if ($http_user_agent ~* "googlebot|bingbot|facebookexternalhit") {
-    set $prerender 1;
+    # set $prerender 1; disabled due to debug
+    set $prerender 0;
   }
 
   # ignored paths and files
   if ($uri ~* "\.(js|css|xml|less|png|jpg|jpeg)") {
     set $prerender 0;
+  }
+
+  if ($host != "turnik.city") {
+    return 301 https://turnik.city$request_uri;
   }
 
   # gzip
@@ -30,14 +34,11 @@ server {
   gzip_vary        on;
   gzip_disable     "msie6";
 
-  #proxy_cache cache;
-  #proxy_cache_valid 200 1s;
-
   listen 8080;
   listen [::]:8080;
   root /home/site/wwwroot;
   index  index.html
-  server_name  example.com www.example.com;
+  server_name turnik.city;
   port_in_redirect off;
 
   # assets caching
