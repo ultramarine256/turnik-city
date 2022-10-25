@@ -34,8 +34,8 @@ export class SeoService {
   private setOGDetails() {
     this.metaService.updateTag({ name: 'og:title', content: seoConst.title });
     this.metaService.updateTag({ name: 'og:type', content: 'website' });
-    this.metaService.updateTag({ name: 'og:image', content: 'https://www.turnik.city' });
-    this.metaService.updateTag({ name: 'og:url', content: 'https://www.turnik.city/assets/img/favicon-256x256.png' });
+    this.metaService.updateTag({ name: 'og:image', content: 'https://turnik.city' });
+    this.metaService.updateTag({ name: 'og:url', content: 'https://turnik.city/assets/img/favicon-256x256.png' });
   }
 }
 
@@ -54,8 +54,9 @@ export const seo = {
     description: 'Карта турников и спортивных площадок в твоем городе. Спорт городских улиц.',
     author: 'Evgeny Platonov',
     keywords: [
-      'карта турников',
       'карта спортивных площадок',
+
+      'карта турников',
       'площадки для воркаута',
       'уличный спорт',
       'дворовый спорт',
