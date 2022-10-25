@@ -17,6 +17,5 @@ Project maintainers pledge to foster an open and welcoming environment, and ask 
 
 ## Useful Links
 
-* Website: [turnik.city](https://www.turnik.city)
-* Source code: [github.com/TurnikCity/turnik-city](https://github.com/TurnikCity/turnik-city)
+* Website: [turnik.city](https://turnik.city)
 * Issue tracker: [trello.com/b/dzdlmCE2/turnikcity](https://trello.com/b/dzdlmCE2/turnikcity)
