@@ -1,4 +1,8 @@
-<ng-template #loading><div class="loading">Loading...</div></ng-template>
+<ng-template #loading>
+  <div class="progress-wrapper">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+</ng-template>
 <div class="details" *ngIf="entity$ | async as vm; else loading">
   <img class="details__img" [src]="vm.imageUrls[0]" alt="playground image" />
   <div class="details__body">

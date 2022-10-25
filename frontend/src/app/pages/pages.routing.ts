@@ -9,6 +9,7 @@ import {
   PagesComponent,
   PlaygroundDetailsPageComponent,
   AboutPageComponent,
+  NotFoundPageComponent,
 } from './index';
 import { PagesResolver } from './pages.resolver';
 
@@ -48,6 +49,15 @@ const routes: Routes = [
         path: 'ui',
         component: UIPageComponent,
         resolve: { pagesResolver: PagesResolver },
+      },
+      {
+        path: '404',
+        component: NotFoundPageComponent,
+        resolve: { pagesResolver: PagesResolver },
+      },
+      {
+        path: '**',
+        redirectTo: '404',
       },
     ],
   },

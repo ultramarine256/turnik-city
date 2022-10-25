@@ -24,7 +24,7 @@ export class PagesComponent implements OnInit {
     {
       icon: 'github',
       prefix: 'fab',
-      href: 'https://github.com/TurnikCity',
+      href: 'https://github.com/ultramarine256/turnik-city',
     },
     {
       icon: 'trello',

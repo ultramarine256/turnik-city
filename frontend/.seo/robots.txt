@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# sitemap
+# Sitemap: https://turnik.city/sitemap.xml

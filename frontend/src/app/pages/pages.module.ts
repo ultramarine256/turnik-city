@@ -12,6 +12,7 @@ import {
   UIPageComponent,
   HomePageComponent,
   PlaygroundDetailsPageComponent,
+  NotFoundPageComponent,
 } from './index';
 import { AboutPageComponent } from './about/about-page.component';
 
@@ -23,6 +24,7 @@ const COMPONENTS = [
   PlaygroundMapComponent,
   PlaygroundDetailsPageComponent,
   UIPageComponent,
+  NotFoundPageComponent,
   PagesComponent,
 ];
 
