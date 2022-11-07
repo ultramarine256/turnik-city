@@ -1,4 +1,5 @@
 import { IMappable } from '../../_abstractions';
+import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types';
 
 export class PlaygroundDto implements IMappable {
   id: number;
@@ -33,3 +34,33 @@ export class PlaygroundDto implements IMappable {
     return this;
   }
 }
+
+export const PlaygroundTypes: { title: string; slug: string }[] = [
+  {
+    title: 'Modern',
+    slug: 'modern',
+  },
+  {
+    title: 'Aged',
+    slug: 'soviet',
+  },
+  {
+    title: 'Legendary',
+    slug: 'legendary',
+  },
+];
+
+export const PlaygroundSizes: { title: string; slug: string }[] = [
+  {
+    title: 'Small',
+    slug: 'small',
+  },
+  {
+    title: 'Medium',
+    slug: 'medium',
+  },
+  {
+    title: 'Large',
+    slug: 'large',
+  },
+];

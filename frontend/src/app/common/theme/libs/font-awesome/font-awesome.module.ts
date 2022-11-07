@@ -22,6 +22,7 @@ import {
   faSkull,
   faStreetView,
   faTreeCity,
+  faXmark,
 } from '@fortawesome/free-solid-svg-icons';
 
 @NgModule({
@@ -54,6 +55,7 @@ export class AppFontAwesomeModule {
         faMap,
         faEye,
         faComment,
+        faXmark,
       ]
     );
   }

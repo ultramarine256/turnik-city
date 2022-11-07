@@ -23,7 +23,7 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": ["src/assets"],
+            "assets": ["src/assets", "src/assets/json/seo-ru.json"],
             "styles": [
               "./src/assets/scss/index.scss",
               "./node_modules/bootstrap/dist/css/bootstrap-grid.min.css",

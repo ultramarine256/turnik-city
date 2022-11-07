@@ -47,9 +47,9 @@ namespace Data.Entities
     public class PlaygroundType
     {
         public const string
+            Modern = "modern",
             Soviet = "soviet",
-            Legendary = "legenday",
-            Modern = "modern";
+            Legendary = "legendary";
     }
 
     public class PlaygroundSize

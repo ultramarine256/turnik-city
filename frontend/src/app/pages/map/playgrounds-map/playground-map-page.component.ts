@@ -1,33 +1,28 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { PlaygroundCreateComponent, PlaygroundFacade, PlaygroundPreviewComponent } from '@turnik/domain';
+import { AppStore, PlaygroundFacade, PlaygroundPreviewComponent } from '@turnik/domain';
 import { map } from 'rxjs/operators';
 import { PlaygroundMarkerModel } from '@turnik/domain';
-import { environment } from '../../../../environments/environment';
 import { ExtendedDialogService } from '@turnik/common';
 
 @Component({
   selector: 'app-map-page',
-  templateUrl: './playground-map-page.component.html',
+  template: `
+    <app-map class="map-component" [center]="center$" [markers]="markers$" (markerClick)="markerClick($event)">
+    </app-map>
+  `,
   styleUrls: ['./playground-map-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PlaygroundMapPageComponent implements OnInit {
-  readonly token = environment.mapbox.accessToken;
-  readonly center$ = this.facade.ipDetails$.pipe(map(r => ({ lat: r.lat, lng: r.lng })));
-  readonly markers$ = this.facade.markers$.pipe(
-    map(items =>
-      items.map(r => {
-        return new PlaygroundMarkerModel({ id: r.id, slug: r.slug, lat: r.lat, lng: r.lng });
-      })
-    )
+export class PlaygroundMapPageComponent {
+  readonly center$ = this.store.ipDetails$.pipe(map(r => ({ lat: r.lat, lng: r.lng })));
+  readonly markers$ = this.store.markers$.pipe(
+    map(items => items.map(r => new PlaygroundMarkerModel({ id: r.id, slug: r.slug, lat: r.lat, lng: r.lng })))
   );
 
-  constructor(public facade: PlaygroundFacade, private dialogService: ExtendedDialogService) {}
-
-  ngOnInit() {}
+  constructor(public facade: PlaygroundFacade, public store: AppStore, private dialogService: ExtendedDialogService) {}
 
   markerClick(e: { id: number; slug: string }) {
     const entity = this.facade.get(e.id);
-    this.dialogService.openDialog(PlaygroundPreviewComponent, { entity });
+    this.dialogService.openDialog(PlaygroundPreviewComponent, 'preview-dialog', { entity });
   }
 }

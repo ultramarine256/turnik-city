@@ -6,23 +6,10 @@ import { SeoService } from '@turnik/domain';
 @Injectable({
   providedIn: 'root',
 })
-export class PagesResolver implements Resolve<Observable<string>> {
+export class PagesResolver implements Resolve<void> {
   constructor(private seoService: SeoService) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<string> {
-    switch (state.url) {
-      case '/': {
-        // this.seoService.homePage();
-        break;
-      }
-      case '/playground': {
-        // this.seoService.playgroundPage();
-        break;
-      }
-      default: {
-        break;
-      }
-    }
-    return of('Route!').pipe(delay(0));
+  async resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    await this.seoService.updateMetaTags(state.url);
   }
 }

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types';
-import { AppStore, PlaygroundCreateComponent } from '@turnik/domain';
-import { ExtendedDialogService } from '@turnik/common';
+import { AppStore, PlaygroundCreateComponent, PlaygroundFacade } from '@turnik/domain';
+import { ExtendedDialogService, SOCIAL } from '@turnik/common';
+import { PlaygroundCreateDto, PlaygroundSizes, PlaygroundTypes } from '@turnik/data';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-pages-component',
@@ -10,39 +11,38 @@ import { ExtendedDialogService } from '@turnik/common';
   styleUrls: ['./pages.component.scss'],
 })
 export class PagesComponent implements OnInit {
-  social: { icon: IconName; prefix: IconPrefix; href: string }[] = [
-    {
-      icon: 'instagram',
-      prefix: 'fab',
-      href: 'https://www.instagram.com/los_strong90',
-    },
-    // {
-    //   icon: 'telegram',
-    //   prefix: 'fab',
-    //   href: 'https://t.me/+joCpD7hvRMxhMzgy',
-    // },
-    {
-      icon: 'github',
-      prefix: 'fab',
-      href: 'https://github.com/ultramarine256/turnik-city',
-    },
-    {
-      icon: 'trello',
-      prefix: 'fab',
-      href: 'https://trello.com/b/dzdlmCE2/turnikcity',
-    },
-    // {
-    //   icon: 'folder',
-    //   prefix: 'far',
-    //   href: 'https://turnik-city.notion.site/Main-114dd86dc6554830a7cc0f337f3d3f7c',
-    // },
-  ];
+  social = SOCIAL;
+  readonly center$ = this.store.ipDetails$.pipe(map(r => ({ lat: r.lat, lng: r.lng })));
 
-  constructor(public router: Router, public store: AppStore, private dialogService: ExtendedDialogService) {}
+  constructor(
+    public router: Router,
+    public store: AppStore,
+    private dialogService: ExtendedDialogService,
+    public playgroundFacade: PlaygroundFacade
+  ) {}
 
   ngOnInit() {}
 
-  test() {
-    this.dialogService.openDialog(PlaygroundCreateComponent);
+  playgroundCreateDialogOpen() {
+    const model = new PlaygroundCreateDto();
+    this.dialogService
+      .openCreateDialog<PlaygroundCreateDto>(PlaygroundCreateComponent, model, {
+        panelClass: 'playground-create-dialog',
+        types: PlaygroundTypes,
+        sizes: PlaygroundSizes,
+        center: this.center$,
+      })
+      .subscribe(x => this.playgroundFacade.create(x).subscribe().unsubscribe());
+
+    // TODO: please, refactor
+    // const x = new PlaygroundCreateDto({
+    //   size: '',
+    //   type: '',
+    //   lat: 1,
+    //   lng: 1,
+    // });
+    // this.playgroundFacade.create(x).subscribe(r => {
+    //   console.log(r);
+    // });
   }
 }

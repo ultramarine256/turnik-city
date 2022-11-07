@@ -2,12 +2,11 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgxGoogleAnalyticsModule } from 'ngx-google-analytics';
-import { PlaygroundMapComponent, DomainModule } from '@turnik/domain';
+import { DomainModule } from '@turnik/domain';
 import {
   PagesComponent,
   PagesRouting,
-  FavoritesPageComponent,
+  ProfilePageComponent,
   PlaygroundMapPageComponent,
   UIPageComponent,
   HomePageComponent,
@@ -18,10 +17,9 @@ import { AboutPageComponent } from './about/about-page.component';
 
 const COMPONENTS = [
   AboutPageComponent,
-  FavoritesPageComponent,
+  ProfilePageComponent,
   HomePageComponent,
   PlaygroundMapPageComponent,
-  PlaygroundMapComponent,
   PlaygroundDetailsPageComponent,
   UIPageComponent,
   NotFoundPageComponent,

@@ -10,35 +10,88 @@ import {
 import * as L from 'leaflet';
 import { PlaygroundMarker, PlaygroundMarkerModel } from './model';
 import { Observable, Subject, takeUntil } from 'rxjs';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-map',
-  templateUrl: './playground-map.component.html',
-  styleUrls: ['./playground-map.component.scss'],
+  template: `
+    <div [id]="this.mapId" class="map__canvas">
+      <button type="button" class="map__home-button" (click)="zoomHome()">
+        <fa-icon class="home-button__icon" [icon]="['fas', 'location-crosshairs']" size="lg"></fa-icon>
+      </button>
+    </div>
+  `,
+  styles: [
+    `
+      .map__canvas {
+        width: 100%;
+        height: 100%;
+      }
+
+      .map__home-button {
+        position: absolute;
+        z-index: 1005;
+        bottom: 20px;
+        right: 20px;
+
+        background: #fff;
+        border: 0;
+        border-radius: 8px;
+        box-shadow: 0 1px 2px rgb(60 64 67 / 30%), 0 1px 3px 1px rgb(60 64 67 / 15%);
+        width: 29px;
+        height: 29px;
+        cursor: pointer;
+
+        display: grid;
+        place-content: center;
+
+        .map__home-button-icon {
+          color: gray;
+        }
+      }
+    `,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlaygroundMapComponent implements AfterViewInit, OnDestroy {
-  @Input() accessToken: string;
-  @Input() center: Observable<{ lat: number; lng: number }>;
-  @Input() markers: Observable<PlaygroundMarkerModel[]>;
+  @Input() mapId: string = 'app-map';
+  @Input() center: Observable<{ lat: number; lng: number }> = new Observable<{ lat: number; lng: number }>();
+  @Input() markers: Observable<PlaygroundMarkerModel[]> = new Observable<PlaygroundMarkerModel[]>();
+  @Input() addMarker: boolean = false;
   @Output() markerClick = new EventEmitter<{ id: number; slug: string }>();
+  @Output() newMarkerAdded = new EventEmitter<{ lat: number; lng: number }>();
 
+  private readonly accessToken = environment.mapbox.accessToken;
   private map: L.Map;
   private ngUnsubscribe = new Subject<void>();
 
+  private currentMarker: PlaygroundMarker;
+
   ngAfterViewInit() {
     this.initMap();
+    this.addMarker && this.draggableMarker();
     this.center.pipe(takeUntil(this.ngUnsubscribe)).subscribe(r => this.centerMap(r));
     this.markers.pipe(takeUntil(this.ngUnsubscribe)).subscribe(r => this.addMarkers(r));
+
+    // readonly markers$ = this.store.markers$.pipe(
+    //   map(items => items.map(r => new PlaygroundMarkerModel({ id: r.id, slug: r.slug, lat: r.lat, lng: r.lng })))
+    // );
+  }
+
+  ngOnDestroy(): void {}
+
+  public zoomHome() {
+    // TODO: ask for user location?
+    this.center.subscribe(x => this.map.setView([x.lat, x.lng], 13)).unsubscribe();
   }
 
   private initMap() {
-    this.map = L.map('map', {
+    this.map = L.map(this.mapId, {
       preferCanvas: true,
       minZoom: 4,
+      zoomControl: false,
     });
-    // center map to Kiev by default
-    this.map.setView([47.0042, 28.8574], 13);
+    this.map.setView([47.0042, 28.8574], 13); // center map to Kiev by default
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
       attribution: 'TurnikCity',
       id: 'mapbox/streets-v11',
@@ -55,8 +108,8 @@ export class PlaygroundMapComponent implements AfterViewInit, OnDestroy {
   private addMarkers(markers: PlaygroundMarkerModel[]) {
     markers.forEach(x => {
       const marker = new PlaygroundMarker([x.lat, x.lng], {
-        color: '#ff9800',
-        radius: 4.2,
+        color: '#ff9800', // #787878
+        radius: 5,
         opacity: 0.9,
         id: x.id,
         slug: x.slug,
@@ -69,7 +122,28 @@ export class PlaygroundMapComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
-    console.log('desctroy');
+  private draggableMarker() {
+    this.map.on('click', e => {
+      // TODO: prevent default
+      console.log(e.target);
+
+      // 0. remove previous
+      this.currentMarker && this.map.removeLayer(this.currentMarker);
+
+      // 1. add marker
+      const lat = e.latlng.lat;
+      const lng = e.latlng.lng;
+      // https://turnikcity.blob.core.windows.net/logo/marker-black.svg
+      this.currentMarker = new PlaygroundMarker([lat, lng], {
+        color: '#ff9800',
+        radius: 5,
+        opacity: 0.9,
+        id: 0,
+        slug: '0',
+        type: 'playground',
+      });
+      this.currentMarker.addTo(this.map);
+      this.newMarkerAdded.emit({ lat, lng });
+    });
   }
 }

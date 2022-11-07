@@ -4,11 +4,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RepositoryModule } from '@turnik/data';
 import { PlaygroundFacade } from './playground.facade';
-import { PlaygroundCreateComponent, PlaygroundPreviewComponent } from './index';
+import { PlaygroundCreateComponent, PlaygroundMapComponent, PlaygroundPreviewComponent } from './index';
 import { ThemeModule } from '@turnik/common';
 
 @NgModule({
-  declarations: [PlaygroundCreateComponent, PlaygroundPreviewComponent],
+  declarations: [PlaygroundCreateComponent, PlaygroundPreviewComponent, PlaygroundMapComponent],
   imports: [
     /// angular
     CommonModule,
@@ -20,7 +20,7 @@ import { ThemeModule } from '@turnik/common';
     RepositoryModule,
     ThemeModule,
   ],
-  exports: [],
+  exports: [PlaygroundMapComponent],
   providers: [PlaygroundFacade],
 })
 export class PlaygroundModule {}

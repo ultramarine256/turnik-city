@@ -1,23 +1,43 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, Observable, take } from 'rxjs';
+import { BehaviorSubject, catchError, combineLatest, finalize, Observable, of, take, tap } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { PlaygroundRepository, CommonRepository, PlaygroundDto } from '@turnik/data';
+import { PlaygroundRepository, CommonRepository, PlaygroundDto, PlaygroundCreateDto } from '@turnik/data';
+import { SnackbarService } from '@turnik/common';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PlaygroundFacade {
-  private readonly playgrounds$ = this.playgroundRepository.query('?top=25&orderby=createdUtc desc');
-  readonly markers$ = this.playgroundRepository.markers();
-  readonly ipDetails$ = this.commonRepository.ipDetails();
+  // predicates
+  isProcessing$ = new BehaviorSubject<boolean>(false);
 
-  readonly vm$ = combineLatest([this.playgrounds$, this.markers$, this.ipDetails$]).pipe(
-    map(([playgrounds, markers, ipDetails]) => ({ playgrounds, markers, ipDetails }))
-  );
-
-  constructor(private playgroundRepository: PlaygroundRepository, private commonRepository: CommonRepository) {}
+  constructor(private playgroundRepository: PlaygroundRepository, private snackBar: SnackbarService) {}
 
   get(id: number): Observable<PlaygroundDto> {
     return this.playgroundRepository.get(id);
+  }
+
+  update(dto: any): Observable<PlaygroundDto> {
+    this.isProcessing$.next(true);
+    return this.playgroundRepository.update(dto).pipe(
+      tap(r => r),
+      catchError(err => {
+        this.snackBar.error(`Error: ${err.status}`);
+        throw 'http-status-code: ' + err.status;
+      }),
+      finalize(() => this.isProcessing$.next(false))
+    );
+  }
+
+  create(dto: any): Observable<PlaygroundDto> {
+    this.isProcessing$.next(true);
+    return this.playgroundRepository.create(dto).pipe(
+      tap(r => r),
+      catchError(err => {
+        this.snackBar.error(`Error: ${err.status}`);
+        throw 'http-status-code: ' + err.status;
+      }),
+      finalize(() => this.isProcessing$.next(false))
+    );
   }
 }

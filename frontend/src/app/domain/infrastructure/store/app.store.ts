@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CommonRepository } from '@turnik/data';
+import { CommonRepository, PlaygroundRepository } from '@turnik/data';
 import { combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -7,10 +7,12 @@ import { map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class AppStore {
-  private readonly ipDetails$ = this.commonRepository.ipDetails();
+  readonly ipDetails$ = this.commonRepository.ipDetails();
+  readonly counters$ = this.commonRepository.counters();
+  readonly markers$ = this.playgroundRepository.markers();
+  readonly playgrounds$ = this.playgroundRepository.query('?top=25&orderby=createdUtc desc');
 
   readonly vm$ = combineLatest([this.ipDetails$]).pipe(map(([ipDetails]) => ({ ipDetails })));
-  readonly counters$ = this.commonRepository.counters();
 
-  constructor(private commonRepository: CommonRepository) {}
+  constructor(private commonRepository: CommonRepository, private playgroundRepository: PlaygroundRepository) {}
 }

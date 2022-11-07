@@ -4,7 +4,7 @@ import { PagesModule } from './pages.module';
 import {
   HomePageComponent,
   UIPageComponent,
-  FavoritesPageComponent,
+  ProfilePageComponent,
   PlaygroundMapPageComponent,
   PagesComponent,
   PlaygroundDetailsPageComponent,
@@ -42,7 +42,7 @@ const routes: Routes = [
       },
       {
         path: 'liked',
-        component: FavoritesPageComponent,
+        component: ProfilePageComponent,
         resolve: { pagesResolver: PagesResolver },
       },
       {

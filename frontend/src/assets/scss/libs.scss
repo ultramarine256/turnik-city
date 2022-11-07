@@ -1,13 +1,7 @@
 // material
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
-// bootstrap Required
-//@import '~bootstrap/scss/functions';
-//@import '~bootstrap/scss/variables';
-//@import '~bootstrap/scss/mixins';
-//@import '~bootstrap/scss/utilities';
-
-// bootstrap Optional
-//@import '~bootstrap/scss/reboot';
-//@import '~bootstrap/scss/grid';
-//@import '~bootstrap/scss/forms';
+// swiper
+@import '~swiper/swiper.min.css';
+@import '~swiper/modules/pagination/pagination.min.css';
+@import '~swiper/modules/navigation/navigation.min.css';

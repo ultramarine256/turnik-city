@@ -3,7 +3,8 @@
   background: #fff url(https://assets.goodfirms.co/images/hero-building-home.svg) 50% -30% repeat-x;
 
   @media screen and (max-width: 768px) {
-    background: #fff url(https://assets.goodfirms.co/images/hero-building-home.svg) 50% 0 repeat-x;
+    // background: #fff url(https://assets.goodfirms.co/images/hero-building-home.svg) 50% 0 repeat-x;
+    background: none;
   }
 }
 
@@ -71,34 +72,4 @@
 
   .s-counter__title {
   }
-}
-
-.c-updates {
-  .c-updates__title {
-  }
-}
-
-// -----------
-
-.carousel {
-  background: #eee;
-}
-
-.carousel-cell {
-  width: 66%;
-  height: 200px;
-  margin-right: 10px;
-  background: #8c8;
-  border-radius: 5px;
-  counter-increment: carousel-cell;
-}
-
-/* cell number */
-.carousel-cell:before {
-  display: block;
-  text-align: center;
-  content: counter(carousel-cell);
-  line-height: 200px;
-  font-size: 80px;
-  color: white;
 }

@@ -1,1 +1,47 @@
-Create Playground
+<app-crud-modal-wrapper
+  [title]="'Create Playground'"
+  [saveButtonText]="'Create'"
+  [isFormValid]="form.valid"
+  [crudMode]="crudMode"
+  (saveClick)="closeDialog()"
+>
+  <form [formGroup]="form">
+    <div class="container">
+      <div class="row">
+        <!-- map -->
+        <div class="col-12 mb-3">
+          <app-map
+            class="map-component"
+            [mapId]="'create-playground'"
+            [addMarker]="true"
+            [center]="data.center"
+            (newMarkerAdded)="newMarkerAdded($event)"
+          >
+            <!--        [markers]="markers$"-->
+          </app-map>
+        </div>
+
+        <!-- image-selector -->
+        <div class="col-12 mb-3">
+          <app-image-selector (changed)="imagesAdded($event)"></app-image-selector>
+        </div>
+
+        <!-- size -->
+        <mat-form-field class="col-6" appearance="outline">
+          <mat-label>Size</mat-label>
+          <mat-select formControlName="size">
+            <mat-option *ngFor="let x of data.sizes" [value]="x.slug"> {{ x.title }} </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- type -->
+        <mat-form-field class="col-6" appearance="outline">
+          <mat-label>Type</mat-label>
+          <mat-select formControlName="type">
+            <mat-option *ngFor="let x of data.types" [value]="x.slug"> {{ x.title }} </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+</app-crud-modal-wrapper>
