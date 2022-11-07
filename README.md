@@ -9,6 +9,7 @@ We want to be the largest playgrounds map in the world.
 
 
 Have a question? Come and talk to us:
+
 <img src="https://img.shields.io/badge/-Telegram-0088cc?style=flat-square&logo=telegram" alt="Telegram">
 
 ## Current Status
