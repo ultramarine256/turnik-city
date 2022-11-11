@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { DirectivesModule, ThemeModule } from '@turnik/common';
 import { AppCommonModule, AppStore, InterceptorsModule, PlaygroundModule } from './index';
-import { SeoService } from './infrastructure';
+import { SeoService } from './_infrastructure';
 
 @NgModule({
   declarations: [],

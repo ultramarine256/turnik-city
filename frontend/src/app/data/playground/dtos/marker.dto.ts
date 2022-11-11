@@ -1,4 +1,4 @@
-import { IMappable } from '../../_abstractions';
+import { IMappable } from '../../_abstract';
 
 export class MarkerDto implements IMappable {
   id: number;

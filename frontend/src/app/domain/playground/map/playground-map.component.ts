@@ -10,7 +10,7 @@ import {
 import * as L from 'leaflet';
 import { PlaygroundMarker, PlaygroundMarkerModel } from './model';
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { environment } from '../../../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-map',
@@ -72,17 +72,24 @@ export class PlaygroundMapComponent implements AfterViewInit, OnDestroy {
     this.addMarker && this.draggableMarker();
     this.center.pipe(takeUntil(this.ngUnsubscribe)).subscribe(r => this.centerMap(r));
     this.markers.pipe(takeUntil(this.ngUnsubscribe)).subscribe(r => this.addMarkers(r));
-
-    // readonly markers$ = this.store.markers$.pipe(
-    //   map(items => items.map(r => new PlaygroundMarkerModel({ id: r.id, slug: r.slug, lat: r.lat, lng: r.lng })))
-    // );
   }
 
   ngOnDestroy(): void {}
 
   public zoomHome() {
-    // TODO: ask for user location?
-    this.center.subscribe(x => this.map.setView([x.lat, x.lng], 13)).unsubscribe();
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position: any) =>
+          this.center
+            .subscribe(x => this.map.setView([position.coords.latitude, position.coords.longitude]))
+            .unsubscribe(),
+        () => this.center.subscribe(x => this.map.setView([x.lat, x.lng])).unsubscribe()
+      );
+    } else {
+      alert(
+        'It seems like Geolocation, which is required for this page, is not enabled in your browser. Please use a browser which supports it.'
+      );
+    }
   }
 
   private initMap() {
@@ -124,9 +131,6 @@ export class PlaygroundMapComponent implements AfterViewInit, OnDestroy {
 
   private draggableMarker() {
     this.map.on('click', e => {
-      // TODO: prevent default
-      console.log(e.target);
-
       // 0. remove previous
       this.currentMarker && this.map.removeLayer(this.currentMarker);
 

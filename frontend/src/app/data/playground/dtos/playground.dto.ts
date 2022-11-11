@@ -1,4 +1,4 @@
-import { IMappable } from '../../_abstractions';
+import { IMappable } from '../../_abstract';
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types';
 
 export class PlaygroundDto implements IMappable {
@@ -43,10 +43,6 @@ export const PlaygroundTypes: { title: string; slug: string }[] = [
   {
     title: 'Aged',
     slug: 'soviet',
-  },
-  {
-    title: 'Legendary',
-    slug: 'legendary',
   },
 ];
 

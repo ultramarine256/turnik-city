@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { BaseRepository } from './base.repository';
 import { map } from 'rxjs/operators';
 import { ObjectExtensions } from '@turnik/common';
-import { IMappable } from './_abstractions';
+import { IMappable } from './_abstract';
 
 export abstract class CrudRepository<T extends IMappable> extends BaseRepository {
   protected pathName: string;

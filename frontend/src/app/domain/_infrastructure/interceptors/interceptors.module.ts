@@ -1,6 +1,7 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { CacheInterceptor } from './cache.interceptor';
+import { AuthInterceptor } from './auth.interceptor';
 
 @NgModule({
   imports: [],
@@ -9,6 +10,11 @@ import { CacheInterceptor } from './cache.interceptor';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: CacheInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
       multi: true,
     },
   ],

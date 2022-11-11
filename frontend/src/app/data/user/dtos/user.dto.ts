@@ -1,4 +1,4 @@
-import { IMappable } from '../../_abstractions';
+import { IMappable } from '../../_abstract';
 
 export class UserDto implements IMappable {
   email: string;

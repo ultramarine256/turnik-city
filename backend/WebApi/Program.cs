@@ -55,7 +55,7 @@ new Bootstrap().ConfigureServices(builder.Services, appSettings);
 
 var app = builder.Build();
 
-// Debug staff...
+// Debug stuff...
 if (app.Environment.IsEnvironment("Local")) { }
 app.UseDeveloperExceptionPage();
 
