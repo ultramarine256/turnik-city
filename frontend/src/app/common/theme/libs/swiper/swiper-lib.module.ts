@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { SwiperModule } from 'swiper/angular';
-import { SwiperOptions } from 'swiper';
+import SwiperCore, { Navigation, Pagination, SwiperOptions } from 'swiper';
+
+// swiper modules
+SwiperCore.use([Navigation, Pagination]);
 
 @NgModule({
   imports: [SwiperModule],

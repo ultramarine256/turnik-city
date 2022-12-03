@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, combineLatest, finalize, Observable, of, take, tap } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { PlaygroundRepository, CommonRepository, PlaygroundDto, PlaygroundCreateDto } from '@turnik/data';
+import { BehaviorSubject, catchError, finalize, Observable, tap } from 'rxjs';
+import { PlaygroundRepository, PlaygroundDto } from '@turnik/data';
 import { SnackbarService } from '@turnik/common';
 
 @Injectable({

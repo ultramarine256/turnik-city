@@ -1,15 +1,25 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { BaseRepository } from '../base.repository';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { IpDetailsDto } from './dtos/ip-details.dto';
 import { CountersDto } from './dtos/counters.dto';
+import { QueryClientService, UseQuery } from '@ngneat/query';
 
 @Injectable()
 export class CommonRepository extends BaseRepository {
-  constructor(httpClient: HttpClient) {
-    super(httpClient);
+  private queryClient = inject(QueryClientService);
+  private useQuery = inject(UseQuery);
+
+  constructor(http: HttpClient) {
+    super(http);
+  }
+
+  getPlaygrounds() {
+    return this.useQuery(['doodle'], () => {
+      return this.httpClient.get<IpDetailsDto[]>('https://api.turnik.city/playground/');
+    });
   }
 
   ipDetails(): Observable<IpDetailsDto> {

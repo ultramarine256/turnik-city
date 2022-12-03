@@ -27,6 +27,7 @@
     "@fortawesome/free-brands-svg-icons": "^6.2.0",
     "@fortawesome/free-regular-svg-icons": "^6.2.0",
     "@fortawesome/free-solid-svg-icons": "^6.2.0",
+    "@ngneat/query": "^1.0.0-beta.9",
     "@nguniversal/express-engine": "^14.2.0",
     "bootstrap": "^5.2.1",
     "express": "^4.15.2",
@@ -36,6 +37,7 @@
     "swiper": "^8.4.4",
     "tiny-invariant": "^1.2.0",
     "tslib": "^2.3.0",
+    "zod": "^3.19.1",
     "zone.js": "~0.11.8"
   },
   "devDependencies": {
