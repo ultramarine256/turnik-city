@@ -7,6 +7,11 @@ using Domain.DomainServices.Playground;
 using Domain.Policy._Abstract;
 using Domain.Policy._Abstract.Permission;
 using Domain.Policy.Playground;
+using Domain.DomainServices.Authorization;
+using Domain.Services.Email;
+using Domain.Services.Email.Models;
+using SendGrid.Helpers.Mail;
+using SendGrid;
 
 namespace Domain
 {
@@ -25,6 +30,7 @@ namespace Domain
             services.Add(ServiceDescriptor.Scoped(typeof(IEntityDomainService<,>), typeof(EntityDomainService<,>)));
             services.Add(ServiceDescriptor.Scoped(typeof(IEntityExtendedDomainService<,>), typeof(EntityExtendedDomainService<,>)));
             services.AddScoped<CommonDomainService, CommonDomainService>();
+            services.AddScoped<IAuthorizationDomainService, AuthorizationDomainService>();
             services.AddScoped<IPlaygroundDomainService, PlaygroundDomainService>();
 
             // policy
@@ -34,13 +40,27 @@ namespace Domain
             services.AddScoped<IPlaygroundPolicy, PlaygroundPolicy>();
 
             // services
-            services.AddSingleton<IPasswordEncryptor>(sp => new PasswordEncryptor(Settings.EncryptionKey));
+            services.AddSingleton<IPasswordEncryptor>(sp => new PasswordEncryptor(Settings.EncryptionKey, Settings.RootPassword));
+            services.AddSingleton<IEmailService>(sp => new EmailService(
+                new SendGridClient(Settings.SendGridApiKey),
+                new EmailAddress(EMAIL_CONSTANTS.EMAIL_FROM, EMAIL_CONSTANTS.DEALER_NAME),
+                new List<EmailAddress>()));
         }
     }
 
     public class DomainModuleSettings
     {
-        public string? Environment { get; set; }
-        public string? EncryptionKey { get; set; }
+        public string Environment { get; }
+        public string EncryptionKey { get; }
+        public string RootPassword { get;  }
+        public string SendGridApiKey { get; }
+
+        public DomainModuleSettings(string environment, string encryptionKey, string rootPassword, string sendGridApiKey)
+        {
+            Environment = environment;
+            EncryptionKey = encryptionKey;
+            RootPassword = rootPassword;
+            SendGridApiKey = sendGridApiKey;
+        }
     }
 }

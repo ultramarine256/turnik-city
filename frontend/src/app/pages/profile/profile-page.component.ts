@@ -1,11 +1,17 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthFacade } from 'app/domain';
 
 @Component({
   selector: 'app-profile-page',
-  template: `
-    <div style="display: grid; place-content: center; height: 300px">
-      <span style="font-size: 2rem">¯\\_(ツ)_/¯</span>
-    </div>
-  `,
+  templateUrl: './profile-page.component.html',
+  styleUrls: ['./profile-page.component.scss'],
 })
-export class ProfilePageComponent {}
+export class ProfilePageComponent {
+  constructor(private authFacade: AuthFacade, public router: Router) {}
+
+  logout() {
+    this.authFacade.signOut();
+    this.router.navigate(['/']).then();
+  }
+}

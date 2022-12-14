@@ -3,4 +3,4 @@ export * from './common';
 export * from './playground';
 export * from './user';
 
-export * from './repository.module';
+export * from './data.module';

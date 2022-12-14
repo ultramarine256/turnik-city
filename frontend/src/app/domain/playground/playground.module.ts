@@ -1,12 +1,11 @@
 import { NgModule } from '@angular/core';
-import { RepositoryModule } from '@turnik/data';
 import { PlaygroundFacade } from './playground.facade';
 import { PlaygroundCreateComponent, PlaygroundMapComponent, PlaygroundPreviewComponent } from './index';
-import { ThemeModule } from '@turnik/common';
+import { AppCommonModule } from 'app/common';
 
 @NgModule({
   declarations: [PlaygroundCreateComponent, PlaygroundPreviewComponent, PlaygroundMapComponent],
-  imports: [RepositoryModule, ThemeModule],
+  imports: [AppCommonModule],
   exports: [PlaygroundMapComponent],
   providers: [PlaygroundFacade],
 })

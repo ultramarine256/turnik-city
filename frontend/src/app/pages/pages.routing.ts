@@ -9,9 +9,9 @@ import {
   PagesComponent,
   PlaygroundDetailsPageComponent,
   AboutPageComponent,
-  NotFoundPageComponent,
 } from './index';
 import { PagesResolver } from './pages.resolver';
+import { RouterGuard } from 'app/domain';
 
 const routes: Routes = [
   {
@@ -41,9 +41,10 @@ const routes: Routes = [
         component: AboutPageComponent,
       },
       {
-        path: 'liked',
+        path: 'profile',
         component: ProfilePageComponent,
         resolve: { pagesResolver: PagesResolver },
+        canActivate: [RouterGuard],
       },
       {
         path: 'ui',
@@ -51,13 +52,8 @@ const routes: Routes = [
         resolve: { pagesResolver: PagesResolver },
       },
       {
-        path: '404',
-        component: NotFoundPageComponent,
-        resolve: { pagesResolver: PagesResolver },
-      },
-      {
         path: '**',
-        redirectTo: '404',
+        redirectTo: '',
       },
     ],
   },

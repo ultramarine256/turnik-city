@@ -7,14 +7,14 @@ namespace WebApi.Infrastructure.HttpContextAccessor
     public class AppHttpContextAccessor : IAppSession
     {
         public ITokenClaims TokenClaims { get; }
-        public ITokenAuthorization AppAuthorizationService { get; }
+        public IBearerTokenService BearerTokenService { get; }
 
         public AppHttpContextAccessor(
             IHttpContextAccessor httpContextAccessor,
-            ITokenAuthorization appAuthorizationService)
+            IBearerTokenService bearerTokenService)
         {
-            AppAuthorizationService = appAuthorizationService;
-            TokenClaims = AppAuthorizationService.GetUserClaimsFromHttpContext(httpContextAccessor.HttpContext);
+            BearerTokenService = bearerTokenService;
+            TokenClaims = BearerTokenService.GetUserClaimsFromHttpContext(httpContextAccessor.HttpContext);
         }
     }
 }

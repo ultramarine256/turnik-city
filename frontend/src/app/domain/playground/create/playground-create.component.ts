@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { BaseDialogComponent } from '@turnik/common';
-import { PlaygroundCreateDto } from '@turnik/data';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { BaseDialogComponent } from 'app/common';
+import { PlaygroundCreateDto } from 'app/data';
 
 @Component({
   selector: 'app-playground-create',

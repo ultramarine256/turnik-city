@@ -1,9 +1,8 @@
-import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DomainModule } from '@turnik/domain';
+import { AppCommonModule } from 'app/common';
+import { DomainModule } from 'app/domain';
 import {
+  AboutPageComponent,
   PagesComponent,
   PagesRouting,
   ProfilePageComponent,
@@ -11,9 +10,7 @@ import {
   UIPageComponent,
   HomePageComponent,
   PlaygroundDetailsPageComponent,
-  NotFoundPageComponent,
 } from './index';
-import { AboutPageComponent } from './about/about-page.component';
 
 const COMPONENTS = [
   AboutPageComponent,
@@ -22,20 +19,13 @@ const COMPONENTS = [
   PlaygroundMapPageComponent,
   PlaygroundDetailsPageComponent,
   UIPageComponent,
-  NotFoundPageComponent,
   PagesComponent,
 ];
 
 @NgModule({
   declarations: [...COMPONENTS],
   imports: [
-    /// angular
-    CommonModule,
-    FormsModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-
-    /// app
+    AppCommonModule,
     DomainModule,
 
     /// routing

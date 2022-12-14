@@ -29,10 +29,14 @@
             <fa-icon class="w-20" [icon]="['far', 'map']" size="xl"></fa-icon>
             <span class="nav-button__text">Map</span>
           </a>
-          <a mat-stroked-button class="nav-button" [routerLink]="'/liked'">
+          <button mat-stroked-button class="nav-button" (click)="loginClick()" *ngIf="!authFacade.isAuthorized">
             <fa-icon [icon]="['far', 'face-smile']" size="xl"></fa-icon>
             <span class="nav-button__text">Profile</span>
-          </a>
+          </button>
+          <button mat-stroked-button class="nav-button" (click)="navigateToProfile()" *ngIf="authFacade.isAuthorized">
+            <fa-icon [icon]="['far', 'face-smile']" size="xl"></fa-icon>
+            <span class="nav-button__text">{{ authFacade.userIdentity.fullName }}</span>
+          </button>
         </div>
       </div>
     </div>

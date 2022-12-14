@@ -7,7 +7,8 @@ namespace WebApi.Controllers.App.User.Dtos
     {
         public string Email { get; set; }
         public string ImageUrl { get; set; }
-        public string FullName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public string PhoneNumber { get; set; }
 
         public override UserEntity MapToEntity(UserEntity entity)
@@ -16,7 +17,8 @@ namespace WebApi.Controllers.App.User.Dtos
             entity.Email = Email;
             entity.ImageUrl = ImageUrl;
 
-            entity.FullName = FullName;
+            entity.FirstName = FirstName;
+            entity.LastName = LastName;
             entity.PhoneNumber = PhoneNumber;
 
             return entity;
@@ -29,7 +31,8 @@ namespace WebApi.Controllers.App.User.Dtos
 
             ImageUrl = entity.ImageUrl;
             
-            FullName = entity.FullName;
+            FirstName = entity.FirstName;
+            LastName = entity.LastName;
             PhoneNumber = entity.PhoneNumber;
 
             return this;

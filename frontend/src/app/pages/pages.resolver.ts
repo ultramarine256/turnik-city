@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
-import { delay, Observable, of } from 'rxjs';
-import { SeoService } from '@turnik/domain';
+import { SeoService } from 'app/domain';
 
 @Injectable({
   providedIn: 'root',

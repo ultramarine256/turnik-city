@@ -2,17 +2,14 @@
 
 namespace WebApi.Infrastructure.Authorization.Token
 {
-    public interface ITokenAuthorization
+    public interface IBearerTokenService
     {
         string CreateToken(
             string email,
             string imageUrl,
             string fullName,
             string role,
-            IList<string> permissions,
-            IList<int> dealerIds,
-            IList<string> dealerSlugs);
+            IList<string> permissions);
         ITokenClaims GetUserClaimsFromHttpContext(HttpContext httpContext);
-        string GetRootPassword();
     }
 }

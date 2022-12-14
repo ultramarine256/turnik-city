@@ -20,7 +20,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { MatRadioModule } from '@angular/material/radio';
 
-const COMPONENT = [
+const MODULES = [
   MatButtonModule,
   MatOptionModule,
   MatMenuModule,
@@ -44,7 +44,7 @@ const COMPONENT = [
 ];
 
 @NgModule({
-  imports: [...COMPONENT],
-  exports: [...COMPONENT],
+  imports: [...MODULES],
+  exports: [...MODULES],
 })
 export class MaterialThemeModule {}

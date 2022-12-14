@@ -1,8 +1,8 @@
-﻿using System.Net;
-using Data.EFContext;
+﻿using Data.EFContext;
 using Data.EFRepository;
 using Data.EFRepository.Common;
 using Data.EFRepository.Playground;
+using Data.EFRepository.User;
 using Data.Infrastructure.ContextManager;
 using Data.Infrastructure.UnitOfWork;
 using Data.ThirdParty.IPStack;
@@ -31,6 +31,7 @@ namespace Data
             services.Add(ServiceDescriptor.Transient(typeof(IEntityRepository<,>), typeof(EntityRepository<,>)));
             services.Add(ServiceDescriptor.Transient(typeof(IEntityRepositoryX<,>), typeof(EntityRepositoryX<,>)));
             services.AddTransient<IPlaygroundRepository, PlaygroundRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<ICommonRepository, CommonRepository>();
 
             // services

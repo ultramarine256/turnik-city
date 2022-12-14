@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, finalize, Observable, tap } from 'rxjs';
-import { PlaygroundRepository, PlaygroundDto } from '@turnik/data';
-import { SnackbarService } from '@turnik/common';
+import { PlaygroundDto, PlaygroundRepository } from 'app/data';
+import { SnackbarService } from 'app/common';
 
 @Injectable({
   providedIn: 'root',

@@ -1,8 +1,8 @@
-import { AfterViewInit, Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, Inject, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { PlaygroundDto } from '@turnik/data';
+import { swiperOptions } from 'app/common';
+import { PlaygroundDto } from 'app/data';
 import { Observable } from 'rxjs';
-import { swiperOptions } from '@turnik/common';
 
 @Component({
   selector: 'app-playground-preview',

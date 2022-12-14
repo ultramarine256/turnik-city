@@ -10,12 +10,12 @@ import {
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { AUTH_CONST, AuthStorage } from '@turnik/data';
+import { AUTH_CONST, AuthStorage } from 'app/data';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthInterceptor implements HttpInterceptor {
+export class AppHttpInterceptor implements HttpInterceptor {
   constructor(private router: Router) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {

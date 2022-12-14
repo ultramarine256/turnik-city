@@ -9,25 +9,19 @@ namespace WebApi.Infrastructure.Authorization.Token.Models
         public string FullName { get; }
         public string UserRole { get; }
         public IList<string> Permissions { get; }
-        public IList<int> DealerIds { get; }
-        public IList<string> DealerSlugs { get; }
 
         public TokenClaims(
             string email,
             string imageUrl,
             string fullName,
             string userRole,
-            IList<string> permissions,
-            IList<int> dealerIds,
-            IList<string> dealerSlugs)
+            IList<string> permissions)
         {
             Email = email;
             ImageUrl = imageUrl;
             FullName = fullName;
             UserRole = userRole;
             Permissions = permissions;
-            DealerIds = dealerIds;
-            DealerSlugs = dealerSlugs;
         }
     }
 }

@@ -2,8 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BaseRepository } from './base.repository';
 import { map } from 'rxjs/operators';
-import { ObjectExtensions } from '@turnik/common';
 import { IMappable } from './_abstract';
+import { ObjectExtensions } from 'app/common';
 
 export abstract class CrudRepository<T extends IMappable> extends BaseRepository {
   protected pathName: string;

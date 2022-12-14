@@ -20,9 +20,7 @@ namespace WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             // infrastructure
-            services.AddSingleton<ITokenAuthorization>(sp => new TokenAuthorization(
-                Settings.SecurityKey,
-                Settings.RootPassword));
+            services.AddSingleton<IBearerTokenService>(sp => new BearerTokenService(Settings.SecurityKey));
             services.AddScoped<IAppSession, AppHttpContextAccessor>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -52,6 +50,5 @@ namespace WebApi
     public class WebApiModuleSettings
     {
         public string SecurityKey { get; set; } = null!;
-        public string RootPassword { get; set; } = null!;
     }
 }

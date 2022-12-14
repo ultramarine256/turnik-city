@@ -1,8 +1,7 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { AppStore, PlaygroundFacade, PlaygroundPreviewComponent } from '@turnik/domain';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { PlaygroundMarkerModel } from '@turnik/domain';
-import { ExtendedDialogService } from '@turnik/common';
+import { AppStore, PlaygroundFacade, PlaygroundMarkerModel, PlaygroundPreviewComponent } from 'app/domain';
+import { ExtendedDialogService } from 'app/common';
 
 @Component({
   selector: 'app-map-page',

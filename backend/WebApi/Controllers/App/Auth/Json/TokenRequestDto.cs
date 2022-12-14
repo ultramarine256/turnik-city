@@ -1,6 +1,6 @@
-﻿namespace Domain.Modules.Authorization.Models
+﻿namespace WebApi.Controllers.App.Auth.Json
 {
-    public class TokenRequest
+    public class TokenRequestDto
     {
         public string Login { get; set; }
         public string Password { get; set; }

@@ -1,12 +1,12 @@
-﻿namespace Domain.Modules.Authorization.Models
+﻿namespace WebApi.Controllers.App.Auth.Json
 {
-    public class TokenResponse
+    public class TokenResponseDto
     {
         public string Token { get; set; }
         public string TokenType { get; set; }
         public DateTime ExpireDateTimeUtc { get; }
 
-        public TokenResponse(string token, string tokenType, DateTime expireDateTimeUtc)
+        public TokenResponseDto(string token, string tokenType, DateTime expireDateTimeUtc)
         {
             Token = token;
             TokenType = tokenType;

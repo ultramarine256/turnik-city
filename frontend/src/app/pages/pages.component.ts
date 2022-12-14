@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AppStore, PlaygroundCreateComponent, PlaygroundFacade } from '@turnik/domain';
-import { ExtendedDialogService, SOCIAL } from '@turnik/common';
-import { PlaygroundCreateDto, PlaygroundSizes, PlaygroundTypes } from '@turnik/data';
 import { map } from 'rxjs/operators';
+import { ExtendedDialogService, SOCIAL } from 'app/common';
+import { AppStore, AuthFacade, PlaygroundCreateComponent, PlaygroundFacade } from 'app/domain';
+import { PlaygroundCreateDto, PlaygroundSizes, PlaygroundTypes } from 'app/data';
 
 @Component({
   selector: 'app-pages-component',
@@ -18,10 +18,14 @@ export class PagesComponent implements OnInit {
     public router: Router,
     public store: AppStore,
     private dialogService: ExtendedDialogService,
-    public playgroundFacade: PlaygroundFacade
+    public playgroundFacade: PlaygroundFacade,
+    public authFacade: AuthFacade
   ) {}
 
-  ngOnInit() {}
+  ngOnInit(): void {
+    this.authFacade.fetch();
+    console.log(123);
+  }
 
   playgroundCreateDialogOpen() {
     const model = new PlaygroundCreateDto();
@@ -44,5 +48,15 @@ export class PagesComponent implements OnInit {
     // this.playgroundFacade.create(x).subscribe(r => {
     //   console.log(r);
     // });
+  }
+
+  loginClick() {
+    this.authFacade.openLoginDialog();
+  }
+
+  navigateToProfile() {
+    this.router.navigate(['/profile']).then();
+    // profile
+    console.log('profile');
   }
 }

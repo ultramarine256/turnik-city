@@ -2,7 +2,7 @@ import { FormGroup } from '@angular/forms';
 import { OnInit, Directive } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { IDialogComponent, IFormComponent } from '.';
-import { ValidationHelper } from '@turnik/common';
+import { ValidationHelper } from 'app/common';
 
 @Directive()
 export abstract class BaseDialogComponent<T> implements OnInit, IFormComponent<T>, IDialogComponent<T> {

@@ -16,15 +16,15 @@ namespace WebApi.Infrastructure
                 IPStackApiKey = settings.IpStackApiKey
             });
 
-            var domainModule = new DomainModule(new DomainModuleSettings()
-            {
-                Environment = settings.Environment,
-                EncryptionKey = settings.Authorization.EncryptionKey
-            });
-            
+            var domainModule = new DomainModule(new DomainModuleSettings(
+                settings.Environment,
+                settings.Authorization.EncryptionKey,
+                settings.Authorization.RootPassword,
+                settings.SendGridApiKey
+            ));
+
             var webApiModule = new WebApiModule(new WebApiModuleSettings()
             {
-                RootPassword = settings.Authorization.RootPassword,
                 SecurityKey = settings.Authorization.SecurityKey
             });
 

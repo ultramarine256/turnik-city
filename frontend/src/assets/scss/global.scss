@@ -153,6 +153,18 @@ hr {
   }
 }
 
+.login-dialog {
+  width: 350px;
+
+  @media (max-height: 710px), (max-width: 640px) {
+    width: 84vw !important;
+  }
+
+  .mat-dialog-container {
+    padding: 0;
+  }
+}
+
 /**
 * ------------------------------------------------------------------------
 * swiper

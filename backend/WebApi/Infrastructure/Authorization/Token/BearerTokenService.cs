@@ -1,6 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Data;
 using Domain.Infrastructure.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
@@ -8,28 +9,21 @@ using WebApi.Infrastructure.Authorization.Token.Models;
 
 namespace WebApi.Infrastructure.Authorization.Token
 {
-    public class TokenAuthorization : ITokenAuthorization
+    public class BearerTokenService : IBearerTokenService
     {
-        private string SecurityKey { get; }
-        private string RootPassword { get; }
+        private string SymmetricSecurityKey { get; }
 
-        public TokenAuthorization(string securityKey, string rootPassword)
+        public BearerTokenService(string symmetricSecurityKey)
         {
-            SecurityKey = securityKey;
-            RootPassword = rootPassword;
+            SymmetricSecurityKey = symmetricSecurityKey;
         }
-
-        public string GetRootPassword()
-            => RootPassword;
 
         public string CreateToken(
             string email,
             string imageUrl,
             string fullName,
             string role,
-            IList<string> permissions,
-            IList<int> dealerIds,
-            IList<string> dealerSlugs)
+            IList<string> permissions)
         {
             // TODO: use claims standard naming
             // https://docs.microsoft.com/en-us/windows-server/identity/ad-fs/technical-reference/the-role-of-claims
@@ -41,12 +35,11 @@ namespace WebApi.Infrastructure.Authorization.Token
                 new Claim(TOKEN_KEYS.IMAGE_URL, imageUrl),
                 new Claim(TOKEN_KEYS.FULL_NAME,  fullName),
                 new Claim(TOKEN_KEYS.ROLE, role),
-                new Claim(TOKEN_KEYS.PERMISSIONS, JsonConvert.SerializeObject(permissions)),
-                new Claim(TOKEN_KEYS.DEALER_IDS, JsonConvert.SerializeObject(dealerIds)),
-                new Claim(TOKEN_KEYS.DEALER_SLUGS, JsonConvert.SerializeObject(dealerSlugs))
+                new Claim(TOKEN_KEYS.PERMISSIONS, JsonConvert.SerializeObject(permissions))
+
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SecurityKey));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SymmetricSecurityKey));
             var creeds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
@@ -76,37 +69,27 @@ namespace WebApi.Infrastructure.Authorization.Token
             var role = dictionary[TOKEN_KEYS.ROLE];
             var permissions = JsonConvert.DeserializeObject<IList<string>>(dictionary[TOKEN_KEYS.PERMISSIONS]);
 
-            var dealerSlugsJson = dictionary[TOKEN_KEYS.DEALER_SLUGS];
-            var dealerSlugs = !string.IsNullOrEmpty(dealerSlugsJson) ? JsonConvert.DeserializeObject<IList<string>>(dealerSlugsJson) : new List<string>();
-            var dealerIdsJson = dictionary[TOKEN_KEYS.DEALER_IDS];
-            var dealerIds = !string.IsNullOrEmpty(dealerIdsJson) ? JsonConvert.DeserializeObject<IList<int>>(dealerIdsJson) : new List<int>();
-
-            return new TokenClaims(email, imageUrl, fullName, role, permissions, dealerIds, dealerSlugs);
+            return new TokenClaims(email, imageUrl, fullName, role, permissions);
         }
     }
 
     public static class AUTH_SCOPE
     {
-        public const string
-            ADMIN = "admin",
-            APP = "app";
+        public const string ADMIN = "admin";
+        public const string APP = "app";
     }
 
     public static class TOKEN_TYPE
     {
-        public const string
-            BEARER = "bearer";
+        public const string BEARER = "bearer";
     }
 
     public static class TOKEN_KEYS
     {
-        public const string
-            EMAIL = "email_",
-            IMAGE_URL = "imageUrl",
-            FULL_NAME = "fullName",
-            ROLE = "role_",
-            PERMISSIONS = "permissions",
-            DEALER_IDS = "dealerIds",
-            DEALER_SLUGS = "dealerSlugs";
+        public const string EMAIL = "email_";
+        public const string IMAGE_URL = "imageUrl";
+        public const string FULL_NAME = "fullName";
+        public const string ROLE = "role_";
+        public const string PERMISSIONS = "permissions";
     }
 }

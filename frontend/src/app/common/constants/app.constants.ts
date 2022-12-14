@@ -6,6 +6,9 @@ export const APP_CONST = {
 
   // theming
   DEFAULT_THEME_COLOR: '#3f51b5',
+
+  // images
+  LOGIN_LOGO: '/assets/img/logo/logo__login-1.png',
 };
 
 export const USER_ROLES = {

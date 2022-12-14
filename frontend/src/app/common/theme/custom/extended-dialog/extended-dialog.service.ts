@@ -14,12 +14,11 @@ export class ExtendedDialogService {
    * @param panelClass - Panel CSS class
    * @param data - Dialog data
    */
-  openDialog<T>(component: any, panelClass: string = '', data: any = null): Observable<T> {
-    const dialogRef = this.dialog.open(component, {
+  openDialog(component: any, panelClass: string = '', data: any = null) {
+    return this.dialog.open(component, {
       panelClass: panelClass,
       data: data,
     });
-    return dialogRef.afterClosed().pipe(filter(x => !!x || (x || []).length > 0));
   }
 
   /**

@@ -1,4 +1,4 @@
-﻿namespace Domain.Modules.Authorization.Models
+﻿namespace Domain.DomainServices.Authorization.Models
 {
     public class IdentityInfo
     {

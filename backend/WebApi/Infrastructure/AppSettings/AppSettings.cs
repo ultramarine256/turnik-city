@@ -5,10 +5,12 @@
         public string Environment { get; set; }
         public AppDetails Details { get; }
         public AuthorizationSettings Authorization { get; }
+        public string SendGridApiKey { get; set; }
         public DatabaseSettings Database { get; }
         public StorageSettings Storage { get; }
         public TelegramSettings Telegram { get; }
         public string IpStackApiKey { get; set; }
+        
 
         public AppSettings()
         {
@@ -32,6 +34,8 @@
             Authorization.EncryptionKey = configuration["authorization:encryptionKey"];
             Authorization.SecurityKey = configuration["authorization:securityKey"];
             Authorization.RootPassword = configuration["authorization:rootPassword"];
+
+            SendGridApiKey = configuration["sendGridApiKey"];
 
             Database.Host = configuration["database:host"];
             Database.Name = configuration["database:name"];
