@@ -18,6 +18,7 @@ export class ExtendedDialogService {
     return this.dialog.open(component, {
       panelClass: panelClass,
       data: data,
+      autoFocus: false,
     });
   }
 

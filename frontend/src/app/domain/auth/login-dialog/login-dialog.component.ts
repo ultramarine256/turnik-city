@@ -1,18 +1,13 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { APP_CONST, SnackbarService, ValidationHelper } from 'app/common';
+import { SnackbarService, ValidationHelper } from 'app/common';
 import { AuthFacade, AuthorizationRequestModel } from '../auth.facade';
 
 @Component({
   selector: 'app-login-dialog',
   template: `
     <div class="login__content">
-      <!-- logo -->
-      <!--  <div class="login__logo mb-4">-->
-      <!--    <img [src]="APP_CONST.LOGIN_LOGO" />-->
-      <!--  </div>-->
-
       <!-- form -->
       <form [formGroup]="form" (keydown)="keyDownFunction($event)">
         <div class="row">
@@ -46,8 +41,8 @@ import { AuthFacade, AuthorizationRequestModel } from '../auth.facade';
             <button
               mat-flat-button
               class="login-buttons__button login-buttons__forgot-pass"
-              [disabled]="(facade.isProcessing$ | async)!"
-              (click)="login(initModelFromFormGroup(entity, form)); $event.preventDefault()"
+              [disabled]="(facade.isLoginProcessing$ | async)!"
+              (click)="$event.preventDefault()"
             >
               Forgot Password?
             </button>
@@ -55,11 +50,11 @@ import { AuthFacade, AuthorizationRequestModel } from '../auth.facade';
               mat-flat-button
               class="login-buttons__button"
               color="primary"
-              [disabled]="(facade.isProcessing$ | async)!"
+              [disabled]="(facade.isLoginProcessing$ | async)!"
               (click)="login(initModelFromFormGroup(entity, form)); $event.preventDefault()"
             >
               Login
-              <mat-progress-bar *ngIf="(facade.isProcessing$ | async)!" mode="indeterminate"></mat-progress-bar>
+              <mat-progress-bar *ngIf="(facade.isLoginProcessing$ | async)!" mode="indeterminate"></mat-progress-bar>
             </button>
           </div>
         </div>
@@ -107,7 +102,6 @@ import { AuthFacade, AuthorizationRequestModel } from '../auth.facade';
 export class LoginDialogComponent {
   entity: AuthorizationRequestModel;
   form: FormGroup;
-  APP_CONST = APP_CONST;
 
   // predicates
   hide = false;
@@ -128,8 +122,8 @@ export class LoginDialogComponent {
     this.facade.login(model).subscribe(r => {
       this.form.enable();
       if (r == 'success') {
+        this.facade.dialog.close();
         this.router.navigate(['/']).then(() => {});
-        this.facade.closeLoginDialog();
       } else if (r == 'wrong-password') {
         (this.form.controls as any).password.setValue('');
         this._snackBar.error('Login or password was incorrect.');

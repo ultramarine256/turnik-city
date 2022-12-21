@@ -9,7 +9,7 @@ export class RouterGuard implements CanActivate {
   constructor(public router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    if (AuthStorage.Instance.TokenInfo.token) {
+    if (new AuthStorage().TokenInfo.token) {
       return true;
     }
     this.router.navigate(['/']).then();

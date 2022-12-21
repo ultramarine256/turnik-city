@@ -28,7 +28,7 @@ namespace Domain.Services.Email
             // TODO: fix email forwarding
         }
 
-        public Task<Response> DoodleEmail(IList<EmailAddress> recipients, AppointmentEmailData data, string type = EMAIL_TEMPLATE.DEALER)
+        public Task<Response> DoodleEmail(IList<EmailAddress> recipients, DoodleEmailData data, string type = EMAIL_TEMPLATE.DEALER)
         {
             var message = MailHelper.CreateSingleTemplateEmailToMultipleRecipients(
                 EmailFrom,

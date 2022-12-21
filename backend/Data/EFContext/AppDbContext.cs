@@ -14,6 +14,10 @@ namespace Data.EFContext
             {
                 optionsBuilder.UseNpgsql(@"Server=(localdb)\mssqllocaldb;Database=EFProviders.InMemory;Trusted_Connection=True;ConnectRetryCount=0");
             }
+
+            // db migrations
+            var connectionString = "Host=general-p1.postgres.database.azure.com;Database=turnik-prod;Username=toto;Password=V76t1eKi4cuy";
+            optionsBuilder.UseNpgsql(connectionString);
         }
 
         public virtual DbSet<PlaygroundEntity> Playgrounds { get; set; }

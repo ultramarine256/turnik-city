@@ -1,7 +1,6 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { ReplaySubject, BehaviorSubject, Observable } from 'rxjs';
+import { ReplaySubject, BehaviorSubject, Observable, tap, catchError, first, Subject, finalize } from 'rxjs';
 import { AUTH_GRANT_TYPE, AuthRepository, AuthStorage, UserIdentityJson } from 'app/data';
 import { ExtendedDialogService } from 'app/common';
 import { LoginDialogComponent } from './index';
@@ -11,115 +10,104 @@ import { LoginDialogComponent } from './index';
 })
 export class AuthFacade {
   // predicates
-  isProcessing$ = new BehaviorSubject<boolean>(false);
+  readonly isFetchProcessing$ = new ReplaySubject<boolean>();
+  readonly isLoginProcessing$ = new ReplaySubject<boolean>();
   isRegistrationEmailSent = false;
   isPasswordChanged = false;
   isPasswordResetEmailSent = false;
 
-  isAuthorized = false;
+  readonly predicate = {
+    isProcessing$: new BehaviorSubject<boolean>(false),
+    isRegistrationEmailSent: false,
+    isPasswordChanged: false,
+    isPasswordResetEmailSent: false,
+  };
 
   /// fields
-  private dialogRef: any;
+  isAuthorized$: ReplaySubject<boolean> = new ReplaySubject();
   userIdentity: UserIdentityJson = new UserIdentityJson();
 
-  /// related
-  private readonly authStorage = AuthStorage.Instance;
+  /// services
+  private dialogRef: any;
+
+  /// dependencies
+  private readonly authStorage: AuthStorage;
 
   constructor(
     private dialogService: ExtendedDialogService,
     private authRepository: AuthRepository,
     private router: Router
-  ) {}
+  ) {
+    this.authStorage = new AuthStorage();
+  }
 
   fetch() {
-    this.fetchIdentityInfo();
-    this.isAuthorized = !!AuthStorage.Instance.TokenInfo.token;
-    this.userIdentity = AuthStorage.Instance.IdentityInfo;
+    if (this.authStorage.TokenInfo.token) {
+      this.fetchIdentityInfo().pipe(first()).subscribe();
+      this.isAuthorized$.next(true);
+      this.userIdentity = this.authStorage.IdentityInfo;
+    }
   }
 
-  openLoginDialog() {
-    this.dialogRef = this.dialogService.openDialog(LoginDialogComponent, 'login-dialog', {});
-  }
-
-  closeLoginDialog() {
-    this.dialogRef.close();
-  }
+  dialog = {
+    open: () => {
+      this.dialogRef = this.dialogService.openDialog(LoginDialogComponent, 'login-dialog', {});
+    },
+    close: () => this.dialogRef.close(),
+  };
 
   login(model: AuthorizationRequestModel): Observable<'success' | 'wrong-password' | 'api-down'> {
     const result = new ReplaySubject<'success' | 'wrong-password' | 'api-down'>();
 
-    this.isProcessing$.next(true);
-    this.authRepository.getUserToken(model.login, model.password, AUTH_GRANT_TYPE.EMAIL, 'app').subscribe(
-      tokenJson => {
-        this.authRepository.getUserIdentityInfo(tokenJson.tokenType, tokenJson.token).subscribe(
-          identityJson => {
+    this.isLoginProcessing$.next(true);
+    this.authRepository
+      .getUserToken(model.login, model.password, AUTH_GRANT_TYPE.EMAIL, 'app')
+      .pipe(first())
+      .pipe(finalize(() => this.isLoginProcessing$.next(false)))
+      .subscribe(
+        tokenJson => {
+          this.authRepository.getUserIdentityInfo(tokenJson.tokenType, tokenJson.token).subscribe(identityJson => {
             this.authStorage.setUserTokenInfo(tokenJson, model.rememberMe);
             this.authStorage.setUserIdentityInfo(identityJson, model.rememberMe);
-            this.isProcessing$.next(true);
+            this.userIdentity = identityJson;
+            this.isAuthorized$.next(true);
             result.next('success');
-          },
-          () => {
-            // this._snackBar.error('Error');
-            // this.isProcessing$.next(false);
+          });
+        },
+        response => {
+          if (response.status === 403 || response.status === 401) {
+            result.next('wrong-password');
+          } else {
+            result.next('api-down');
           }
-        );
-      },
-      (response: HttpErrorResponse) => {
-        this.isProcessing$.next(false);
-        if (response.status === 403 || response.status === 401) {
-          result.next('wrong-password');
-        } else {
-          result.next('api-down');
         }
-      }
-    );
+      );
 
     return result;
   }
 
   signOut(): void {
-    this.isAuthorized = false;
-    AuthStorage.Instance.clearStorageInfo();
+    this.isAuthorized$.next(false);
+    this.clearStorageInfo();
   }
 
-  private fetchIdentityInfo() {
-    if (!this.authStorage.TokenInfo.token) {
-      throw new Error('no token');
-    }
-
+  private fetchIdentityInfo(): Observable<UserIdentityJson> {
     return this.authRepository
       .getUserIdentityInfo(this.authStorage.TokenInfo.tokenType, this.authStorage.TokenInfo.token)
-      .subscribe(
-        (userIdentity: UserIdentityJson) => AuthStorage.Instance.updateUserIdentityInfo(userIdentity),
-        (err: HttpErrorResponse) => {
-          // TODO: check??
+      .pipe(
+        tap(userIdentity => this.authStorage.updateUserIdentityInfo(userIdentity)),
+        catchError(err => {
           if (err.status === 401) {
-            this.router.navigate(['/login']).then(() => AuthStorage.Instance.clearStorageInfo());
+            this.router.navigate(['/login']).then(() => this.authStorage.clearStorageInfo());
           }
-        }
+          throw 'unauthorized: ' + err.status;
+        })
       );
   }
 
-  async sendPasswordResetEmail(email: string) {
-    this.isProcessing$.next(true);
-    await this.authRepository.sendPasswordResetEmail(email).toPromise();
-    this.isProcessing$.next(false);
-    this.isPasswordResetEmailSent = true;
+  /// helpers
+  private clearStorageInfo() {
     this.authStorage.clearStorageInfo();
-  }
-
-  async sendRegistrationEmail(email: string) {
-    this.isProcessing$.next(true);
-    await this.authRepository.sendRegisterMeEmail(email).toPromise();
-    this.isProcessing$.next(false);
-    this.isRegistrationEmailSent = true;
-  }
-
-  async changeForgottenPassword(newPassword: string, passwordResetHash: string) {
-    this.isProcessing$.next(true);
-    await this.authRepository.changeForgottenPassword(newPassword, passwordResetHash).toPromise();
-    this.isProcessing$.next(false);
-    this.isPasswordChanged = true;
   }
 }
 
@@ -129,4 +117,9 @@ export type AuthorizationRequestModel = {
   grantType?: string;
   rememberMe: boolean;
   scope?: string;
+};
+
+export type AuthDialog = {
+  dialogRef: any | string;
+  open: () => void;
 };

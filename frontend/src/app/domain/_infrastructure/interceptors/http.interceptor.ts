@@ -16,7 +16,11 @@ import { AUTH_CONST, AuthStorage } from 'app/data';
   providedIn: 'root',
 })
 export class AppHttpInterceptor implements HttpInterceptor {
-  constructor(private router: Router) {}
+  private readonly authStorage: AuthStorage;
+
+  constructor(private router: Router) {
+    this.authStorage = new AuthStorage();
+  }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let authReq = req.clone();
@@ -27,11 +31,11 @@ export class AppHttpInterceptor implements HttpInterceptor {
       return next.handle(directRequest);
     }
 
-    if (AuthStorage.Instance.TokenInfo.token) {
+    if (this.authStorage.TokenInfo.token) {
       let headers = new HttpHeaders();
       headers = headers.append(
         'Authorization',
-        `${AuthStorage.Instance.TokenInfo.tokenType} ${AuthStorage.Instance.TokenInfo.token}`
+        `${this.authStorage.TokenInfo.tokenType} ${this.authStorage.TokenInfo.token}`
       );
       headers = headers.append('Access-Control-Allow-Origin', '*');
       authReq = req.clone({ headers });
@@ -40,7 +44,7 @@ export class AppHttpInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError((err: HttpErrorResponse) => {
         if (err.status === 401) {
-          this.router.navigate(['/login']).then(() => AuthStorage.Instance.clearStorageInfo());
+          this.router.navigate(['/login']).then(() => this.authStorage.clearStorageInfo());
         }
 
         if (err.error instanceof Error) {

@@ -4,12 +4,6 @@ export class AuthStorage {
   private userToken: JtwTokenJson = new JtwTokenJson();
   private userIdentity: UserIdentityJson = new UserIdentityJson();
 
-  private static _instance: AuthStorage;
-
-  static get Instance() {
-    return this._instance || (this._instance = new this());
-  }
-
   get TokenInfo() {
     return this.userToken;
   }
@@ -18,7 +12,7 @@ export class AuthStorage {
     return this.userIdentity;
   }
 
-  private constructor() {
+  constructor() {
     this.userIdentity = this._getIdentityFromStorage(LOCAL_STORAGE_KEYS.USER_IDENTITY);
     this.userToken = this._getTokenFromStorage(LOCAL_STORAGE_KEYS.USER_TOKEN);
   }

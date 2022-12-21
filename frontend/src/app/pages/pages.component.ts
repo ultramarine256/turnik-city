@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { map } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 import { ExtendedDialogService, SOCIAL } from 'app/common';
 import { AppStore, AuthFacade, PlaygroundCreateComponent, PlaygroundFacade } from 'app/domain';
 import { PlaygroundCreateDto, PlaygroundSizes, PlaygroundTypes } from 'app/data';
@@ -24,10 +24,13 @@ export class PagesComponent implements OnInit {
 
   ngOnInit(): void {
     this.authFacade.fetch();
-    console.log(123);
   }
 
   playgroundCreateDialogOpen() {
+    this.authFacade.isAuthorized$.subscribe(r => {
+      console.log(r);
+    });
+
     const model = new PlaygroundCreateDto();
     this.dialogService
       .openCreateDialog<PlaygroundCreateDto>(PlaygroundCreateComponent, model, {
@@ -51,7 +54,7 @@ export class PagesComponent implements OnInit {
   }
 
   loginClick() {
-    this.authFacade.openLoginDialog();
+    this.authFacade.dialog.open();
   }
 
   navigateToProfile() {
