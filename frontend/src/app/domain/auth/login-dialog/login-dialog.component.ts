@@ -1,72 +1,67 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { SnackbarService, ValidationHelper } from 'app/common';
-import { AuthFacade, AuthorizationRequestModel } from '../auth.facade';
+import { ValidationHelper } from 'app/common';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-login-dialog',
   template: `
     <div class="login__content">
       <!-- form -->
-      <form [formGroup]="form" (keydown)="keyDownFunction($event)">
-        <div class="row">
-          <!-- email -->
-          <mat-form-field class="col-12" appearance="outline">
-            <mat-label>Email</mat-label>
-            <input matInput formControlName="login" placeholder="Email" />
-            <mat-icon matSuffix>mail_outline</mat-icon>
-            <!--  <fa-icon class="s-counter__icon" [icon]="['fas', 'location-dot']" size="2xl" matSuffix></fa-icon>  -->
-          </mat-form-field>
+      <form [formGroup]="form" (keydown)="keyDownFunction($event)" class="row">
+        <!-- email -->
+        <mat-form-field class="col-12" appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="login" placeholder="Email" />
+          <mat-icon matSuffix>mail_outline</mat-icon>
+          <!--  <fa-icon class="s-counter__icon" [icon]="['fas', 'location-dot']" size="2xl" matSuffix></fa-icon>  -->
+        </mat-form-field>
 
-          <!-- pass -->
-          <mat-form-field class="col-12" appearance="outline">
-            <mat-label>Password</mat-label>
-            <input #passInput matInput [type]="!hide ? 'password' : 'text'" formControlName="password" />
-            <button
-              mat-icon-button
-              matSuffix
-              style="width: 26px"
-              [disabled]="!form.value.password"
-              (click)="hide = !hide"
-              [attr.aria-label]="'Hide password'"
-              [attr.aria-pressed]="hide"
-            >
-              <mat-icon>{{ !hide ? 'visibility_off' : 'visibility' }}</mat-icon>
-            </button>
-          </mat-form-field>
+        <!-- pass -->
+        <mat-form-field class="col-12" appearance="outline">
+          <mat-label>Password</mat-label>
+          <input #passInput matInput [type]="!showPass ? 'password' : 'text'" formControlName="password" />
+          <button
+            mat-icon-button
+            matSuffix
+            style="width: 26px"
+            [disabled]="!form.value.password"
+            (click)="showPass = !showPass"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="showPass"
+          >
+            <mat-icon>{{ !showPass ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+        </mat-form-field>
 
-          <!-- buttons -->
-          <div class="col-12 login-buttons">
-            <button
-                mat-flat-button
-                class="login-buttons__button login-buttons__button-login"
-                color="primary"
-                [disabled]="!!(facade.isLoginProcessing$ | async)"
-                (click)="login(initModelFromFormGroup(entity, form)); $event.preventDefault()"
-            >
-              Login
-              <mat-progress-bar *ngIf="(facade.isLoginProcessing$ | async)!" mode="indeterminate"></mat-progress-bar>
-            </button>
-            <button
-                mat-flat-button
-                class="login-buttons__button login-buttons__forgot-pass"
-                [disabled]="!!(facade.isLoginProcessing$ | async)"
-                (click)="$event.preventDefault()"
-            >
-              Lost Password
-            </button>
-            <button
-                mat-flat-button
-                class="login-buttons__button login-buttons__forgot-pass"
-                [disabled]="!!(facade.isLoginProcessing$ | async)"
-                (click)="$event.preventDefault()"
-            >
-              New Account
-            </button>
-            
-            
-          </div>
+        <!-- buttons -->
+        <div class="col-12 login-buttons">
+          <button
+            mat-flat-button
+            class="login-buttons__button login-buttons__button-login"
+            color="primary"
+            [disabled]="!!(isLoginProcessing$ | async)"
+            (click)="loginClickInner(form); $event.preventDefault()"
+          >
+            Login
+            <mat-progress-bar *ngIf="(isLoginProcessing$ | async)!" mode="indeterminate"></mat-progress-bar>
+          </button>
+          <button
+            mat-flat-button
+            class="login-buttons__button login-buttons__forgot-pass"
+            [disabled]="!!(isLoginProcessing$ | async)"
+            (click)="$event.preventDefault()"
+          >
+            Lost Password
+          </button>
+          <button
+            mat-flat-button
+            class="login-buttons__button login-buttons__forgot-pass"
+            [disabled]="!!(isLoginProcessing$ | async)"
+            (click)="$event.preventDefault()"
+          >
+            New Account
+          </button>
         </div>
       </form>
     </div>
@@ -87,11 +82,11 @@ import { AuthFacade, AuthorizationRequestModel } from '../auth.facade';
         display: flex;
         flex-wrap: wrap;
         gap: 10px;
-        
+
         .login-buttons__break {
           flex-basis: 100%;
         }
-        
+
         .login-buttons__button {
           text-transform: uppercase;
         }
@@ -99,7 +94,7 @@ import { AuthFacade, AuthorizationRequestModel } from '../auth.facade';
         .login-buttons__button-login {
           flex-basis: 100%;
         }
-        
+
         .login-buttons__forgot-pass {
           background-color: #efefef;
           color: #6a6a6a;
@@ -119,14 +114,14 @@ import { AuthFacade, AuthorizationRequestModel } from '../auth.facade';
     `,
   ],
 })
-export class LoginDialogComponent {
-  entity: AuthorizationRequestModel;
+export class LoginDialogComponent implements OnInit {
+  @Input() isLoginProcessing$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  @Output() loginClick = new EventEmitter<{ login: string; password: string; rememberMe: string }>();
+
   form: FormGroup;
+  showPass: boolean;
 
-  // predicates
-  hide = false;
-
-  constructor(private router: Router, public facade: AuthFacade, private _snackBar: SnackbarService) {
+  constructor() {
     this.form = new FormGroup({
       login: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required]),
@@ -134,36 +129,26 @@ export class LoginDialogComponent {
     });
   }
 
-  login(model: AuthorizationRequestModel): void {
-    if (!ValidationHelper.validateForm(this.form)) {
+  ngOnInit() {
+    this.isLoginProcessing$.subscribe(r => (r ? this.form.disable() : this.form.enable()));
+  }
+
+  loginClickInner(formGroup: FormGroup): void {
+    if (!ValidationHelper.validateForm(formGroup)) {
       return;
     }
-    this.form.disable();
-    this.facade.login(model).subscribe(r => {
-      this.form.enable();
-      if (r == 'success') {
-        this.facade.dialog.close();
-        this.router.navigate(['/']).then(() => {});
-      } else if (r == 'wrong-password') {
-        (this.form.controls as any).password.setValue('');
-        this._snackBar.error('Login or password was incorrect.');
-      } else if (r == 'api-down') {
-        this._snackBar.error('Our API is down >_<');
-      }
-    });
-  }
 
-  keyDownFunction(event: any) {
-    if (event.keyCode === 13) {
-      this.login(this.initModelFromFormGroup(this.entity, this.form));
-    }
-  }
-
-  initModelFromFormGroup(model: AuthorizationRequestModel, formGroup: FormGroup): AuthorizationRequestModel {
-    return {
+    const model = {
       login: formGroup.value.login,
       password: formGroup.value.password,
       rememberMe: formGroup.value.rememberMe,
     };
+    this.loginClick.emit(model);
+  }
+
+  keyDownFunction(event: any) {
+    if (event.keyCode === 13) {
+      this.loginClickInner(this.form);
+    }
   }
 }

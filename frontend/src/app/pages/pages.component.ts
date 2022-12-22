@@ -41,7 +41,6 @@ export class PagesComponent implements OnInit {
       })
       .subscribe(x => this.playgroundFacade.create(x).subscribe().unsubscribe());
 
-
     const x = new PlaygroundCreateDto({
       size: '',
       type: '',
@@ -54,7 +53,7 @@ export class PagesComponent implements OnInit {
   }
 
   loginClick() {
-    this.authFacade.dialog.open();
+    this.authFacade.openLoginDialog();
   }
 
   navigateToProfile() {
