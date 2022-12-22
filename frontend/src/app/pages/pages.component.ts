@@ -41,16 +41,16 @@ export class PagesComponent implements OnInit {
       })
       .subscribe(x => this.playgroundFacade.create(x).subscribe().unsubscribe());
 
-    // TODO: please, refactor
-    // const x = new PlaygroundCreateDto({
-    //   size: '',
-    //   type: '',
-    //   lat: 1,
-    //   lng: 1,
-    // });
-    // this.playgroundFacade.create(x).subscribe(r => {
-    //   console.log(r);
-    // });
+
+    const x = new PlaygroundCreateDto({
+      size: '',
+      type: '',
+      lat: 1,
+      lng: 1,
+    });
+    this.playgroundFacade.create(x).subscribe(r => {
+      console.log(r);
+    });
   }
 
   loginClick() {

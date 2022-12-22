@@ -39,23 +39,33 @@ import { AuthFacade, AuthorizationRequestModel } from '../auth.facade';
           <!-- buttons -->
           <div class="col-12 login-buttons">
             <button
-              mat-flat-button
-              class="login-buttons__button login-buttons__forgot-pass"
-              [disabled]="(facade.isLoginProcessing$ | async)!"
-              (click)="$event.preventDefault()"
-            >
-              Forgot Password?
-            </button>
-            <button
-              mat-flat-button
-              class="login-buttons__button"
-              color="primary"
-              [disabled]="(facade.isLoginProcessing$ | async)!"
-              (click)="login(initModelFromFormGroup(entity, form)); $event.preventDefault()"
+                mat-flat-button
+                class="login-buttons__button login-buttons__button-login"
+                color="primary"
+                [disabled]="!!(facade.isLoginProcessing$ | async)"
+                (click)="login(initModelFromFormGroup(entity, form)); $event.preventDefault()"
             >
               Login
               <mat-progress-bar *ngIf="(facade.isLoginProcessing$ | async)!" mode="indeterminate"></mat-progress-bar>
             </button>
+            <button
+                mat-flat-button
+                class="login-buttons__button login-buttons__forgot-pass"
+                [disabled]="!!(facade.isLoginProcessing$ | async)"
+                (click)="$event.preventDefault()"
+            >
+              Lost Password
+            </button>
+            <button
+                mat-flat-button
+                class="login-buttons__button login-buttons__forgot-pass"
+                [disabled]="!!(facade.isLoginProcessing$ | async)"
+                (click)="$event.preventDefault()"
+            >
+              New Account
+            </button>
+            
+            
           </div>
         </div>
       </form>
@@ -75,15 +85,25 @@ import { AuthFacade, AuthorizationRequestModel } from '../auth.facade';
       // buttons
       .login-buttons {
         display: flex;
-        justify-content: space-between;
-
+        flex-wrap: wrap;
+        gap: 10px;
+        
+        .login-buttons__break {
+          flex-basis: 100%;
+        }
+        
         .login-buttons__button {
           text-transform: uppercase;
         }
 
+        .login-buttons__button-login {
+          flex-basis: 100%;
+        }
+        
         .login-buttons__forgot-pass {
           background-color: #efefef;
           color: #6a6a6a;
+          flex-grow: 1;
         }
       }
 
@@ -93,7 +113,7 @@ import { AuthFacade, AuthorizationRequestModel } from '../auth.facade';
       }
 
       .mat-form-field-wrapper {
-        margin: 0px !important;
+        margin: 0 !important;
         padding-bottom: 1em !important;
       }
     `,
