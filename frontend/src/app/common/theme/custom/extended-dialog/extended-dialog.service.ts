@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { ConfirmationDialogComponent } from './components';
 import { MatDialog } from '@angular/material/dialog';
+import { ComponentType } from '@angular/cdk/portal';
 
 @Injectable()
 export class ExtendedDialogService {
@@ -14,7 +15,7 @@ export class ExtendedDialogService {
    * @param panelClass - Panel CSS class
    * @param data - Dialog data
    */
-  openDialog(component: any, panelClass: string = '', data: any = null) {
+  openDialog<T>(component: ComponentType<T>, panelClass: string = '', data: any = null) {
     return this.dialog.open(component, {
       panelClass: panelClass,
       data: data,

@@ -7,14 +7,12 @@ import { BehaviorSubject } from 'rxjs';
   selector: 'app-login-dialog',
   template: `
     <div class="login__content">
-      <!-- form -->
       <form [formGroup]="form" (keydown)="keyDownFunction($event)" class="row">
         <!-- email -->
         <mat-form-field class="col-12" appearance="outline">
           <mat-label>Email</mat-label>
           <input matInput formControlName="login" placeholder="Email" />
           <mat-icon matSuffix>mail_outline</mat-icon>
-          <!--  <fa-icon class="s-counter__icon" [icon]="['fas', 'location-dot']" size="2xl" matSuffix></fa-icon>  -->
         </mat-form-field>
 
         <!-- pass -->
@@ -50,9 +48,9 @@ import { BehaviorSubject } from 'rxjs';
             mat-flat-button
             class="login-buttons__button login-buttons__forgot-pass"
             [disabled]="!!(isLoginProcessing$ | async)"
-            (click)="$event.preventDefault()"
+            (click)="registrationClick.emit(); $event.preventDefault()"
           >
-            Lost Password
+            New Account
           </button>
           <button
             mat-flat-button
@@ -60,7 +58,7 @@ import { BehaviorSubject } from 'rxjs';
             [disabled]="!!(isLoginProcessing$ | async)"
             (click)="$event.preventDefault()"
           >
-            New Account
+            Lost Password
           </button>
         </div>
       </form>
@@ -116,7 +114,9 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class LoginDialogComponent implements OnInit {
   @Input() isLoginProcessing$: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  @Output() loginClick = new EventEmitter<{ login: string; password: string; rememberMe: string }>();
+  @Output() loginClick = new EventEmitter<LoginClickEvent>();
+  @Output() registrationClick = new EventEmitter();
+  @Output() forgotPasswordClick = new EventEmitter();
 
   form: FormGroup;
   showPass: boolean;
@@ -152,3 +152,8 @@ export class LoginDialogComponent implements OnInit {
     }
   }
 }
+
+export type LoginClickEvent = {
+  login: string;
+  password: string;
+};

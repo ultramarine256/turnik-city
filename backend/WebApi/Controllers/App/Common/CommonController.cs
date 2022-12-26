@@ -22,5 +22,9 @@ namespace WebApi.Controllers.App.Common
         [HttpGet("counters")]
         public Task<CountersModel> Counters()
             => CommonDomainService.Counters();
+
+        [HttpGet("members")]
+        public Task<IEnumerable<Member>> Members()
+            => CommonDomainService.NewMembers();
     }
 }

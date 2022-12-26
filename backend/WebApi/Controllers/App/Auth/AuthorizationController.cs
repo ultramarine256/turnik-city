@@ -56,6 +56,19 @@ namespace WebApi.Controllers.App.Auth
             return Ok(result);
         }
 
+        [HttpPost("registration")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Registration([FromBody] RegistrationRequestDto request)
+        {
+            if (await Domain.IsUserExist(request.Email))
+            {
+                return Unauthorized(new { status = "email-already-exist" });
+            }
+
+            await Domain.RegisterNewUser(request.Email, request.Password);
+            return Ok(new { status = "ok" });
+        }
+
         [HttpGet("identity-info")]
         public Task<IdentityInfo> GetIdentityInfoAsync()
             => Domain.GetUserIdentityInfo(Session.TokenClaims.Email);

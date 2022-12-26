@@ -1,11 +1,14 @@
 ﻿using Azure;
 using Data.EFContext;
 using Data.EFRepository.User;
+using Data.Entities;
+using Data.Entities.Abstract;
 using Data.Infrastructure.UnitOfWork;
 using Domain.DomainServices.Authorization.Models;
 using Domain.Infrastructure.Authorization;
 using Domain.Policy._Abstract;
 using Domain.Services.Email;
+using Microsoft.EntityFrameworkCore;
 
 namespace Domain.DomainServices.Authorization
 {
@@ -29,6 +32,25 @@ namespace Domain.DomainServices.Authorization
             UowManager = uowManager;
             PasswordEncryptor = passwordEncryptor;
             Context = context;
+        }
+
+        public Task<bool> IsUserExist(string email)
+            => Context.Users.AnyAsync(r => r.Email == email);
+
+        public async Task RegisterNewUser(string email, string password)
+        {
+            var user = new UserEntity()
+            {
+                FirstName = "Rocky",
+                Email = email,
+                PasswordHash = password,
+                Role = USER_ROLE.ANONYMOUS,
+                CreatedUtc = DateTime.UtcNow
+            };
+
+            using var uow = UowManager.CurrentOrCreateNew();
+            await UserRepository.CreateAsync(user);
+            await uow.CompleteAsync();
         }
 
         public async Task<UserAuthDetails> GetUserDetails(string email, string password)
@@ -66,6 +88,8 @@ namespace Domain.DomainServices.Authorization
 
             return result;
         }
+
+        public Task<Response> SendConfirmationCodeEmail(string email, string passwordResetPageUrl) => throw new NotImplementedException();
 
         public async Task<Response> SendPasswordResetEmail(string userEmail, string passwordResetPageUrl)
         {

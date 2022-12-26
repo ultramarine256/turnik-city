@@ -3,8 +3,8 @@
   background: #fff url(https://assets.goodfirms.co/images/hero-building-home.svg) 50% -30% repeat-x;
 
   @media screen and (max-width: 768px) {
-    // background: #fff url(https://assets.goodfirms.co/images/hero-building-home.svg) 50% 0 repeat-x;
     background: none;
+    background-color: var(--primaryColor);
   }
 }
 

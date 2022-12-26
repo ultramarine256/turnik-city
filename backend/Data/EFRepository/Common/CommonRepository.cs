@@ -5,16 +5,18 @@ using Data.ThirdParty.IPStack;
 using Data.ThirdParty.IPStack.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json.Linq;
 
 namespace Data.EFRepository.Common
 {
     public interface ICommonRepository
     {
-        public Task<DecodeIpModel> DecodeIp(string ip);
-        public Task<CountersModel> GetCounters();
+        Task<DecodeIpModel> DecodeIp(string ip);
+        Task<CountersModel> GetCounters();
+        Task<IEnumerable<Member>> NewMembers();
     }
 
-    public class CommonRepository : BaseRepository, ICommonRepository
+    internal class CommonRepository : BaseRepository, ICommonRepository
     {
         public IIpDecoder IpDecoder { get; }
 
@@ -69,6 +71,20 @@ namespace Data.EFRepository.Common
             value.NewPlaygorounds = Context.Playgrounds.AsNoTracking().OrderByDescending(r => r.CreatedUtc).Take(10).ToList();
 
             return value;
+        }
+
+        public async Task<IEnumerable<Member>> NewMembers()
+        {
+            var users = Context.Users.AsNoTracking().OrderByDescending(r => r.CreatedUtc).Take(10).ToList();
+            var members = users.Select(r => new Member()
+            {
+                ImageUrl = r.ImageUrl,
+                FirstName = r.FirstName,
+                LastName = r.LastName,
+                InstagramId = r.InstagramId,
+                CreatedUtc = r.CreatedUtc
+            });
+            return members;
         }
     }
 }

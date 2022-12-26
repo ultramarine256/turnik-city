@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { ReplaySubject, BehaviorSubject, Observable, catchError, first, finalize, take } from 'rxjs';
-import { AUTH_GRANT_TYPE, AuthRepository, AuthStorage, UserIdentityJson } from 'app/data';
+import { ReplaySubject, BehaviorSubject, Observable, catchError, first, finalize, of } from 'rxjs';
+import { AUTH_GRANT_TYPE, AuthRepository, AuthStorage, JtwTokenJson, UserIdentityJson } from 'app/data';
 import { ExtendedDialogService, SnackbarService } from 'app/common';
-import { LoginDialogComponent } from './index';
+import { LoginClickEvent, LoginDialogComponent, RegisterDialogComponent } from './index';
+import { MatDialog } from '@angular/material/dialog';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -28,6 +30,7 @@ export class AuthFacade {
 
   constructor(
     private dialogService: ExtendedDialogService,
+    private dialog: MatDialog,
     private authRepository: AuthRepository,
     private _snackBar: SnackbarService,
     private router: Router
@@ -40,7 +43,7 @@ export class AuthFacade {
       this.isAuthorized$.next(true);
       this.userIdentity = this.authStorage.IdentityInfo;
       this.fetchIdentityInfo()
-        .pipe(take(1))
+        .pipe(first())
         .subscribe(userIdentity => this.authStorage.updateUserIdentityInfo(userIdentity));
     }
   }
@@ -49,23 +52,17 @@ export class AuthFacade {
     this.dialogRef = this.dialogService.openDialog(LoginDialogComponent, 'login-dialog', {});
     const instance = this.dialogRef.componentInstance;
     instance.isLoginProcessing$ = this.isLoginProcessing$;
-    instance.loginClick.subscribe((model: any) => {
-      this.login(model)
-        .pipe(take(1))
-        .subscribe(r => {
-          this.isLoginProcessing$.next(false);
-          if (r == 'success') {
-            this.dialogRef.close();
-            this.router.navigate(['/']).then(() => {});
-          } else if (r == 'wrong-password') {
-            // TODO: pass action to dialog
-            // (this.form.controls as any).password.setValue('');
-            this._snackBar.error('Login or password was incorrect.');
-          } else if (r == 'api-down') {
-            this._snackBar.error('Our API is down >_<');
-          }
-        });
-    });
+    instance.registrationClick.subscribe(() => this.openRegistrationDialog());
+    instance.loginClick.subscribe((model: LoginClickEvent) =>
+      this.login({ login: model.login, password: model.password, grantType: AUTH_GRANT_TYPE.EMAIL })
+    );
+  }
+
+  openRegistrationDialog() {
+    const dialogRef = this.dialogService.openDialog<RegisterDialogComponent>(RegisterDialogComponent, 'login-dialog');
+    const instance = dialogRef.componentInstance;
+    instance.isLoginProcessing$ = this.isLoginProcessing$;
+    instance.registrationClick.subscribe(model => this.createAccount({ email: model.email, password: model.password }));
   }
 
   signOut(): void {
@@ -73,32 +70,43 @@ export class AuthFacade {
     this.clearStorageInfo();
   }
 
-  private login(model: AuthorizationRequestModel): Observable<'success' | 'wrong-password' | 'api-down'> {
-    const result = new ReplaySubject<'success' | 'wrong-password' | 'api-down'>();
+  private login(model: LoginModel) {
     this.isLoginProcessing$.next(true);
     this.authRepository
-      .getUserToken(model.login, model.password, AUTH_GRANT_TYPE.EMAIL, 'app')
-      .pipe(first())
+      .getUserToken(model.login, model.password, model.grantType)
       .pipe(finalize(() => this.isLoginProcessing$.next(false)))
-      .subscribe(
-        tokenJson => {
-          this.authRepository.getUserIdentityInfo(tokenJson.tokenType, tokenJson.token).subscribe(identityJson => {
-            this.authStorage.setUserTokenInfo(tokenJson, model.rememberMe);
-            this.authStorage.setUserIdentityInfo(identityJson, model.rememberMe);
-            this.userIdentity = identityJson;
-            this.isAuthorized$.next(true);
-            result.next('success');
-          });
-        },
-        response => {
-          if (response.status === 403 || response.status === 401) {
-            result.next('wrong-password');
-          } else {
-            result.next('api-down');
-          }
+      .pipe(first())
+      .subscribe(r => {
+        if (r.status == 'ok') {
+          this.authRepository
+            .getUserIdentityInfo(r.data.tokenType, r.data.token)
+            .pipe(first())
+            .subscribe(identityJson => {
+              this.authStorage.setUserTokenInfo(r.data, true);
+              this.authStorage.setUserIdentityInfo(identityJson, true);
+              this.userIdentity = identityJson;
+              this.isAuthorized$.next(true);
+            });
+        } else if (r.status == 'wrong-password') {
+          // TODO: pass action to dialog
+          // (this.form.controls as any).password.setValue('');
+          this._snackBar.error('Login or password was incorrect.');
+        } else {
+          this._snackBar.error('Our API is down >_<');
         }
-      );
-    return result;
+      });
+  }
+
+  private createAccount(model: RegistrationModel) {
+    this.authRepository
+      .registrationRequest(model.email, model.password)
+      .pipe(finalize(() => this.isLoginProcessing$.next(false)))
+      .pipe(first())
+      .subscribe(r => {
+        if (r.status == 'ok') {
+          // 1. send confirmation code
+        }
+      });
   }
 
   private fetchIdentityInfo(): Observable<UserIdentityJson> {
@@ -119,10 +127,15 @@ export class AuthFacade {
   }
 }
 
-export type AuthorizationRequestModel = {
+export type LoginModel = {
   login: string;
   password: string;
-  grantType?: string;
-  rememberMe: boolean;
+  grantType: string;
+  rememberMe?: boolean;
   scope?: string;
+};
+
+export type RegistrationModel = {
+  email: string;
+  password: string;
 };

@@ -11,7 +11,7 @@ namespace Data.EFRepository.Playground
         public IEnumerable<PlaygroundMarker> GetMarkers();
     }
 
-    public class PlaygroundRepository : EntityRepository<PlaygroundEntity, int>, IPlaygroundRepository
+    internal class PlaygroundRepository : EntityRepository<PlaygroundEntity, int>, IPlaygroundRepository
     {
         public PlaygroundRepository(IContextManager dbContextManager, IStorageService storageService, IMemoryCache cache)
             : base(dbContextManager, storageService, cache) { }

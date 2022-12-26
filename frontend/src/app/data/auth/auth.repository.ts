@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'environments/environment';
 import { BaseRepository } from '../base.repository';
-import { DealerScopeJson, UserIdentityJson, JtwTokenJson } from './json';
+import { UserIdentityJson, JtwTokenJson, JtwTokenResponse, RegistrationResponseDto } from './json';
 
 @Injectable()
 export class AuthRepository extends BaseRepository {
@@ -12,21 +12,22 @@ export class AuthRepository extends BaseRepository {
     super(httpClient);
   }
 
-  getUserToken(login: string, password: string, grantType: string, scope: string): Observable<JtwTokenJson> {
-    return this.httpClient.post<JtwTokenJson>(
-      `${environment.apiBaseUrl}/auth/token`,
-      {
-        login,
-        password,
-        grantType,
-        scope,
-      },
-      {
-        headers: {
-          'auth-skip-prefix': '',
-        },
-      }
-    );
+  getUserToken(login: string, password: string, grantType: string): Observable<JtwTokenResponse> {
+    return this.httpClient
+      .post<JtwTokenJson>(
+        `${environment.apiBaseUrl}/auth/token`,
+        { login, password, grantType },
+        { headers: { 'auth-skip-prefix': '' } }
+      )
+      .pipe(map(r => ({ status: 'ok' as const, data: r })))
+      .pipe(
+        catchError(x => {
+          if (x.status === 403 || x.status === 401) {
+            return of({ status: 'wrong-password' as const, data: x });
+          }
+          return of({ status: 'api-down' as const, data: x });
+        })
+      );
   }
 
   getUserIdentityInfo(tokenType: string, authorizationToken: string): Observable<UserIdentityJson> {
@@ -38,14 +39,33 @@ export class AuthRepository extends BaseRepository {
     });
   }
 
-  getUserScopes() {
+  registrationRequest(email: string, password: string): Observable<RegistrationResponseDto> {
     return this.httpClient
-      .get<DealerScopeJson[]>(`${environment.apiBaseUrl}/auth/scope`)
-      .pipe(map((x: any[]) => x.map(r => new DealerScopeJson().mapFromJson(r))));
+      .post<JtwTokenJson>(
+        `${environment.apiBaseUrl}/auth/registration`,
+        { email, password },
+        { headers: { 'auth-skip-prefix': '' } }
+      )
+      .pipe(map(r => ({ status: 'ok' as const, data: r })))
+      .pipe(
+        catchError(x => {
+          if (x.status === 403 || x.status === 401) {
+            return of({ status: 'email-already-exist' as const, data: x });
+          }
+          return of({ status: 'api-down' as const, data: x });
+        })
+      );
+  }
+
+  sendConfirmationCodeEmail(email: string): Observable<void> {
+    return this.httpClient.post<void>(`${environment.apiBaseUrl}/auth/confirmation-email`, {
+      email,
+      passwordResetPageUrl: `${environment.apiBaseUrl}/login/change-password`,
+    });
   }
 
   sendPasswordResetEmail(email: string): Observable<void> {
-    return this.httpClient.post<void>(`${environment.apiBaseUrl}/auth/send-password-reset-email`, {
+    return this.httpClient.post<void>(`${environment.apiBaseUrl}/auth/password-reset-email`, {
       email,
       passwordResetPageUrl: `${environment.apiBaseUrl}/login/change-password`,
     });

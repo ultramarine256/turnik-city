@@ -15,3 +15,13 @@ export class JtwTokenJson {
     this.expireDateTimeUtc = new Date(json.expireDateTimeUtc);
   }
 }
+
+export type JtwTokenResponse = {
+  status: 'ok' | 'wrong-password' | 'api-down';
+  data: JtwTokenJson;
+};
+
+export type RegistrationResponseDto = {
+  status: 'ok' | 'email-already-exist' | 'block' | 'api-down';
+  data: JtwTokenJson;
+};

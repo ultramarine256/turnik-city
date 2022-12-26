@@ -18,5 +18,8 @@ namespace Domain.DomainServices.Common
 
         public Task<CountersModel> Counters()
             => CommonRepository.GetCounters();
+
+        public Task<IEnumerable<Member>> NewMembers()
+            => CommonRepository.NewMembers();
     }
 }
