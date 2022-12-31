@@ -43,7 +43,7 @@ namespace Domain
             services.AddSingleton<IPasswordEncryptor>(sp => new PasswordEncryptor(Settings.EncryptionKey, Settings.RootPassword));
             services.AddSingleton<IEmailService>(sp => new EmailService(
                 new SendGridClient(Settings.SendGridApiKey),
-                new EmailAddress(EMAIL_CONSTANTS.EMAIL_FROM, EMAIL_CONSTANTS.DEALER_NAME),
+                new EmailAddress(EMAIL_CONSTANTS.EMAIL_FROM, EMAIL_CONSTANTS.COMPANY_NAME),
                 new List<EmailAddress>()));
         }
     }

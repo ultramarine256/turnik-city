@@ -23,7 +23,7 @@ export class PagesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.authFacade.fetch();
+    this.authFacade.refreshIdentityInfo();
   }
 
   playgroundCreateDialogOpen() {

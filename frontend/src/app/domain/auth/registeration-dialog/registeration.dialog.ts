@@ -32,17 +32,17 @@ import { ValidationHelper } from '../../../common';
           </button>
         </mat-form-field>
 
-        <!-- buttons -->
+        <!-- button -->
         <div class="col-12 login-buttons">
           <button
             mat-flat-button
             class="login-buttons__button login-buttons__button-login"
             color="primary"
-            [disabled]="!!(isLoginProcessing$ | async)"
+            [disabled]="!!(isRegistrationProcessing$ | async)"
             (click)="registrationClickInner(form); $event.preventDefault()"
           >
-            Create Account
-            <mat-progress-bar *ngIf="(isLoginProcessing$ | async)!" mode="indeterminate"></mat-progress-bar>
+            <span>Create Account</span>
+            <mat-progress-bar *ngIf="(isRegistrationProcessing$ | async)!" mode="indeterminate"></mat-progress-bar>
           </button>
         </div>
       </form>
@@ -87,10 +87,9 @@ import { ValidationHelper } from '../../../common';
     `,
   ],
 })
-export class RegisterDialogComponent implements OnInit {
-  @Input() isLoginProcessing$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+export class RegisterationDialog implements OnInit {
+  @Input() isRegistrationProcessing$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   @Output() registrationClick = new EventEmitter<{ email: string; password: string }>();
-  @Output() submitCodeClick = new EventEmitter<{ code: string }>();
 
   form: FormGroup;
   showPass: boolean;
@@ -103,13 +102,14 @@ export class RegisterDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.isLoginProcessing$.subscribe(r => (r ? this.form.disable() : this.form.enable()));
+    this.isRegistrationProcessing$.subscribe(r => (r ? this.form.disable() : this.form.enable()));
   }
 
   registrationClickInner(formGroup: FormGroup): void {
     if (!ValidationHelper.validateForm(formGroup)) {
       return;
     }
+    debugger;
     this.registrationClick.emit({
       email: formGroup.value.login,
       password: formGroup.value.password,

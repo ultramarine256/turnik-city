@@ -10,7 +10,7 @@ import {
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { AUTH_CONST, AuthStorage } from 'app/data';
+import { AuthStorage } from 'app/data';
 
 @Injectable({
   providedIn: 'root',
@@ -25,8 +25,8 @@ export class AppHttpInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let authReq = req.clone();
 
-    if (req.headers.has(AUTH_CONST.HTTP_SKIP_PREFIX) || req.url.includes('blob.core.windows.net')) {
-      const headers = req.headers.delete(AUTH_CONST.HTTP_SKIP_PREFIX);
+    if (req.headers.has('skip-auth-interceptor') || req.url.includes('blob.core.windows.net')) {
+      const headers = req.headers.delete('skip-auth-interceptor');
       const directRequest = req.clone({ headers });
       return next.handle(directRequest);
     }
@@ -55,7 +55,8 @@ export class AppHttpInterceptor implements HttpInterceptor {
           // The response body may contain clues as to what went wrong,
           // console.error(`Backend returned code ${err.status}, body was: ${err.error}`);
         }
-        return new Observable<HttpEvent<any>>();
+
+        return next.handle(req);
       })
     );
   }

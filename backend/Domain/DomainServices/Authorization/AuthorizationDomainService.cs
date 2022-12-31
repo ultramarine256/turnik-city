@@ -1,14 +1,14 @@
-﻿using Azure;
-using Data.EFContext;
+﻿using Data.EFContext;
 using Data.EFRepository.User;
 using Data.Entities;
-using Data.Entities.Abstract;
 using Data.Infrastructure.UnitOfWork;
 using Domain.DomainServices.Authorization.Models;
 using Domain.Infrastructure.Authorization;
 using Domain.Policy._Abstract;
 using Domain.Services.Email;
 using Microsoft.EntityFrameworkCore;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace Domain.DomainServices.Authorization
 {
@@ -53,7 +53,7 @@ namespace Domain.DomainServices.Authorization
             await uow.CompleteAsync();
         }
 
-        public async Task<UserAuthDetails> GetUserDetails(string email, string password)
+        public async Task<UserAuthDetails> GetUserByEmail(string email, string password)
         {
             var passwordHash = PasswordEncryptor.EncryptPassword(password.Trim());
             var user = await UserRepository.GetUserByEmailAndPassword(email, passwordHash);
@@ -89,7 +89,15 @@ namespace Domain.DomainServices.Authorization
             return result;
         }
 
-        public Task<Response> SendConfirmationCodeEmail(string email, string passwordResetPageUrl) => throw new NotImplementedException();
+        public Task<Response> SendConfirmationEmail(string email)
+        {
+            // TODO: 4812? is this a hardcode? lol :)
+            UserRepository.SetConfirmationCode(email, "4812");
+            return EmailService.ConfirmationCodeEmail(new EmailAddress(email), "4812");
+        }
+
+        public Task<bool> ValidateConfirmationCode(string email, string code)
+            => UserRepository.CheckConfirmationCode(email, code);
 
         public async Task<Response> SendPasswordResetEmail(string userEmail, string passwordResetPageUrl)
         {

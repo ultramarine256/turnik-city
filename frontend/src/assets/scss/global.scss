@@ -167,6 +167,44 @@ hr {
 
 /**
 * ------------------------------------------------------------------------
+* Shimmer
+* ------------------------------------------------------------------------
+*/
+
+.shimmer {
+  color: grey;
+  -webkit-mask: linear-gradient(-60deg, #000 30%, #0005, #000 70%) right/300% 100%;
+  background-repeat: no-repeat;
+  animation: shimmer 1.5s infinite;
+  background-color: #eee;
+  border-radius: 8px;
+}
+
+.shimmer--round {
+  border-radius: 50%;
+}
+
+.shimmer-text__100 {
+  width: 100px;
+  background-color: #eee;
+  border-radius: 4px;
+  color: #eee !important;
+}
+
+.shimmer-text {
+  background-color: #eee;
+  border-radius: 4px;
+  color: #eee !important;
+}
+
+@keyframes shimmer {
+  100% {
+    -webkit-mask-position: left;
+  }
+}
+
+/**
+* ------------------------------------------------------------------------
 * swiper
 * ------------------------------------------------------------------------
 */

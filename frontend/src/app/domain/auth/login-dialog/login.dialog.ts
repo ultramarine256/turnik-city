@@ -52,14 +52,6 @@ import { BehaviorSubject } from 'rxjs';
           >
             New Account
           </button>
-          <button
-            mat-flat-button
-            class="login-buttons__button login-buttons__forgot-pass"
-            [disabled]="!!(isLoginProcessing$ | async)"
-            (click)="$event.preventDefault()"
-          >
-            Lost Password
-          </button>
         </div>
       </form>
     </div>
@@ -112,7 +104,7 @@ import { BehaviorSubject } from 'rxjs';
     `,
   ],
 })
-export class LoginDialogComponent implements OnInit {
+export class LoginDialog implements OnInit {
   @Input() isLoginProcessing$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   @Output() loginClick = new EventEmitter<LoginClickEvent>();
   @Output() registrationClick = new EventEmitter();
@@ -139,7 +131,7 @@ export class LoginDialogComponent implements OnInit {
     }
 
     const model = {
-      login: formGroup.value.login,
+      email: formGroup.value.login,
       password: formGroup.value.password,
       rememberMe: formGroup.value.rememberMe,
     };
@@ -154,6 +146,6 @@ export class LoginDialogComponent implements OnInit {
 }
 
 export type LoginClickEvent = {
-  login: string;
+  email: string;
   password: string;
 };

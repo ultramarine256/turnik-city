@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Data.EFRepository.Playground;
-using Data.EFRepository.Playground.Models;
-using Data.Entities;
+﻿using Data.Entities;
 using Data.Infrastructure.ContextManager;
 using Data.ThirdParty.Storage;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +10,8 @@ namespace Data.EFRepository.User
     {
         Task<UserEntity> GetUserByEmailAndPassword(string email, string password);
         Task<UserEntity> GetUserByEmail(string email);
+        Task<bool> CheckConfirmationCode(string email, string code);
+        Task SetConfirmationCode(string email, string code);
     }
 
     internal class UserRepository : EntityRepository<UserEntity, int>, IUserRepository
@@ -33,5 +28,12 @@ namespace Data.EFRepository.User
             Context.Users
                 .AsNoTracking()
                 .FirstOrDefaultAsync(r => r.Email == email);
+
+        public Task<bool> CheckConfirmationCode(string email, string code)
+            => Task.FromResult(code == Cache.Get<string>(email));
+        
+
+        public Task SetConfirmationCode(string email, string code)
+            => Task.FromResult(Cache.Set(email, code));
     }
 }

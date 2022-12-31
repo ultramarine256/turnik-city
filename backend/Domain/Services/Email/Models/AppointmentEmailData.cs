@@ -181,8 +181,8 @@ namespace Domain.Services.Email.Models
 
     public class EMAIL_CONSTANTS
     {
-        public const string EMAIL_FROM = "dude@doodle.com";
-        public const string DEALER_NAME = "MyDealer";
+        public const string EMAIL_FROM = "noreply@turnik.city";
+        public const string COMPANY_NAME = "TurniCity";
     }
 
     public class EMAIL_TEMPLATE

@@ -1,3 +1,4 @@
+/* HERO */
 .section-hero {
   min-height: 50vh;
   background: #fff url(https://assets.goodfirms.co/images/hero-building-home.svg) 50% -30% repeat-x;
@@ -6,12 +7,6 @@
     background: none;
     background-color: var(--primaryColor);
   }
-}
-
-.hero-button {
-  padding: 4px 16px;
-  background-color: var(--primaryColor);
-  font-size: 1rem;
 }
 
 .s-hero {
@@ -26,14 +21,21 @@
     color: var(--textColor);
     line-height: 100%;
   }
+
+  .s-hero__button {
+    padding: 4px 16px;
+    background-color: var(--primaryColor);
+    font-size: 1rem;
+  }
 }
 
+/* COUNTERS */
 .s-counter {
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 8px 12px;
-  border-right: 1px solid var(--textColor);
+  border-right: 1px solid #dce2ee;
 
   &:last-child {
     border-right: none;
@@ -45,12 +47,12 @@
 
     &:nth-child(1),
     &:nth-child(3) {
-      border-right: 1px solid var(--textColor);
+      border-right: 1px solid #dce2ee;
     }
 
     &:nth-child(3),
     &:nth-child(4) {
-      border-top: 1px solid var(--textColor);
+      border-top: 1px solid #dce2ee;
     }
   }
 
@@ -72,4 +74,11 @@
 
   .s-counter__title {
   }
+}
+
+/* CITIES */
+.c-cities {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
 }

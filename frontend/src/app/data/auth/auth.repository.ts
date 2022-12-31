@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { environment } from 'environments/environment';
 import { BaseRepository } from '../base.repository';
-import { UserIdentityJson, JtwTokenJson, JtwTokenResponse, RegistrationResponseDto } from './json';
+import { UserIdentityJson, JtwTokenJson, JtwTokenResponse } from './json';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class AuthRepository extends BaseRepository {
@@ -17,51 +17,42 @@ export class AuthRepository extends BaseRepository {
       .post<JtwTokenJson>(
         `${environment.apiBaseUrl}/auth/token`,
         { login, password, grantType },
-        { headers: { 'auth-skip-prefix': '' } }
+        { headers: { 'skip-auth-interceptor': '' } }
       )
-      .pipe(map(r => ({ status: 'ok' as const, data: r })))
-      .pipe(
-        catchError(x => {
-          if (x.status === 403 || x.status === 401) {
-            return of({ status: 'wrong-password' as const, data: x });
-          }
-          return of({ status: 'api-down' as const, data: x });
-        })
-      );
+      .pipe(catchError(r => of(r.error)));
   }
 
   getUserIdentityInfo(tokenType: string, authorizationToken: string): Observable<UserIdentityJson> {
     return this.httpClient.get<UserIdentityJson>(`${environment.apiBaseUrl}/auth/identity-info`, {
       headers: {
-        'auth-skip-prefix': '',
         Authorization: `${tokenType} ${authorizationToken}`,
+        'skip-auth-interceptor': '',
       },
     });
   }
 
-  registrationRequest(email: string, password: string): Observable<RegistrationResponseDto> {
+  registerNewUser(email: string, password: string): Observable<{ status: 'ok' | 'email-already-exist' }> {
     return this.httpClient
-      .post<JtwTokenJson>(
+      .post<{ status: 'ok' | 'email-already-exist' }>(
         `${environment.apiBaseUrl}/auth/registration`,
         { email, password },
-        { headers: { 'auth-skip-prefix': '' } }
+        { headers: { 'skip-auth-interceptor': '' } }
       )
-      .pipe(map(r => ({ status: 'ok' as const, data: r })))
-      .pipe(
-        catchError(x => {
-          if (x.status === 403 || x.status === 401) {
-            return of({ status: 'email-already-exist' as const, data: x });
-          }
-          return of({ status: 'api-down' as const, data: x });
-        })
-      );
+      .pipe(catchError(r => of(r.error)));
   }
 
-  sendConfirmationCodeEmail(email: string): Observable<void> {
-    return this.httpClient.post<void>(`${environment.apiBaseUrl}/auth/confirmation-email`, {
-      email,
-      passwordResetPageUrl: `${environment.apiBaseUrl}/login/change-password`,
-    });
+  sendConfirmationEmail(email: string): Observable<void> {
+    return this.httpClient.post<void>(`${environment.apiBaseUrl}/auth/confirmation-email`, { email });
+  }
+
+  validateConfirmationCode(email: string, code: string): Observable<{ status: 'ok' | 'wrong-code' }> {
+    return this.httpClient
+      .post<{ status: 'ok' | 'wrong-code' }>(
+        `${environment.apiBaseUrl}/auth/validate-code`,
+        { email, code },
+        { headers: { 'skip-auth-interceptor': '' } }
+      )
+      .pipe(catchError(r => of(r.error)));
   }
 
   sendPasswordResetEmail(email: string): Observable<void> {
@@ -77,15 +68,7 @@ export class AuthRepository extends BaseRepository {
       passwordResetHash,
     });
   }
-
-  sendRegisterMeEmail(email: string): Observable<void> {
-    return this.httpClient.post<void>(`${environment.apiBaseUrl}/auth/register-me-email`, { email });
-  }
 }
-
-export const AUTH_CONST = {
-  HTTP_SKIP_PREFIX: 'auth-skip-prefix',
-};
 
 export const AUTH_GRANT_TYPE = {
   LOGIN: 'login',

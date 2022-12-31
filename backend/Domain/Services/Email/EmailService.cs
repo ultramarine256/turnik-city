@@ -1,6 +1,4 @@
 ﻿using System.Net;
-using System.Text;
-using Domain.Infrastructure.Extensions;
 using Domain.Services.Email.Models;
 using SendGrid;
 using SendGrid.Helpers.Mail;
@@ -11,7 +9,7 @@ namespace Domain.Services.Email
     {
         public EmailAddress EmailFrom { get; }
         protected ISendGridClient SendGridClient { get; }
-        public List<EmailAddress> ForwardEmails { get; }
+        public List<EmailAddress>? ForwardEmails { get; }
         public WebClient WebClient { get; }
 
         public EmailService(ISendGridClient sendGridClient, EmailAddress emailFrom)
@@ -24,22 +22,21 @@ namespace Domain.Services.Email
 
         public EmailService(ISendGridClient sendGridClient, EmailAddress emailFrom, List<EmailAddress> forwardEmails) : this(sendGridClient, emailFrom)
         {
-            // ForwardEmails = forwardEmails;
-            // TODO: fix email forwarding
+            ForwardEmails = forwardEmails;
         }
 
-        public Task<Response> DoodleEmail(IList<EmailAddress> recipients, DoodleEmailData data, string type = EMAIL_TEMPLATE.DEALER)
+        public Task<Response> TdEmail(IList<EmailAddress> recipients, DoodleEmailData data, string type = EMAIL_TEMPLATE.DEALER)
         {
             var message = MailHelper.CreateSingleTemplateEmailToMultipleRecipients(
                 EmailFrom,
-                AddForwardingEmail(recipients.ToList(), ForwardEmails).ToList(),
-                EMAIL_IDS.DOODLE,
+                AddForwardRecipients(recipients.ToList(), ForwardEmails).ToList(),
+                EMAIL_IDS.TD_OLD,
                 data.AsSendGridObject(type));
 
             return SendGridClient.SendEmailAsync(message);
         }
 
-        public Task<Response> ResetPassword(EmailAddress emailTo, string passwordResetPageUrl)
+        public Task<Response> ResetPasswordEmail(EmailAddress emailTo, string passwordResetPageUrl)
         {
             var message = MailHelper.CreateSingleTemplateEmail(
                 EmailFrom,
@@ -50,24 +47,34 @@ namespace Domain.Services.Email
             return SendGridClient.SendEmailAsync(message);
         }
 
-        #region Helpers
-
-        private IList<EmailAddress> AddForwardingEmail(List<EmailAddress> regularEmail, List<EmailAddress> forwardEmails)
+        public Task<Response> ConfirmationCodeEmail(EmailAddress emailTo, string code)
         {
-            if (forwardEmails != null)
-            {
-                forwardEmails = forwardEmails.Where(r => !string.IsNullOrEmpty(r.Email)).ToList();
-                regularEmail.AddRange(forwardEmails);
-            }
-            return regularEmail;
+            var template = MailHelper.CreateSingleEmail(
+                EmailFrom,
+                emailTo,
+                "TurnikCity Confirmation Code",
+                $"{code}",
+                $"{code}");
+
+            return SendGridClient.SendEmailAsync(template);
         }
 
-        #endregion
+        private IList<EmailAddress> AddForwardRecipients(List<EmailAddress> regularEmail, List<EmailAddress>? forwardEmails)
+        {
+            if (forwardEmails == null)
+            {
+                return regularEmail;
+            }
+
+            forwardEmails = forwardEmails.Where(r => !String.IsNullOrEmpty(r.Email)).ToList();
+            regularEmail.AddRange(forwardEmails);
+            return regularEmail;
+        }
     }
 
     public class EMAIL_IDS
     {
-        public const string DOODLE = "d-efcf2738ccca438f97d34fef84305349";
+        public const string TD_OLD = "d-efcf2738ccca438f97d34fef84305349";
         public const string SURVEY = "d-6cb25ecda3b0455cbfac657fb9eab9ab";
         public const string RESET_PASSWORD = "d-db4392cd4f52486eaaa63871d1841534";
     }

@@ -1,13 +1,12 @@
 import { NgModule } from '@angular/core';
 import { AppCommonModule } from 'app/common';
-import { LoginDialogComponent, AuthFacade, RegisterDialogComponent } from './index';
+import { LoginDialog, AuthFacade, RegisterationDialog, ConfirmationCodeDialog } from './index';
 import { DataModule } from 'app/data';
-import { CommonModule } from '@angular/common';
 
 @NgModule({
-  declarations: [LoginDialogComponent, RegisterDialogComponent],
+  declarations: [LoginDialog, RegisterationDialog, ConfirmationCodeDialog],
   imports: [AppCommonModule, DataModule],
-  exports: [LoginDialogComponent, RegisterDialogComponent],
+  exports: [LoginDialog, RegisterationDialog, ConfirmationCodeDialog],
   providers: [AuthFacade],
 })
 export class AuthModule {}

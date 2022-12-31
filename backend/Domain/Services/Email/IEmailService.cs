@@ -6,7 +6,8 @@ namespace Domain.Services.Email
 {
     public interface IEmailService
     {
-        Task<Response> DoodleEmail(IList<EmailAddress> recipients, DoodleEmailData data, string type);
-        Task<Response> ResetPassword(EmailAddress emailTo, string passwordResetPageUrl);
+        Task<Response> TdEmail(IList<EmailAddress> recipients, DoodleEmailData data, string type);
+        Task<Response> ResetPasswordEmail(EmailAddress emailTo, string passwordResetPageUrl);
+        Task<Response> ConfirmationCodeEmail(EmailAddress emailTo, string code);
     }
 }
