@@ -1,7 +1,4 @@
-import { IMappable } from '../../_abstract';
-import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types';
-
-export class PlaygroundDto implements IMappable {
+export type PlaygroundDto = {
   id: number;
   slug: string;
   size: string;
@@ -9,54 +6,46 @@ export class PlaygroundDto implements IMappable {
   address: string;
   lat: number;
   lng: number;
-  imageUrls: string[] = [];
-  equipment: string[] = [];
-
+  imageUrls: string[];
+  equipment: string[];
   createdUtc: Date;
   likes: number;
   views: number;
+};
 
-  mapFromJson(json: any): this {
-    this.id = json.id;
-    this.slug = json.slug;
-    this.size = json.size;
-    this.type = json.type;
-    this.address = json.address;
-    this.lat = json.lat;
-    this.lng = json.lng;
-    this.imageUrls = json.imageUrls || [];
-    this.equipment = json.equipment || [];
-
-    this.createdUtc = new Date(json.createdUtc);
-    this.likes = json.likesCount;
-    this.views = json.viewsCount;
-
-    return this;
-  }
+export enum PLAYGROUND_TYPE {
+  MODERN = 'modern',
+  AGED = 'aged',
 }
 
-export const PlaygroundTypes: { title: string; slug: string }[] = [
+export enum PLAYGROUND_SIZE {
+  SMALL = 'small',
+  MEDIUM = 'medium',
+  LARGE = 'large',
+}
+
+export const PlaygroundTypes = [
   {
     title: 'Modern',
-    slug: 'modern',
+    slug: PLAYGROUND_TYPE.MODERN,
   },
   {
     title: 'Aged',
-    slug: 'soviet',
+    slug: PLAYGROUND_TYPE.AGED,
   },
 ];
 
-export const PlaygroundSizes: { title: string; slug: string }[] = [
+export const PlaygroundSizes = [
   {
     title: 'Small',
-    slug: 'small',
+    slug: PLAYGROUND_SIZE.SMALL,
   },
   {
     title: 'Medium',
-    slug: 'medium',
+    slug: PLAYGROUND_SIZE.MEDIUM,
   },
   {
     title: 'Large',
-    slug: 'large',
+    slug: PLAYGROUND_SIZE.LARGE,
   },
 ];

@@ -109,7 +109,6 @@ export class RegisterationDialog implements OnInit {
     if (!ValidationHelper.validateForm(formGroup)) {
       return;
     }
-    debugger;
     this.registrationClick.emit({
       email: formGroup.value.login,
       password: formGroup.value.password,

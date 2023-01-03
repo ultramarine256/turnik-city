@@ -41,11 +41,11 @@ namespace Domain.DomainServices.Authorization
         {
             var user = new UserEntity()
             {
-                FirstName = "Rocky",
+                FullName = "Rocky Balboa",
                 Email = email,
-                PasswordHash = password,
-                Role = USER_ROLE.ANONYMOUS,
-                CreatedUtc = DateTime.UtcNow
+                PasswordHash = PasswordEncryptor.EncryptPassword(password),
+                Role = USER_ROLE.MEMBER,
+                CreatedUtc = DateTime.UtcNow,
             };
 
             using var uow = UowManager.CurrentOrCreateNew();
@@ -82,7 +82,7 @@ namespace Domain.DomainServices.Authorization
             var result = new IdentityInfo(
                 user.Email,
                 user.ImageUrl,
-                $"{user.FirstName?.Trim()} {user.LastName?.Trim()}",
+                user.FullName,
                 PolicyExtensions.GetRoleNameById(user.Role),
                 PolicyExtensions.GetRolePermissions(user.Role));
 

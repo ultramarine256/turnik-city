@@ -1,0 +1,52 @@
+// profile
+.c-profile {
+  .c-profile__wrapper {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .c-profile__photo {
+      width: 100%;
+      max-width: 140px;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+  }
+
+  .c-profile__name {
+    margin-bottom: 10px;
+  }
+
+  .c-profile__bio {
+    margin-bottom: 10px;
+  }
+
+  .c-list {
+    margin-bottom: 10px;
+    list-style: none;
+
+    .c-list__item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+
+      &:last-child {
+        margin-bottom: 0px;
+      }
+
+      .c-list__icon {
+        width: 20px;
+        display: flex;
+        justify-content: center;
+        color: #333333;
+      }
+
+      .c-list__text {
+        margin-left: 10px;
+        text-decoration: none;
+        color: #000;
+      }
+    }
+  }
+}

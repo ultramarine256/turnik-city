@@ -6,6 +6,7 @@ using WebApi.Infrastructure.AppSettings;
 
 var builder = WebApplication.CreateBuilder(args);
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: CORS.ALLOW_ALL,
@@ -56,8 +57,7 @@ new Bootstrap().ConfigureServices(builder.Services, appSettings);
 var app = builder.Build();
 
 // Debug stuff...
-if (app.Environment.IsEnvironment("Local")) { }
-app.UseDeveloperExceptionPage();
+if (app.Environment.IsEnvironment("Local")) { app.UseDeveloperExceptionPage(); } else { app.UseExceptionHandler("/error"); }
 
 // Swagger
 app.UseSwagger();

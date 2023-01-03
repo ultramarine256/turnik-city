@@ -1,14 +1,5 @@
-import { IMappable } from '../../_abstract';
-
-export class UserDto implements IMappable {
+export type UserDto = {
   email: string;
   imageUrl: string;
   fullName: string;
-
-  mapFromJson(json: any): this {
-    this.email = json.email;
-    this.imageUrl = json.imageUrl;
-    this.fullName = json.fullName;
-    return this;
-  }
-}
+};

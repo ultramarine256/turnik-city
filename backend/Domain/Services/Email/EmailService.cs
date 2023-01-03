@@ -52,7 +52,7 @@ namespace Domain.Services.Email
             var template = MailHelper.CreateSingleEmail(
                 EmailFrom,
                 emailTo,
-                "TurnikCity Confirmation Code",
+                "Confirmation Code",
                 $"{code}",
                 $"{code}");
 

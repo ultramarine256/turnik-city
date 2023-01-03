@@ -1,8 +1,8 @@
-import { UserIdentityJson, JtwTokenJson } from './json';
+import { UserIdentityDto, JtwTokenDto } from './json';
 
 export class AuthStorage {
-  private userToken: JtwTokenJson = new JtwTokenJson();
-  private userIdentity: UserIdentityJson = new UserIdentityJson();
+  private userToken: JtwTokenDto;
+  private userIdentity: UserIdentityDto;
 
   get TokenInfo() {
     return this.userToken;
@@ -18,7 +18,7 @@ export class AuthStorage {
   }
 
   /// methods
-  setUserTokenInfo(userToken: JtwTokenJson, isPersist: boolean) {
+  setUserTokenInfo(userToken: JtwTokenDto, isPersist: boolean) {
     this.userToken = userToken;
 
     if (isPersist) {
@@ -28,7 +28,7 @@ export class AuthStorage {
     }
   }
 
-  setUserIdentityInfo(userIdentity: UserIdentityJson, isPersist: boolean): void {
+  setUserIdentityInfo(userIdentity: UserIdentityDto, isPersist: boolean): void {
     this.userIdentity = userIdentity;
 
     if (isPersist) {
@@ -38,8 +38,8 @@ export class AuthStorage {
     }
   }
 
-  updateUserIdentityInfo(userIdentity: UserIdentityJson) {
-    this.userIdentity.mapFromJson(userIdentity);
+  updateUserIdentityInfo(userIdentity: UserIdentityDto) {
+    this.userIdentity = userIdentity;
 
     if (sessionStorage.getItem(LOCAL_STORAGE_KEYS.USER_IDENTITY)) {
       sessionStorage.setItem(LOCAL_STORAGE_KEYS.USER_IDENTITY, JSON.stringify(userIdentity));
@@ -50,39 +50,34 @@ export class AuthStorage {
   }
 
   clearStorageInfo() {
-    this.userIdentity = new UserIdentityJson();
-    this.userToken = new JtwTokenJson();
+    this.userIdentity = {} as any; // TODO: discuss
+    this.userToken = {} as any; // TODO: discuss
     sessionStorage.removeItem(LOCAL_STORAGE_KEYS.USER_IDENTITY);
     sessionStorage.removeItem(LOCAL_STORAGE_KEYS.USER_TOKEN);
     localStorage.removeItem(LOCAL_STORAGE_KEYS.USER_IDENTITY);
     localStorage.removeItem(LOCAL_STORAGE_KEYS.USER_TOKEN);
   }
 
-  private _getTokenFromStorage(storageKey: string): JtwTokenJson {
-    const userToken = new JtwTokenJson();
+  private _getTokenFromStorage(storageKey: string): JtwTokenDto {
+    let userToken: JtwTokenDto;
 
     if (sessionStorage.getItem(storageKey)) {
-      // @ts-ignore
-      userToken.mapFromJson(JSON.parse(sessionStorage.getItem(storageKey)));
-    }
-    if (localStorage.getItem(storageKey)) {
-      // @ts-ignore
-      userToken.mapFromJson(JSON.parse(localStorage.getItem(storageKey)));
+      userToken = JSON.parse(sessionStorage.getItem(storageKey) || '');
+    } else {
+      userToken = JSON.parse(localStorage.getItem(storageKey) || '');
     }
 
     return userToken;
   }
 
-  private _getIdentityFromStorage(storageKey: string): UserIdentityJson {
-    const userIdentity = new UserIdentityJson();
+  private _getIdentityFromStorage(storageKey: string): UserIdentityDto {
+    let userIdentity: UserIdentityDto;
 
     if (sessionStorage.getItem(storageKey)) {
       // @ts-ignore
-      userIdentity.mapFromJson(JSON.parse(sessionStorage.getItem(storageKey)));
-    }
-    if (localStorage.getItem(storageKey)) {
-      // @ts-ignore
-      userIdentity.mapFromJson(JSON.parse(localStorage.getItem(storageKey)));
+      userIdentity = JSON.parse(sessionStorage.getItem(storageKey));
+    } else {
+      userIdentity = JSON.parse(localStorage.getItem(storageKey) || '');
     }
 
     return userIdentity;

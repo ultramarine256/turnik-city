@@ -1,4 +1,5 @@
 ﻿using Azure.Core;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Controllers.System.ApiStatus.Dtos;
 using WebApi.Infrastructure.AppSettings;
@@ -27,6 +28,17 @@ namespace WebApi.Controllers.System.ApiStatus
                 AppSettings.Database.Name,
                 "https://api.turnik.city/swagger");
             return Task.FromResult(result);
+        }
+
+        [Route("/error")]
+        public IActionResult HandleError()
+        {
+            var exceptionHandlerFeature =
+                HttpContext.Features.Get<IExceptionHandlerFeature>()!;
+
+            return Problem(
+                title: exceptionHandlerFeature.Error.Message,
+                detail: exceptionHandlerFeature.Error.InnerException?.Message);
         }
     }
 }

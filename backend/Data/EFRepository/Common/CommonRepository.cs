@@ -79,8 +79,7 @@ namespace Data.EFRepository.Common
             var members = users.Select(r => new Member()
             {
                 ImageUrl = r.ImageUrl,
-                FirstName = r.FirstName,
-                LastName = r.LastName,
+                FullName = r.FullName,
                 InstagramId = r.InstagramId,
                 CreatedUtc = r.CreatedUtc
             });

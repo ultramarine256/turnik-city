@@ -3,8 +3,7 @@ import { Injectable } from '@angular/core';
 import { catchError, Observable, of } from 'rxjs';
 import { environment } from 'environments/environment';
 import { BaseRepository } from '../base.repository';
-import { UserIdentityJson, JtwTokenJson, JtwTokenResponse } from './json';
-import { map } from 'rxjs/operators';
+import { UserIdentityDto, JtwTokenResponse } from './json';
 
 @Injectable()
 export class AuthRepository extends BaseRepository {
@@ -12,9 +11,9 @@ export class AuthRepository extends BaseRepository {
     super(httpClient);
   }
 
-  getUserToken(login: string, password: string, grantType: string): Observable<JtwTokenResponse> {
+  getJwtToken(login: string, password: string, grantType: string): Observable<JtwTokenResponse> {
     return this.httpClient
-      .post<JtwTokenJson>(
+      .post<JtwTokenResponse>(
         `${environment.apiBaseUrl}/auth/token`,
         { login, password, grantType },
         { headers: { 'skip-auth-interceptor': '' } }
@@ -22,8 +21,8 @@ export class AuthRepository extends BaseRepository {
       .pipe(catchError(r => of(r.error)));
   }
 
-  getUserIdentityInfo(tokenType: string, authorizationToken: string): Observable<UserIdentityJson> {
-    return this.httpClient.get<UserIdentityJson>(`${environment.apiBaseUrl}/auth/identity-info`, {
+  getUserIdentityInfo(tokenType: string, authorizationToken: string): Observable<UserIdentityDto> {
+    return this.httpClient.get<UserIdentityDto>(`${environment.apiBaseUrl}/auth/identity-info`, {
       headers: {
         Authorization: `${tokenType} ${authorizationToken}`,
         'skip-auth-interceptor': '',

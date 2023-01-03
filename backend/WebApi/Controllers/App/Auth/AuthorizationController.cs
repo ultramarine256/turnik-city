@@ -47,11 +47,10 @@ namespace WebApi.Controllers.App.Auth
 
             var tokenString = TokenAuthorization.CreateToken(
                 user.Email,
-                user.ImageUrl,
-                $"{user.FirstName?.Trim()} {user.LastName?.Trim()}",
+                user.ImageUrl ?? "",
+                user.FullName,
                 user.Role,
                 PolicyExtensions.GetRolePermissions(user.Role));
-
             var data = new TokenResponse(tokenString, TOKEN_TYPE.BEARER, DateTime.Now.AddDays(32));
 
             return Ok(new { status = "ok", data });

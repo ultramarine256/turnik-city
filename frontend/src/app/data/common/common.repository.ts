@@ -27,8 +27,6 @@ export class CommonRepository extends BaseRepository {
   }
 
   counters(): Observable<CountersDto> {
-    return this.httpClient
-      .get<CountersDto>(`${this.apiBaseUrl}/common/counters`)
-      .pipe(map(_ => new CountersDto().mapFromJson(_)));
+    return this.httpClient.get<CountersDto>(`${this.apiBaseUrl}/common/counters`);
   }
 }

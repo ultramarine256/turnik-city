@@ -55,14 +55,14 @@ export class PlaygroundCreateComponent extends BaseDialogComponent<PlaygroundCre
   }
 
   createModelFromForm(model: PlaygroundCreateDto, formGroup: FormGroup): PlaygroundCreateDto {
-    return new PlaygroundCreateDto({
+    return {
       ...model,
       lat: formGroup.value.lat,
       lng: formGroup.value.lng,
       imageUrls: formGroup.value.imageUrls,
       size: formGroup.value.size,
       type: formGroup.value.type,
-    });
+    };
   }
 
   createFormFromModel(model: PlaygroundCreateDto): FormGroup {

@@ -31,7 +31,8 @@ export class PagesComponent implements OnInit {
       console.log(r);
     });
 
-    const model = new PlaygroundCreateDto();
+    const model: PlaygroundCreateDto = { size: '', type: '', lat: 0, lng: 0, imageUrls: [] };
+
     this.dialogService
       .openCreateDialog<PlaygroundCreateDto>(PlaygroundCreateComponent, model, {
         panelClass: 'playground-create-dialog',
@@ -41,12 +42,7 @@ export class PagesComponent implements OnInit {
       })
       .subscribe(x => this.playgroundFacade.create(x).subscribe().unsubscribe());
 
-    const x = new PlaygroundCreateDto({
-      size: '',
-      type: '',
-      lat: 1,
-      lng: 1,
-    });
+    const x: PlaygroundCreateDto = { size: '', type: '', lat: 0, lng: 0, imageUrls: [] };
     this.playgroundFacade.create(x).subscribe(r => {
       console.log(r);
     });

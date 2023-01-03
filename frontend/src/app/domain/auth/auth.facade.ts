@@ -1,8 +1,8 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { BehaviorSubject, Observable, catchError, first, finalize, of, mergeMap } from 'rxjs';
-import { AUTH_GRANT_TYPE, AuthRepository, AuthStorage, UserIdentityJson } from 'app/data';
+import { BehaviorSubject, Observable, catchError, first, of, mergeMap, tap } from 'rxjs';
+import { AUTH_GRANT_TYPE, AuthRepository, AuthStorage, JtwTokenDto, JtwTokenResponse, UserIdentityDto } from 'app/data';
 import { ExtendedDialogService, SnackbarService } from 'app/common';
 import { ConfirmationCodeDialog, LoginClickEvent, LoginDialog, RegisterationDialog } from './index';
 
@@ -17,11 +17,12 @@ export class AuthFacade {
   readonly isConfirmationProcessing$ = new BehaviorSubject(false);
 
   /// fields
-  userIdentity: UserIdentityJson = new UserIdentityJson();
+  userIdentity: UserIdentityDto;
 
   /// attributes
-  private loginDialogRef: any;
-  private registrationDialog: MatDialogRef<RegisterationDialog, any>;
+  private confirmationDialogRef: MatDialogRef<ConfirmationCodeDialog, any>;
+  private loginDialogRef: MatDialogRef<LoginDialog, any>;
+  private registrationDialogRef: MatDialogRef<RegisterationDialog, any>;
 
   /// dependencies
   private readonly authStorage: AuthStorage;
@@ -52,55 +53,90 @@ export class AuthFacade {
     const instance = this.loginDialogRef.componentInstance;
     instance.isLoginProcessing$ = this.isLoginProcessing$;
     instance.registrationClick.subscribe(() => this.openRegistrationDialog());
-    instance.loginClick.subscribe((model: LoginClickEvent) =>
-      this.login({ email: model.email, password: model.password, grantType: AUTH_GRANT_TYPE.EMAIL })
+    instance.loginClick.pipe(tap(r => this.isLoginProcessing$.next(true))).subscribe((model: LoginClickEvent) =>
+      this.getJwtToken({
+        email: model.email,
+        password: model.password,
+        grantType: AUTH_GRANT_TYPE.EMAIL,
+      })
+        .pipe(first())
+        .subscribe(token =>
+          this.authRepository
+            .getUserIdentityInfo(token.tokenType, token.token)
+            .pipe(first())
+            .subscribe(identityJson => {
+              this.userIdentity = identityJson;
+              this.authStorage.setUserTokenInfo(token, true);
+              this.authStorage.setUserIdentityInfo(identityJson, true);
+              this.isLoginProcessing$.next(false);
+              this.isAuthorized$.next(true);
+              this.loginDialogRef.close();
+              this.router.navigate(['/profile']).then();
+            })
+        )
     );
   }
 
   openRegistrationDialog() {
-    this.registrationDialog = this.dialogService.openDialog<RegisterationDialog>(RegisterationDialog, 'login-dialog');
-    const instance = this.registrationDialog.componentInstance;
+    this.registrationDialogRef = this.dialogService.openDialog<RegisterationDialog>(
+      RegisterationDialog,
+      'login-dialog'
+    );
+    const instance = this.registrationDialogRef.componentInstance;
     instance.isRegistrationProcessing$ = this.isRegistrationProcessing$;
-    instance.registrationClick.subscribe(registrationEvent => {
-      // 1. create account
-      this.isRegistrationProcessing$.next(true);
-      this.createAccount({ email: registrationEvent.email, password: registrationEvent.password })
-        .pipe(
-          catchError(r => {
-            this.isRegistrationProcessing$.next(false);
-            throw new Error();
-          })
-        )
-        .subscribe(r =>
-          // 2. send confirmation email
-          this.authRepository
-            .sendConfirmationEmail(registrationEvent.email)
-            .pipe(first())
-            .subscribe(r => {
-              this.isRegistrationProcessing$.next(false);
-              this.registrationDialog.close();
+    instance.registrationClick
+      .pipe(tap(_ => this.isRegistrationProcessing$.next(true)))
+      .subscribe(registrationEvent => {
+        // 1. create account
+        this.createAccount({ email: registrationEvent.email, password: registrationEvent.password }).subscribe(
+          error => this.isRegistrationProcessing$.next(false),
+          r =>
+            // 2. send confirmation email
+            this.authRepository.sendConfirmationEmail(registrationEvent.email).subscribe(r => {
+              this.isRegistrationProcessing$.next(true);
+              this.registrationDialogRef.close();
               // 3. validate code
-              this.openConfirmationDialog(registrationEvent.email).subscribe(confirmationEvent => {
+              this.openConfirmationDialog().subscribe(confirmationEvent => {
                 this.isConfirmationProcessing$.next(true);
-                this.validateConfirmationCode(registrationEvent.email, confirmationEvent.code)
-                  .pipe(finalize(() => this.isConfirmationProcessing$.next(false)))
-                  .subscribe(r =>
+                this.validateConfirmationCode(registrationEvent.email, confirmationEvent.code).subscribe(
+                  r => {
                     // 4. login user
-                    this.login({
+                    this.getJwtToken({
                       email: registrationEvent.email,
                       password: registrationEvent.password,
                       grantType: AUTH_GRANT_TYPE.EMAIL,
                     })
-                  );
+                      .pipe(first())
+                      .subscribe(token => {
+                        this.authRepository
+                          .getUserIdentityInfo(token.tokenType, token.token)
+                          .pipe(first())
+                          .subscribe(identityJson => {
+                            this.userIdentity = identityJson;
+                            this.authStorage.setUserTokenInfo(token, true);
+                            this.authStorage.setUserIdentityInfo(identityJson, true);
+                            this.isAuthorized$.next(true);
+                            this.isConfirmationProcessing$.next(false);
+                            this.registrationDialogRef.close();
+                            this.confirmationDialogRef.close();
+                            this.router.navigate(['/profile']).then();
+                          });
+                      });
+                  },
+                  error => this.isRegistrationProcessing$.next(false)
+                );
               });
             })
         );
-    });
+      });
   }
 
-  openConfirmationDialog(email: string): EventEmitter<{ code: string }> {
-    const dialogRef = this.dialogService.openDialog<ConfirmationCodeDialog>(ConfirmationCodeDialog, 'login-dialog');
-    const instance = dialogRef.componentInstance;
+  openConfirmationDialog(): EventEmitter<{ code: string }> {
+    this.confirmationDialogRef = this.dialogService.openDialog<ConfirmationCodeDialog>(
+      ConfirmationCodeDialog,
+      'login-dialog'
+    );
+    const instance = this.confirmationDialogRef.componentInstance;
     instance.isProcessing$ = this.isConfirmationProcessing$;
     return instance.submitClick;
   }
@@ -111,31 +147,20 @@ export class AuthFacade {
   }
 
   /// inner
-  private login(model: LoginModel) {
-    this.isLoginProcessing$.next(true);
-    this.authRepository
-      .getUserToken(model.email, model.password, model.grantType)
-      .pipe(finalize(() => this.isLoginProcessing$.next(false)))
-      .pipe(first())
-      .subscribe(r => {
+  private getJwtToken(model: LoginModel): Observable<JtwTokenDto> {
+    return this.authRepository.getJwtToken(model.email, model.password, model.grantType).pipe(
+      mergeMap((r: JtwTokenResponse) => {
         if (r.status == 'ok') {
-          this.authRepository
-            .getUserIdentityInfo(r.data.tokenType, r.data.token)
-            .pipe(first())
-            .subscribe(identityJson => {
-              this.authStorage.setUserTokenInfo(r.data, true);
-              this.authStorage.setUserIdentityInfo(identityJson, true);
-              this.userIdentity = identityJson;
-              this.isAuthorized$.next(true);
-            });
+          return of(r.data);
         } else if (r.status == 'wrong-password') {
           // TODO: pass action to dialog
           // (this.form.controls as any).password.setValue('');
           this._snackBar.error('Login or password was incorrect.');
-        } else {
-          this._snackBar.error('Our API is down >_<');
         }
-      });
+        this._snackBar.error('Our API is down >_<');
+        throw new Error();
+      })
+    );
   }
 
   private createAccount(model: RegistrationModel): Observable<'ok' | 'email-already-exist'> {
@@ -164,7 +189,7 @@ export class AuthFacade {
     );
   }
 
-  private fetchIdentityInfo(): Observable<UserIdentityJson> {
+  private fetchIdentityInfo(): Observable<UserIdentityDto> {
     return this.authRepository
       .getUserIdentityInfo(this.authStorage.TokenInfo.tokenType, this.authStorage.TokenInfo.token)
       .pipe(

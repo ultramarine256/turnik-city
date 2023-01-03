@@ -6,6 +6,6 @@ import { UserDto } from './dtos/user.dto';
 @Injectable()
 export class UserRepository extends CrudRepository<UserDto> {
   constructor(httpClient: HttpClient) {
-    super(httpClient, UserDto, 'user');
+    super(httpClient, 'user');
   }
 }

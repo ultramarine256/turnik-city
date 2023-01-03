@@ -1,9 +1,40 @@
 <div class="container--grow">
-  <div class="row">
-    <div class="col-12 mt-4">
-      <div class="c-section">
-        <h2 class="mb-3">Profile page</h2>
+  <div class="row mt-4">
+    <div class="col-md-3">
+      <div class="l-section c-profile">
+        <div class="c-profile__wrapper">
+          <img class="c-profile__photo" src="https://syw.blob.core.windows.net/svg/item-placeholder.svg" alt="" />
+        </div>
+
+        <h2 class="c-profile__name">Evgeny Platonov</h2>
+
+        <p class="c-profile__bio">
+          In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual
+          form of a document or a typeface without relying on meaningful content.
+        </p>
+
+        <ul class="c-list">
+          <li class="c-list__item">
+            <fa-icon class="c-list__icon" [icon]="['fab', 'instagram']" size="xl"></fa-icon>
+            <a class="c-list__text" target="_blank" href="javascript:void(0)">@asdf</a>
+          </li>
+          <li class="c-list__item">
+            <fa-icon class="c-list__icon" [icon]="['fab', 'telegram']" size="xl"></fa-icon>
+            <a class="c-list__text" target="_blank" href="javascript:void(0)">@ultramarine256</a>
+          </li>
+          <li class="c-list__item">
+            <fa-icon class="c-list__icon" [icon]="['fas', 'location-dot']" size="xl"></fa-icon>
+            <a class="c-list__text" target="_blank" href="javascript:void(0)">Kiev</a>
+          </li>
+        </ul>
+
+        <button (click)="logout()">Edit profile</button>
         <button (click)="logout()">logout</button>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <div class="l-section mt-3 mt-md-0">
+        <h3 class="c-profile__name">Favorite locations</h3>
       </div>
     </div>
   </div>
