@@ -31,7 +31,7 @@ export class AppHttpInterceptor implements HttpInterceptor {
       return next.handle(directRequest);
     }
 
-    if (this.authStorage.TokenInfo.token) {
+    if (this.authStorage.TokenInfo?.token) {
       let headers = new HttpHeaders();
       headers = headers.append(
         'Authorization',

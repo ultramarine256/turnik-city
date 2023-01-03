@@ -59,28 +59,13 @@ export class AuthStorage {
   }
 
   private _getTokenFromStorage(storageKey: string): JtwTokenDto {
-    let userToken: JtwTokenDto;
-
-    if (sessionStorage.getItem(storageKey)) {
-      userToken = JSON.parse(sessionStorage.getItem(storageKey) || '');
-    } else {
-      userToken = JSON.parse(localStorage.getItem(storageKey) || '');
-    }
-
-    return userToken;
+    const json = localStorage.getItem(storageKey) || sessionStorage.getItem(storageKey);
+    return (json && JSON.parse(json)) || null;
   }
 
   private _getIdentityFromStorage(storageKey: string): UserIdentityDto {
-    let userIdentity: UserIdentityDto;
-
-    if (sessionStorage.getItem(storageKey)) {
-      // @ts-ignore
-      userIdentity = JSON.parse(sessionStorage.getItem(storageKey));
-    } else {
-      userIdentity = JSON.parse(localStorage.getItem(storageKey) || '');
-    }
-
-    return userIdentity;
+    const json = localStorage.getItem(storageKey) || sessionStorage.getItem(storageKey);
+    return (json && JSON.parse(json)) || null;
   }
 }
 

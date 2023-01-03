@@ -39,7 +39,7 @@ export class AuthFacade {
 
   /// methods
   refreshIdentityInfo() {
-    if (this.authStorage.TokenInfo.token) {
+    if (this.authStorage.TokenInfo?.token) {
       this.isAuthorized$.next(true);
       this.userIdentity = this.authStorage.IdentityInfo;
       this.fetchIdentityInfo()
