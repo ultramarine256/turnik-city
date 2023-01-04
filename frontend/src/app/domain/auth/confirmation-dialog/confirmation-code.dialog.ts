@@ -8,6 +8,8 @@ import { ValidationHelper } from '../../../common';
   template: `
     <div class="login__content">
       <form [formGroup]="form" (keydown)="keyDownFunction($event)" class="row">
+        <p class="code__text">Enter the code from your email address</p>
+
         <!-- confirmation -->
         <mat-form-field class="col-12 input__code" appearance="outline">
           <mat-label>Confirmation Code {{ postalCode.value.length }} / 4</mat-label>
@@ -58,6 +60,11 @@ import { ValidationHelper } from '../../../common';
       }
 
       // common
+      .code__text {
+        margin-bottom: 14px;
+        color: #5c5c5c;
+      }
+
       .login__content {
         padding: 1rem;
       }

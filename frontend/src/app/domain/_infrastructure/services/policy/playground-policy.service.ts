@@ -1,29 +1,44 @@
 import { AbstractPolicyService } from './abstract/abstract-policy.service';
+import { PermissionChecker } from './const/permission.checker';
+import { Injectable } from '@angular/core';
 
-export class playgroundPolicyService extends AbstractPolicyService {
+@Injectable({
+  providedIn: 'root',
+})
+export class PlaygroundPolicyService extends AbstractPolicyService {
+  constructor(permissionChecker: PermissionChecker) {
+    super(permissionChecker);
+  }
+
   canCreate() {
-    return this.permissions.global.canAll || this.permissions.user.canAll || this.permissions.user.canCreate;
+    return (
+      this.permissions.global.canAll || this.permissions.playground.canAll || this.permissions.playground.canCreate
+    );
   }
 
   canRetrieve() {
-    return this.permissions.global.canAll || this.permissions.user.canAll || this.permissions.user.canRetrieve;
+    return (
+      this.permissions.playground.canAll ||
+      this.permissions.playground.canAll ||
+      this.permissions.playground.canRetrieve
+    );
   }
 
   canUpdate() {
     return (
       this.permissions.global.canAll ||
-      this.permissions.user.canAll ||
-      this.permissions.user.canUpdate ||
-      this.permissions.user.own.canUpdate
+      this.permissions.playground.canAll ||
+      this.permissions.playground.canUpdate ||
+      this.permissions.playground.own.canUpdate
     );
   }
 
   canDelete(): boolean {
     return (
       this.permissions.global.canAll ||
-      this.permissions.user.canAll ||
-      this.permissions.user.canDelete ||
-      this.permissions.user.own.canDelete
+      this.permissions.playground.canAll ||
+      this.permissions.playground.canDelete ||
+      this.permissions.playground.own.canDelete
     );
   }
 }

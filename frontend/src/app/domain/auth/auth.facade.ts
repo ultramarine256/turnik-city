@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable, catchError, first, of, mergeMap, tap } fro
 import { AUTH_GRANT_TYPE, AuthRepository, AuthStorage, JtwTokenDto, JtwTokenResponse, UserIdentityDto } from 'app/data';
 import { ExtendedDialogService, SnackbarService } from 'app/common';
 import { ConfirmationCodeDialog, LoginClickEvent, LoginDialog, RegisterationDialog } from './index';
+import { PermissionChecker } from '../_infrastructure';
 
 @Injectable({
   providedIn: 'root',
@@ -31,6 +32,7 @@ export class AuthFacade {
     private dialogService: ExtendedDialogService,
     private dialog: MatDialog,
     private authRepository: AuthRepository,
+    private permissionChecker: PermissionChecker,
     private _snackBar: SnackbarService,
     private router: Router
   ) {
@@ -38,14 +40,18 @@ export class AuthFacade {
   }
 
   /// methods
-  refreshIdentityInfo() {
-    if (this.authStorage.TokenInfo?.token) {
-      this.isAuthorized$.next(true);
-      this.userIdentity = this.authStorage.IdentityInfo;
-      this.fetchIdentityInfo()
-        .pipe(first())
-        .subscribe(userIdentity => this.authStorage.updateUserIdentityInfo(userIdentity));
+  refreshIdentityInfo(): Observable<UserIdentityDto | false> {
+    if (!this.authStorage.TokenInfo?.token) {
+      return of(false);
     }
+
+    this.isAuthorized$.next(true);
+    this.permissionChecker.setIsAuthorized(true);
+    this.permissionChecker.setRolePermissions('user');
+    this.userIdentity = this.authStorage.IdentityInfo;
+    return this.fetchIdentityInfo()
+      .pipe(first())
+      .pipe(tap(r => this.authStorage.updateUserIdentityInfo(r)));
   }
 
   openLoginDialog() {
@@ -68,6 +74,8 @@ export class AuthFacade {
               this.userIdentity = identityJson;
               this.authStorage.setUserTokenInfo(token, true);
               this.authStorage.setUserIdentityInfo(identityJson, true);
+              this.permissionChecker.setIsAuthorized(true);
+              this.permissionChecker.setRolePermissions('user');
               this.isLoginProcessing$.next(false);
               this.isAuthorized$.next(true);
               this.loginDialogRef.close();
@@ -89,11 +97,11 @@ export class AuthFacade {
       .subscribe(registrationEvent => {
         // 1. create account
         this.createAccount({ email: registrationEvent.email, password: registrationEvent.password }).subscribe(
-          error => this.isRegistrationProcessing$.next(false),
           r =>
             // 2. send confirmation email
             this.authRepository.sendConfirmationEmail(registrationEvent.email).subscribe(r => {
               this.isRegistrationProcessing$.next(true);
+              this.loginDialogRef.close();
               this.registrationDialogRef.close();
               // 3. validate code
               this.openConfirmationDialog().subscribe(confirmationEvent => {
@@ -116,6 +124,8 @@ export class AuthFacade {
                             this.authStorage.setUserTokenInfo(token, true);
                             this.authStorage.setUserIdentityInfo(identityJson, true);
                             this.isAuthorized$.next(true);
+                            this.permissionChecker.setIsAuthorized(true);
+                            this.permissionChecker.setRolePermissions('user');
                             this.isConfirmationProcessing$.next(false);
                             this.registrationDialogRef.close();
                             this.confirmationDialogRef.close();
@@ -126,7 +136,8 @@ export class AuthFacade {
                   error => this.isRegistrationProcessing$.next(false)
                 );
               });
-            })
+            }),
+          error => this.isRegistrationProcessing$.next(false)
         );
       });
   }
@@ -144,6 +155,8 @@ export class AuthFacade {
   signOut() {
     this.isAuthorized$.next(false);
     this.clearStorageInfo();
+    this.permissionChecker.setIsAuthorized(false);
+    this.permissionChecker.setRolePermissions('anonymous');
   }
 
   /// inner

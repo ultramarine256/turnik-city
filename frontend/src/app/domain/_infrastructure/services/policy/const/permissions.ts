@@ -1,15 +1,16 @@
 export type Roles = {
   root: 'root';
   admin: 'admin';
-  user: 'guest';
+  user: 'user';
   guest: 'guest';
 };
 
 export type Permissions = {
+  isAuthorized: boolean;
   global: {
     canAll: boolean;
-    canRetrieve: boolean;
     canCreate: boolean;
+    canRetrieve: boolean;
     canUpdate: boolean;
     canDelete: boolean;
     own: {
@@ -21,8 +22,8 @@ export type Permissions = {
   };
   user: {
     canAll: boolean;
-    canRetrieve: boolean;
     canCreate: boolean;
+    canRetrieve: boolean;
     canUpdate: boolean;
     canDelete: boolean;
     own: {
@@ -35,8 +36,8 @@ export type Permissions = {
   };
   playground: {
     canAll: boolean;
-    canRetrieve: boolean;
     canCreate: boolean;
+    canRetrieve: boolean;
     canUpdate: boolean;
     canDelete: boolean;
     own: {

@@ -1,9 +1,18 @@
-import { Permissions } from '../permissions';
+import { PermissionChecker } from '../const/permission.checker';
+import { Permissions } from '../const/permissions';
 
 export abstract class AbstractPolicyService {
-  protected permissions: Permissions;
+  protected permissionChecker: PermissionChecker;
 
-  protected constructor(permissions: Permissions) {
-    this.permissions = permissions;
+  public get permissions(): Permissions {
+    return this.permissionChecker.perms;
+  }
+
+  protected constructor(permissionChecker: PermissionChecker) {
+    this.permissionChecker = permissionChecker;
+  }
+
+  isAuthorized() {
+    return this.permissions.isAuthorized;
   }
 }

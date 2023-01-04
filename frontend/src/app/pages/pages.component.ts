@@ -1,8 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { first, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { ExtendedDialogService, SOCIAL } from 'app/common';
-import { AppStore, AuthFacade, PlaygroundCreateComponent, PlaygroundFacade } from 'app/domain';
+import {
+  AppStore,
+  AuthFacade,
+  PlaygroundCreateComponent,
+  PlaygroundFacade,
+  PlaygroundPolicyService,
+  UserPolicyService,
+} from 'app/domain';
 import { PlaygroundCreateDto, PlaygroundSizes, PlaygroundTypes } from 'app/data';
 
 @Component({
@@ -19,20 +26,22 @@ export class PagesComponent implements OnInit {
     public store: AppStore,
     private dialogService: ExtendedDialogService,
     public playgroundFacade: PlaygroundFacade,
-    public authFacade: AuthFacade
+    public authFacade: AuthFacade,
+    public userPolicy: UserPolicyService,
+    public playgroundPolicy: PlaygroundPolicyService
   ) {}
 
   ngOnInit(): void {
-    this.authFacade.refreshIdentityInfo();
+    this.authFacade.refreshIdentityInfo().subscribe();
   }
 
   playgroundCreateDialogOpen() {
-    this.authFacade.isAuthorized$.subscribe(r => {
-      console.log(r);
-    });
+    if (!this.playgroundPolicy.canCreate()) {
+      this.authFacade.openLoginDialog();
+      return;
+    }
 
     const model: PlaygroundCreateDto = { size: '', type: '', lat: 0, lng: 0, imageUrls: [] };
-
     this.dialogService
       .openCreateDialog<PlaygroundCreateDto>(PlaygroundCreateComponent, model, {
         panelClass: 'playground-create-dialog',
