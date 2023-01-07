@@ -1,5 +1,8 @@
 ﻿using Data.Entities;
 using Domain.DomainServices._Abstractions;
+using Domain.DomainServices.User;
+using Domain.DomainServices.User.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using WebApi.Controllers._Abstract;
@@ -10,8 +13,12 @@ namespace WebApi.Controllers.App.User
     [Route("user")]
     public class UserController : EntityController<UserEntity, int, UserDto>
     {
-        public UserController(IEntityDomainService<UserEntity, int> domain) : base(domain)
-        { }
+        public IUserDomainService Domain { get; }
+
+        public UserController(IUserDomainService domain) : base(domain)
+        {
+            Domain = domain;
+        }
 
         [EnableQuery]
         [HttpGet("")]
@@ -33,5 +40,10 @@ namespace WebApi.Controllers.App.User
         [HttpDelete("{id}")]
         public Task DeleteAsync(int id)
             => BaseDelete(id);
+
+        [HttpGet("profile/{slug}")]
+        [AllowAnonymous]
+        public Task<UserProfileDto> UserProfile(string slug)
+            => Domain.UserProfile(slug);
     }
 }

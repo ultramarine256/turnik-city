@@ -5,15 +5,15 @@
       <button mat-flat-button color="primary" [matMenuTriggerFor]="menu">Menu</button>
       <mat-menu #menu="matMenu">
         <button mat-menu-item>
-          <fa-icon class="s-counter__icon" [icon]="['far', 'heart']" size="xl"></fa-icon>
+          <fa-icon class="c-counter__icon" [icon]="['far', 'heart']" size="xl"></fa-icon>
           <span>Redial</span>
         </button>
         <button mat-menu-item disabled>
-          <fa-icon class="s-counter__icon" [icon]="['far', 'heart']" size="xl"></fa-icon>
+          <fa-icon class="c-counter__icon" [icon]="['far', 'heart']" size="xl"></fa-icon>
           <span>Check voice mail</span>
         </button>
         <button mat-menu-item>
-          <fa-icon class="s-counter__icon" [icon]="['far', 'heart']" size="xl"></fa-icon>
+          <fa-icon class="c-counter__icon" [icon]="['far', 'heart']" size="xl"></fa-icon>
           <span>Disable alerts</span>
         </button>
       </mat-menu>
@@ -63,14 +63,14 @@
 
     <div class="col-12 mt-5 buttons-col">
       <button mat-flat-button color="primary">
-        <fa-icon class="s-counter__icon" [icon]="['far', 'heart']" size="xl"></fa-icon>
+        <fa-icon class="c-counter__icon" [icon]="['far', 'heart']" size="xl"></fa-icon>
         ICON BUTTON
       </button>
     </div>
 
     <div class="col-12 mt-5 buttons-col">
       <button mat-flat-button color="primary" [disabled]="true">
-        <fa-icon class="s-counter__icon" [icon]="['far', 'heart']" size="xl"></fa-icon>
+        <fa-icon class="c-counter__icon" [icon]="['far', 'heart']" size="xl"></fa-icon>
         SPINNER BUTTON
         <mat-progress-bar mode="indeterminate"></mat-progress-bar>
       </button>

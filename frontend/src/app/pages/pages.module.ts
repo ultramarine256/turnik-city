@@ -9,7 +9,8 @@ import {
   PlaygroundMapPageComponent,
   UIPageComponent,
   HomePageComponent,
-  PlaygroundDetailsPageComponent,
+  PlaygroundDetailsPage,
+  PlaygroundsListPage,
 } from './index';
 
 const COMPONENTS = [
@@ -17,7 +18,8 @@ const COMPONENTS = [
   ProfilePageComponent,
   HomePageComponent,
   PlaygroundMapPageComponent,
-  PlaygroundDetailsPageComponent,
+  PlaygroundDetailsPage,
+  PlaygroundsListPage,
   UIPageComponent,
   PagesComponent,
 ];

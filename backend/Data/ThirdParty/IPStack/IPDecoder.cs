@@ -6,7 +6,7 @@ namespace Data.ThirdParty.IPStack
 {
     public interface IIpDecoder
     {
-        Task<DecodeIpModel> DecodeIp(string ip);
+        Task<DecodeIpDto> DecodeIp(string ip);
     }
 
     public class IpDecoder : IIpDecoder
@@ -18,10 +18,10 @@ namespace Data.ThirdParty.IPStack
             ApiKey = apiKey;
         }
 
-        public async Task<DecodeIpModel> DecodeIp(string ip = null)
+        public async Task<DecodeIpDto> DecodeIp(string ip = null)
         {
             var json = await new HttpClient().GetStringAsync($"http://api.ipstack.com/{ip}?access_key={ApiKey}&format=1");
-            var model = JsonConvert.DeserializeObject<DecodeIpModel>(json, new JsonSerializerSettings
+            var model = JsonConvert.DeserializeObject<DecodeIpDto>(json, new JsonSerializerSettings
             {
                 ContractResolver = new DefaultContractResolver { NamingStrategy = new SnakeCaseNamingStrategy() },
                 Formatting = Formatting.Indented
@@ -33,7 +33,7 @@ namespace Data.ThirdParty.IPStack
 
     public class IpDecoderStub : IIpDecoder
     {
-        public Task<DecodeIpModel> DecodeIp(string ip)
-            => Task.FromResult(new DecodeIpModel());
+        public Task<DecodeIpDto> DecodeIp(string ip)
+            => Task.FromResult(new DecodeIpDto());
     }
 }

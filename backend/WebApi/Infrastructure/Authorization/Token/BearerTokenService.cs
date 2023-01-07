@@ -19,6 +19,7 @@ namespace WebApi.Infrastructure.Authorization.Token
         }
 
         public string CreateToken(
+            string slug,
             string email,
             string imageUrl,
             string fullName,
@@ -31,6 +32,7 @@ namespace WebApi.Infrastructure.Authorization.Token
             var claims = new[]
             {
                 // new Claim(TOKEN_KEYS.USER_ID, userId.ToString()),
+                new Claim(TOKEN_KEYS.SLUG, slug),
                 new Claim(TOKEN_KEYS.EMAIL, email),
                 new Claim(TOKEN_KEYS.IMAGE_URL, imageUrl),
                 new Claim(TOKEN_KEYS.FULL_NAME,  fullName),
@@ -63,20 +65,15 @@ namespace WebApi.Infrastructure.Authorization.Token
                 return null;
             }
 
+            var slug = dictionary[TOKEN_KEYS.EMAIL];
             var email = dictionary[TOKEN_KEYS.EMAIL];
             var imageUrl = dictionary[TOKEN_KEYS.IMAGE_URL];
             var fullName = dictionary[TOKEN_KEYS.FULL_NAME];
             var role = dictionary[TOKEN_KEYS.ROLE];
             var permissions = JsonConvert.DeserializeObject<IList<string>>(dictionary[TOKEN_KEYS.PERMISSIONS]);
 
-            return new TokenClaims(email, imageUrl, fullName, role, permissions);
+            return new TokenClaims(slug, email, imageUrl, fullName, role, permissions);
         }
-    }
-
-    public static class AUTH_SCOPE
-    {
-        public const string ADMIN = "admin";
-        public const string APP = "app";
     }
 
     public static class TOKEN_TYPE
@@ -86,6 +83,7 @@ namespace WebApi.Infrastructure.Authorization.Token
 
     public static class TOKEN_KEYS
     {
+        public const string SLUG = "slug";
         public const string EMAIL = "email_";
         public const string IMAGE_URL = "imageUrl";
         public const string FULL_NAME = "fullName";

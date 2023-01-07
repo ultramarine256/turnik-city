@@ -11,9 +11,10 @@ namespace Data.EFRepository.Common
 {
     public interface ICommonRepository
     {
-        Task<DecodeIpModel> DecodeIp(string ip);
-        Task<CountersModel> GetCounters();
-        Task<IEnumerable<Member>> NewMembers();
+        Task<DecodeIpDto> DecodeIp(string ip);
+        Task<CountersEntity> GetCounters();
+        Task<IEnumerable<NewMemberEntity>> NewMembers(int take = 10);
+        Task<IEnumerable<NewPlaygroundEntity>> NewPlaygrounds(int take = 10);
     }
 
     internal class CommonRepository : BaseRepository, ICommonRepository
@@ -25,9 +26,9 @@ namespace Data.EFRepository.Common
             IpDecoder = ipDecoder;
         }
 
-        public async Task<DecodeIpModel> DecodeIp(string ip)
+        public async Task<DecodeIpDto> DecodeIp(string ip)
         {
-            var value = Cache.Get<DecodeIpModel>(ip);
+            var value = Cache.Get<DecodeIpDto>(ip);
 
             if (value == null)
             {
@@ -41,9 +42,9 @@ namespace Data.EFRepository.Common
             return value;
         }
 
-        public async Task<CountersModel> GetCounters()
+        public async Task<CountersEntity> GetCounters()
         {
-            var value = Cache.Get<CountersModel>(CacheKeys.Counters);
+            var value = Cache.Get<CountersEntity>(CacheKeys.Counters);
 
             if (value == null)
             {
@@ -55,7 +56,7 @@ namespace Data.EFRepository.Common
                 var likesCount = playgrounds.Sum(r => r.likesCount);
                 var usersCount = Context.Users.Count();
 
-                value = new CountersModel()
+                value = new CountersEntity()
                 {
                     Playgrounds = playgroundsCount,
                     Cities = 100,
@@ -73,17 +74,33 @@ namespace Data.EFRepository.Common
             return value;
         }
 
-        public async Task<IEnumerable<Member>> NewMembers()
+        public async Task<IEnumerable<NewMemberEntity>> NewMembers(int take = 10)
         {
-            var users = Context.Users.AsNoTracking().OrderByDescending(r => r.CreatedUtc).Take(10).ToList();
-            var members = users.Select(r => new Member()
+            var list = Context.Users.AsNoTracking().OrderByDescending(r => r.CreatedUtc).Take(take).ToList();
+            var dtos = list.Select(r => new NewMemberEntity()
             {
+                Slug = r.Slug,
                 ImageUrl = r.ImageUrl,
                 FullName = r.FullName,
                 InstagramId = r.InstagramId,
                 CreatedUtc = r.CreatedUtc
             });
-            return members;
+            return dtos;
+        }
+
+        public async Task<IEnumerable<NewPlaygroundEntity>> NewPlaygrounds(int take = 10)
+        {
+            var list = Context.Playgrounds.AsNoTracking().OrderByDescending(r => r.CreatedUtc).Take(take).ToList();
+            var dtos = list.Select(r => new NewPlaygroundEntity()
+            {
+                Slug = r.Slug,
+                Title = r.GetTitle(),
+                ImageUrl = r.GetFirstImageUrl(),
+                CreatedUtc = r.CreatedUtc,
+                CreatedBy = r.CreatedBy,
+                City = r.City
+            });
+            return dtos;
         }
     }
 }

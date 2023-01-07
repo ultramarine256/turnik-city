@@ -7,7 +7,7 @@ using Data.Entities;
 
 namespace Data.EFRepository.Common.Models
 {
-    public class CountersModel
+    public class CountersEntity
     {
         public int Playgrounds { get; set; }
         public int Cities { get; set; }

@@ -11,7 +11,16 @@ export class AppStore {
   readonly counters$ = this.commonRepository.counters();
   readonly markers$ = this.playgroundRepository.markers();
 
-  readonly vm$ = combineLatest([this.ipDetails$]).pipe(map(([ipDetails]) => ({ ipDetails })));
+  readonly newMembers$ = this.commonRepository.newMembers();
+  readonly newPlaygrounds$ = this.commonRepository.newPlaygrounds();
+
+  readonly vm$ = combineLatest([this.ipDetails$, this.newMembers$, this.newPlaygrounds$]).pipe(
+    map(([ipDetails, newMembers, newPlaygrounds]) => ({
+      ipDetails: ipDetails,
+      newMembers: newMembers,
+      newPlaygrounds: newPlaygrounds,
+    }))
+  );
 
   constructor(private commonRepository: CommonRepository, private playgroundRepository: PlaygroundRepository) {}
 }

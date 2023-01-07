@@ -1,4 +1,5 @@
 ﻿using Azure.Core;
+using Domain.Infrastructure.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Controllers.System.ApiStatus.Dtos;
@@ -33,8 +34,14 @@ namespace WebApi.Controllers.System.ApiStatus
         [Route("/error")]
         public IActionResult HandleError()
         {
-            var exceptionHandlerFeature =
-                HttpContext.Features.Get<IExceptionHandlerFeature>()!;
+            var exceptionHandlerFeature = HttpContext.Features.Get<IExceptionHandlerFeature>()!;
+
+            var type = exceptionHandlerFeature.Error.GetType();
+
+            if (type == typeof(EntityNotFoundException))
+            {
+                return NotFound(new { status = "not-found" });
+            }
 
             return Problem(
                 title: exceptionHandlerFeature.Error.Message,

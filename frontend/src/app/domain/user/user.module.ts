@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
-import { AppCommonModule } from '../../common';
-import { DataModule } from '../../data';
+import { AppCommonModule } from 'app/common';
+import { DataModule } from 'app/data';
+import { UserFacade } from './user.facade';
 
 @NgModule({
   declarations: [],
   imports: [AppCommonModule, DataModule],
   exports: [],
-  providers: [],
+  providers: [UserFacade],
 })
 export class UserModule {}

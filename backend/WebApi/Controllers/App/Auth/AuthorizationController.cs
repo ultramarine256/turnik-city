@@ -46,6 +46,7 @@ namespace WebApi.Controllers.App.Auth
             }
 
             var tokenString = TokenAuthorization.CreateToken(
+                user.Slug,
                 user.Email,
                 user.ImageUrl ?? "",
                 user.FullName,

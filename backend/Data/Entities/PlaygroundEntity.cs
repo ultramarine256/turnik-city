@@ -25,18 +25,27 @@ namespace Data.Entities
         public int ViewsCount { get; set; }
         public int LikesCount { get; set; }
 
+        public string? GetTitle()
+            => $"{Id} {Size} {Type}";
+
+        public string? GetFirstImageUrl()
+        {
+            var images = GetImages();
+            return images.Count > 0 ? images.FirstOrDefault()! : null;
+        }
+
         public IList<string> GetImages()
-            => string.IsNullOrEmpty(PhotosJson)
+            => (String.IsNullOrEmpty(PhotosJson)
                 ? new List<string>()
-                : JsonConvert.DeserializeObject<List<string>>(PhotosJson);
+                : JsonConvert.DeserializeObject<List<string>>(PhotosJson))!;
 
         public void SetImages(IList<string> items)
             => PhotosJson = JsonConvert.SerializeObject(items);
 
         public IList<string> GetEquipment()
-            => string.IsNullOrEmpty(EquipmentJson)
+            => String.IsNullOrEmpty(EquipmentJson)
                 ? new List<string>()
-                : JsonConvert.DeserializeObject<List<string>>(EquipmentJson);
+                : JsonConvert.DeserializeObject<List<string>>(EquipmentJson)!;
 
         public void SetEquipment(IList<string> items)
             => EquipmentJson = JsonConvert.SerializeObject(items);

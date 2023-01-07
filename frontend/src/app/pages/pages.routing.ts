@@ -7,7 +7,7 @@ import {
   ProfilePageComponent,
   PlaygroundMapPageComponent,
   PagesComponent,
-  PlaygroundDetailsPageComponent,
+  PlaygroundDetailsPage,
   AboutPageComponent,
 } from './index';
 import { PagesResolver } from './pages.resolver';
@@ -30,7 +30,7 @@ const routes: Routes = [
       },
       {
         path: 'playground/:slug',
-        component: PlaygroundDetailsPageComponent,
+        component: PlaygroundDetailsPage,
       },
       {
         path: 'about',
@@ -41,10 +41,9 @@ const routes: Routes = [
         component: AboutPageComponent,
       },
       {
-        path: 'profile',
+        path: 'profile/:slug',
         component: ProfilePageComponent,
         resolve: { pagesResolver: PagesResolver },
-        canActivate: [RouterGuard],
       },
       {
         path: 'ui',

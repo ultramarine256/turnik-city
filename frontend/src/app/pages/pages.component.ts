@@ -61,9 +61,13 @@ export class PagesComponent implements OnInit {
     this.authFacade.openLoginDialog();
   }
 
-  navigateToProfile() {
-    this.router.navigate(['/profile']).then();
-    // profile
-    console.log('profile');
+  profileClick() {
+    const userSlug = this.authFacade.identity.slug;
+    this.router.navigate([`/profile/${userSlug}`]).then();
+  }
+
+  logoutClick() {
+    this.authFacade.signOut();
+    this.router.navigate(['/']).then();
   }
 }

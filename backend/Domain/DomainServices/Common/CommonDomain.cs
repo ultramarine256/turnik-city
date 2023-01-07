@@ -13,13 +13,16 @@ namespace Domain.DomainServices.Common
             CommonRepository = commonRepository;
         }
 
-        public Task<DecodeIpModel> DecodeIp(string ip)
+        public Task<DecodeIpDto> DecodeIp(string ip)
             => CommonRepository.DecodeIp(ip);
 
-        public Task<CountersModel> Counters()
+        public Task<CountersEntity> Counters()
             => CommonRepository.GetCounters();
 
-        public Task<IEnumerable<Member>> NewMembers()
+        public Task<IEnumerable<NewMemberEntity>> NewMembers()
             => CommonRepository.NewMembers();
+
+        public Task<IEnumerable<NewPlaygroundEntity>> NewPlaygrounds()
+            => CommonRepository.NewPlaygrounds();
     }
 }

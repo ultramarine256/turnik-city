@@ -1,6 +1,7 @@
 ﻿using Data.EFRepository;
 using Data.EFRepository.Playground;
 using Data.EFRepository.Playground.Models;
+using Data.EFRepository.User;
 using Data.Entities;
 using Data.Infrastructure.UnitOfWork;
 using Domain.DomainServices._Abstractions;

@@ -1,5 +1,8 @@
 <div class="container--grow">
-  <div class="row mt-4">
+  <div *ngIf="!(userFacade.isProfileLoaded$ | async)">loaging...</div>
+  <div *ngIf="userFacade.isUserNotFound$ | async">not found</div>
+
+  <div class="row mt-4" *ngIf="userFacade.isProfileLoaded$ | async">
     <div class="col-md-3">
       <div class="l-section c-profile">
         <div class="c-profile__wrapper">
@@ -16,7 +19,10 @@
         <ul class="c-list">
           <li class="c-list__item">
             <fa-icon class="c-list__icon" [icon]="['fab', 'instagram']" size="xl"></fa-icon>
-            <a class="c-list__text" target="_blank" href="javascript:void(0)">@asdf</a>
+
+            <a href=""></a>
+
+            <a class="c-list__text" target="_blank" href="javascript:void(0)">@ultramar256</a>
           </li>
           <li class="c-list__item">
             <fa-icon class="c-list__icon" [icon]="['fab', 'telegram']" size="xl"></fa-icon>
@@ -28,13 +34,21 @@
           </li>
         </ul>
 
-        <button (click)="logout()">Edit profile</button>
-        <button (click)="logout()">logout</button>
+        <div class="l-buttons">
+          <button mat-flat-button class="profile-button">Edit profile</button>
+          <!--          <button mat-flat-button class="profile-button" (click)="logout()">logout</button>-->
+        </div>
       </div>
     </div>
     <div class="col-md-9">
       <div class="l-section mt-3 mt-md-0">
         <h3 class="c-profile__name">Favorite locations</h3>
+
+        <div class="locations">
+          <div class="locations__item">1</div>
+          <div class="locations__item">2</div>
+          <div class="locations__item">3</div>
+        </div>
       </div>
     </div>
   </div>

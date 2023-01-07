@@ -16,15 +16,19 @@ namespace WebApi.Controllers.App.Common
         }
 
         [HttpGet("decode-ip")]
-        public Task<DecodeIpModel> DecodeIp(string ip)
+        public Task<DecodeIpDto> DecodeIp(string ip)
             => CommonDomainService.DecodeIp(ip);
 
         [HttpGet("counters")]
-        public Task<CountersModel> Counters()
+        public Task<CountersEntity> Counters()
             => CommonDomainService.Counters();
 
-        [HttpGet("members")]
-        public Task<IEnumerable<Member>> Members()
+        [HttpGet("new-members")]
+        public Task<IEnumerable<NewMemberEntity>> NewMembers()
             => CommonDomainService.NewMembers();
+
+        [HttpGet("new-playgrounds")]
+        public Task<IEnumerable<NewPlaygroundEntity>> NewPlaygrounds()
+            => CommonDomainService.NewPlaygrounds();
     }
 }

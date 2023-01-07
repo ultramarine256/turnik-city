@@ -8,6 +8,7 @@ using Domain.Policy._Abstract;
 using Domain.Policy._Abstract.Permission;
 using Domain.Policy.Playground;
 using Domain.DomainServices.Authorization;
+using Domain.DomainServices.User;
 using Domain.Services.Email;
 using Domain.Services.Email.Models;
 using SendGrid.Helpers.Mail;
@@ -32,6 +33,7 @@ namespace Domain
             services.AddScoped<CommonDomainService, CommonDomainService>();
             services.AddScoped<IAuthorizationDomainService, AuthorizationDomainService>();
             services.AddScoped<IPlaygroundDomainService, PlaygroundDomainService>();
+            services.AddScoped<IUserDomainService, UserDomainService>();
 
             // policy
             services.AddScoped<IPermissionChecker, PermissionChecker>();

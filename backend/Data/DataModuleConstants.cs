@@ -11,16 +11,12 @@ namespace Data
     {
     }
 
-    public static class PermissionNames
-    {
-        public const string
-            // General
-            CanAllAll = "CanAllAll";
-    }
-
     public static class StringExtensions
     {
         public static string ClearString(this string input)
             => String.IsNullOrEmpty(input) ? "" : (new Regex("[^a-zA-Z0-9 -]").Replace(input, "")).Trim();
+
+        public static string SlugFromEmailString(string email)
+            => email.Split("@")[0];
     }
 }

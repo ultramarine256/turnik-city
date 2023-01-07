@@ -15,9 +15,7 @@ namespace Data.Infrastructure.UnitOfWork
         }
 
         public IAppUnitOfWork CurrentOrCreateNew(bool useTransaction = true)
-        {
-            return CurrentOrCreateNew(out _, useTransaction);
-        }
+            => CurrentOrCreateNew(out _, useTransaction);
 
         public IAppUnitOfWork CurrentOrCreateNew(out bool newCreated, bool useTransaction = true)
         {

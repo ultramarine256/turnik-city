@@ -1,6 +1,6 @@
 ﻿namespace Data.ThirdParty.IPStack.Models
 {
-    public class DecodeIpModel
+    public class DecodeIpDto
     {
         public string Ip { get; set; }
         public string CountryCode { get; set; }
@@ -12,7 +12,7 @@
         public double Longitude { get; set; }
         public IpDecodeLocation Location { get; set; }
 
-        public DecodeIpModel()
+        public DecodeIpDto()
         {
             Location = new IpDecodeLocation();
         }

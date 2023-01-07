@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
-import { AuthModule, InfrastructureModule, PlaygroundModule } from './index';
+import { AuthModule, InfrastructureModule, PlaygroundModule, UserModule } from './index';
 
-const MODULES = [InfrastructureModule, PlaygroundModule, AuthModule];
+const MODULES = [InfrastructureModule, PlaygroundModule, UserModule, AuthModule];
 
 @NgModule({
   declarations: [],

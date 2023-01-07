@@ -10,6 +10,7 @@ namespace Data.EFRepository.User
     {
         Task<UserEntity> GetUserByEmailAndPassword(string email, string password);
         Task<UserEntity> GetUserByEmail(string email);
+        Task<bool> IsUserSlugExist(string slug);
         Task<bool> CheckConfirmationCode(string email, string code);
         Task SetConfirmationCode(string email, string code);
     }
@@ -20,14 +21,13 @@ namespace Data.EFRepository.User
             : base(dbContextManager, storageService, cache) { }
 
         public Task<UserEntity> GetUserByEmailAndPassword(string email, string password) =>
-            Context.Users
-                .AsNoTracking()
-                .FirstOrDefaultAsync(r => r.Email == email && r.PasswordHash == password);
+            Query.FirstOrDefaultAsync(r => r.Email == email && r.PasswordHash == password)!;
 
         public Task<UserEntity> GetUserByEmail(string email) =>
-            Context.Users
-                .AsNoTracking()
-                .FirstOrDefaultAsync(r => r.Email == email);
+            Query.FirstOrDefaultAsync(r => r.Email == email)!;
+
+        public Task<bool> IsUserSlugExist(string slug)
+            => Task.FromResult(Query.Any(r => r.Slug == slug));
 
         public Task<bool> CheckConfirmationCode(string email, string code)
             => Task.FromResult(code == Cache.Get<string>(email));

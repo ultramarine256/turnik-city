@@ -95,8 +95,6 @@ namespace Data.EFRepository
 
         #endregion
 
-        #region More
-
         public virtual async Task<TEntity> GetAsNoTrackingAsync(TPrimaryKey id, params Expression<Func<TEntity, object>>[] includes)
         {
             var query = Context.Set<TEntity>().AsQueryable();
@@ -135,8 +133,6 @@ namespace Data.EFRepository
 
         public virtual Task<TEntity> FirstOrDefaultTracking(TPrimaryKey id) =>
             Context.Set<TEntity>().FirstOrDefaultAsync(r => r.Id.Equals(id));
-
-        #endregion
 
         #region Helpers
 

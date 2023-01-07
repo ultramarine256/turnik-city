@@ -5,10 +5,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   providedIn: 'root',
 })
 export class SnackbarService {
-  constructor(private _snackBar: MatSnackBar) {}
+  constructor(private matSnackBar: MatSnackBar) {}
 
   error(message: string) {
-    this._snackBar.open(message, 'X', {
+    this.matSnackBar.open(message, 'X', {
       duration: 12 * 1000,
       panelClass: 'doodle-class',
       horizontalPosition: 'right',

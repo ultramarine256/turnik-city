@@ -33,10 +33,20 @@
             <fa-icon [icon]="['far', 'face-smile']" size="xl"></fa-icon>
             <span class="nav-button__text">Profile</span>
           </button>
-          <button mat-stroked-button class="nav-button" (click)="navigateToProfile()" *ngIf="userPolicy.isAuthorized()">
+          <button mat-stroked-button class="nav-button" [matMenuTriggerFor]="prMenu" *ngIf="userPolicy.isAuthorized()">
             <fa-icon [icon]="['far', 'face-smile']" size="xl"></fa-icon>
-            <span class="nav-button__text">{{ authFacade.userIdentity.fullName }}</span>
+            <span class="nav-button__text">{{ authFacade.identity.fullName }}</span>
           </button>
+          <mat-menu #prMenu="matMenu" class="profile-menu">
+            <button mat-menu-item (click)="profileClick()">
+              <mat-icon>person</mat-icon>
+              <span>Profile</span>
+            </button>
+            <button mat-menu-item (click)="logoutClick()">
+              <mat-icon>logout</mat-icon>
+              <span>Log Out</span>
+            </button>
+          </mat-menu>
         </div>
       </div>
     </div>
@@ -71,12 +81,12 @@
               <li>
                 <a routerLink="/about">About Us</a>
               </li>
-              <!--              <li>-->
-              <!--                <a routerLink="/">Codex</a>-->
-              <!--              </li>-->
-              <!--              <li>-->
-              <!--                <a routerLink="/">Members</a>-->
-              <!--              </li>-->
+              <!--  <li>-->
+              <!--    <a routerLink="/">Codex</a>-->
+              <!--  </li>-->
+              <!--  <li>-->
+              <!--    <a routerLink="/">Members</a>-->
+              <!--  </li>-->
             </ul>
           </div>
         </div>

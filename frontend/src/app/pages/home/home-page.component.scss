@@ -1,5 +1,5 @@
-/* HERO */
-.section-hero {
+// hero-section
+.hero-section {
   min-height: 50vh;
   background: #fff url(https://assets.goodfirms.co/images/hero-building-home.svg) 50% -30% repeat-x;
 
@@ -9,12 +9,12 @@
   }
 }
 
-.s-hero {
+.l-hero {
   position: relative;
   top: -75px;
   padding: 2rem;
 
-  .s-hero__title {
+  .l-hero__title {
     font-size: 2.5rem;
     text-align: center;
     font-weight: 400;
@@ -22,15 +22,15 @@
     line-height: 100%;
   }
 
-  .s-hero__button {
+  .l-hero__button {
     padding: 4px 16px;
     background-color: var(--primaryColor);
     font-size: 1rem;
   }
 }
 
-/* COUNTERS */
-.s-counter {
+// counters
+.c-counter {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -56,29 +56,98 @@
     }
   }
 
-  .s-counter__right {
+  .c-counter__right {
     margin-left: 10px;
   }
 
-  .s-counter__icon {
+  .c-counter__icon {
     color: var(--primaryColor);
     width: 40px;
     display: flex;
     justify-content: center;
   }
 
-  .s-counter__value {
+  .c-counter__value {
     font-size: 1.5rem;
     font-weight: 500;
   }
 
-  .s-counter__title {
+  .c-counter__title {
   }
 }
 
-/* CITIES */
-.c-cities {
+// cities
+.city-list {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
+}
+
+// members
+.c-list {
+  display: flex;
+  flex-direction: column;
+
+  .c-list__hr {
+    margin: 0.5rem 0;
+
+    &:last-child {
+      display: none;
+    }
+  }
+}
+
+.c-item {
+  display: flex;
+  cursor: pointer;
+  gap: 12px;
+  transition: 0.2s;
+  text-decoration: none;
+
+  &:hover {
+    background-color: #f3f3f3;
+  }
+
+  .c-item__img-wrapper {
+    height: 48px;
+    width: 48px;
+    display: grid;
+    place-content: center;
+    overflow: hidden;
+    border-radius: 8%;
+    background-color: #242424;
+
+    .c-item__img {
+      width: 100%;
+    }
+  }
+
+  .c-item__right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    .c-item__title {
+      color: #000;
+    }
+
+    .c-item__subtitle {
+      color: #5c5c5c;
+      font-size: 90%;
+    }
+  }
+}
+
+.c-item__hr {
+}
+
+// common
+.l-section__title {
+  margin-bottom: 10px;
+}
+
+.l-section__link {
+  text-decoration: none;
+  font-weight: 400;
+  color: #ffb400;
 }

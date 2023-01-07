@@ -1,4 +1,5 @@
-﻿using Data.EFContext;
+﻿using System;
+using Data.EFContext;
 using Data.EFRepository.User;
 using Data.Entities;
 using Data.Infrastructure.UnitOfWork;
@@ -41,8 +42,9 @@ namespace Domain.DomainServices.Authorization
         {
             var user = new UserEntity()
             {
-                FullName = "Rocky Balboa",
+                Slug = await GenerateUserSlug(email),
                 Email = email,
+                FullName = "Rocky Balboa",
                 PasswordHash = PasswordEncryptor.EncryptPassword(password),
                 Role = USER_ROLE.MEMBER,
                 CreatedUtc = DateTime.UtcNow,
@@ -80,6 +82,7 @@ namespace Domain.DomainServices.Authorization
             }
 
             var result = new IdentityInfo(
+                user.Slug,
                 user.Email,
                 user.ImageUrl,
                 user.FullName,
@@ -107,6 +110,19 @@ namespace Domain.DomainServices.Authorization
         public async Task<bool> ChangeForgottenPassword(string newPassword, string passwordResetHash)
         {
             throw new NotImplementedException();
+        }
+
+        private async Task<string> GenerateUserSlug(string email)
+        {
+            var userSlug = email.Split("@")[0];
+            if (await UserRepository.IsUserSlugExist(userSlug))
+            {
+                var random = new Random();
+                var number = random.Next(0, 9999).ToString("D4");
+                userSlug = $"{userSlug}-{number}";
+            }
+
+            return userSlug;
         }
     }
 }

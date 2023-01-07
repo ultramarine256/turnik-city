@@ -1,5 +1,6 @@
 import { Permissions } from './permissions';
 import { Injectable } from '@angular/core';
+import { AuthStorage } from '../../../../../data';
 
 @Injectable({
   providedIn: 'root',
@@ -12,8 +13,15 @@ export class PermissionChecker {
   }
 
   constructor() {
-    this.setRolePermissions('anonymous');
-    this.setIsAuthorized(false);
+    // TODO: refactor
+    const hasToken = new AuthStorage().TokenInfo?.token;
+    if (hasToken) {
+      this.setRolePermissions('user');
+      this.setIsAuthorized(true);
+    } else {
+      this.setRolePermissions('anonymous');
+      this.setIsAuthorized(false);
+    }
   }
 
   public setIsAuthorized(isAuthorized: boolean) {

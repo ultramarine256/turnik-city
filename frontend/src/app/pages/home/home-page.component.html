@@ -1,39 +1,39 @@
-<section class="section-hero"></section>
+<section class="hero-section"></section>
 
 <div class="container--grow">
   <div class="row">
     <div class="col-12">
-      <div class="s-hero l-section">
-        <h1 class="s-hero__title">Карта турников и спортивных площадок в твоем городе</h1>
+      <div class="l-hero l-section">
+        <h1 class="l-hero__title">Карта турников и спортивных площадок в твоем городе</h1>
 
         <!-- counters -->
         <div class="row my-5" *ngIf="store.counters$ | async as counters; else shimmer">
-          <div class="col-md-3 col-6 s-counter">
-            <fa-icon class="s-counter__icon" [icon]="['fas', 'location-dot']" size="2xl"></fa-icon>
-            <div class="s-counter__right">
-              <div class="s-counter__value">{{ counters.playgrounds }}</div>
-              <div class="s-counter__title">Locations</div>
+          <div class="col-md-3 col-6 c-counter">
+            <fa-icon class="c-counter__icon" [icon]="['fas', 'location-dot']" size="2xl"></fa-icon>
+            <div class="c-counter__right">
+              <div class="c-counter__value">{{ counters.playgrounds }}</div>
+              <div class="c-counter__title">Locations</div>
             </div>
           </div>
-          <div class="col-md-3 col-6 s-counter">
-            <fa-icon class="s-counter__icon" [icon]="['fas', 'tree-city']" size="2xl"></fa-icon>
-            <div class="s-counter__right">
-              <div class="s-counter__value">{{ counters.cities }}+</div>
-              <div class="s-counter__title">Cities</div>
+          <div class="col-md-3 col-6 c-counter">
+            <fa-icon class="c-counter__icon" [icon]="['fas', 'tree-city']" size="2xl"></fa-icon>
+            <div class="c-counter__right">
+              <div class="c-counter__value">{{ counters.cities }}+</div>
+              <div class="c-counter__title">Cities</div>
             </div>
           </div>
-          <div class="col-md-3 col-6 s-counter">
-            <fa-icon class="s-counter__icon" [icon]="['fas', 'people-group']" size="2xl"></fa-icon>
-            <div class="s-counter__right">
-              <div class="s-counter__value">{{ counters.users }}</div>
-              <div class="s-counter__title">Athletes</div>
+          <div class="col-md-3 col-6 c-counter">
+            <fa-icon class="c-counter__icon" [icon]="['fas', 'people-group']" size="2xl"></fa-icon>
+            <div class="c-counter__right">
+              <div class="c-counter__value">{{ counters.users }}</div>
+              <div class="c-counter__title">Athletes</div>
             </div>
           </div>
-          <div class="col-md-3 col-6 s-counter">
-            <fa-icon class="s-counter__icon" [icon]="['far', 'heart']" size="2xl"></fa-icon>
-            <div class="s-counter__right">
-              <div class="s-counter__value">{{ counters.likes }}</div>
-              <div class="s-counter__title">Likes</div>
+          <div class="col-md-3 col-6 c-counter">
+            <fa-icon class="c-counter__icon" [icon]="['far', 'heart']" size="2xl"></fa-icon>
+            <div class="c-counter__right">
+              <div class="c-counter__value">{{ counters.likes }}</div>
+              <div class="c-counter__title">Likes</div>
             </div>
           </div>
         </div>
@@ -46,7 +46,7 @@
         <!-- buttons -->
         <div class="row">
           <div class="col-12 justify-content-center d-flex">
-            <a mat-stroked-button class="app-stroked-button s-hero__button" routerLink="/map">
+            <a mat-stroked-button class="app-stroked-button l-hero__button" routerLink="/map">
               <fa-icon class="me-1" [icon]="['fas', 'location-crosshairs']" size="lg"></fa-icon>
               Explore Now
             </a>
@@ -57,11 +57,11 @@
   </div>
 </div>
 
-<div class="container--grow my-4" style="top: -70px; position: relative">
+<div class="container--grow my-4" style="top: -70px; position: relative" *ngIf="store.vm$ | async as vm">
   <div class="row">
     <div class="col-12 mb-4">
-      <div class="l-section c-cities">
-        <a mat-stroked-button class="app-stroked-button c-cities__item" routerLink="/map" *ngFor="let item of cities">
+      <div class="l-section city-list">
+        <a mat-stroked-button class="app-stroked-button city-list__item" routerLink="/map" *ngFor="let item of cities">
           {{ item }}
         </a>
       </div>
@@ -69,26 +69,43 @@
 
     <div class="col-12 col-md-6 mb-4 mb-md-0">
       <section class="l-section c-updates">
-        <h4 class="c-updates__title">New Locations</h4>
-        <mat-list>
-          <mat-list-item>Location 1</mat-list-item>
-          <mat-divider></mat-divider>
-          <mat-list-item>Location 2</mat-list-item>
-          <mat-divider></mat-divider>
-          <mat-list-item>Location 3</mat-list-item>
-        </mat-list>
+        <h4 class="l-section__title">
+          New Locations
+          <a class="l-section__link" href="javascript:void(0)">(view all)</a>
+        </h4>
+        <div class="c-list">
+          <ng-container *ngFor="let item of vm.newPlaygrounds">
+            <div class="c-item">
+              <div class="c-item__img-wrapper">
+                <img class="c-item__img" [src]="item.imageUrl" alt="" />
+              </div>
+              <div class="c-item__right">
+                <div class="c-item__title">{{ item.title }}</div>
+                <div class="c-item__subtitle">{{ item.createdUtc | date: 'YYY-MM-dd' }}</div>
+              </div>
+            </div>
+            <hr class="c-list__hr" />
+          </ng-container>
+        </div>
       </section>
     </div>
     <div class="col-12 col-md-6">
       <section class="l-section">
-        <h4 class="text-center">New Members</h4>
-        <mat-list>
-          <mat-list-item>User 1</mat-list-item>
-          <mat-divider></mat-divider>
-          <mat-list-item>User 2</mat-list-item>
-          <mat-divider></mat-divider>
-          <mat-list-item>User 3</mat-list-item>
-        </mat-list>
+        <h4 class="l-section__title">New Members (view all)</h4>
+        <div class="c-list">
+          <ng-container *ngFor="let item of vm.newMembers">
+            <a class="c-item" [routerLink]="['profile', item.slug]">
+              <div class="c-item__img-wrapper">
+                <img class="c-item__img" [src]="item.imageUrl" alt="" />
+              </div>
+              <div class="c-item__right">
+                <div class="c-item__title">{{ item.fullName }}</div>
+                <div class="c-item__subtitle">{{ item.createdUtc | date: 'YYY-MM-dd' }}</div>
+              </div>
+            </a>
+            <hr class="c-list__hr" />
+          </ng-container>
+        </div>
       </section>
     </div>
   </div>

@@ -1,6 +1,6 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { BehaviorSubject, Observable, catchError, first, of, mergeMap, tap } from 'rxjs';
 import { AUTH_GRANT_TYPE, AuthRepository, AuthStorage, JtwTokenDto, JtwTokenResponse, UserIdentityDto } from 'app/data';
 import { ExtendedDialogService, SnackbarService } from 'app/common';
@@ -18,22 +18,25 @@ export class AuthFacade {
   readonly isConfirmationProcessing$ = new BehaviorSubject(false);
 
   /// fields
-  userIdentity: UserIdentityDto;
+  private userIdentity: UserIdentityDto;
 
   /// attributes
   private confirmationDialogRef: MatDialogRef<ConfirmationCodeDialog, any>;
   private loginDialogRef: MatDialogRef<LoginDialog, any>;
   private registrationDialogRef: MatDialogRef<RegisterationDialog, any>;
 
-  /// dependencies
+  /// services
   private readonly authStorage: AuthStorage;
+
+  public get identity() {
+    return this.userIdentity;
+  }
 
   constructor(
     private dialogService: ExtendedDialogService,
-    private dialog: MatDialog,
     private authRepository: AuthRepository,
     private permissionChecker: PermissionChecker,
-    private _snackBar: SnackbarService,
+    private snackBar: SnackbarService,
     private router: Router
   ) {
     this.authStorage = new AuthStorage();
@@ -168,9 +171,9 @@ export class AuthFacade {
         } else if (r.status == 'wrong-password') {
           // TODO: pass action to dialog
           // (this.form.controls as any).password.setValue('');
-          this._snackBar.error('Login or password was incorrect.');
+          this.snackBar.error('Login or password was incorrect.');
         }
-        this._snackBar.error('Our API is down >_<');
+        this.snackBar.error('Our API is down >_<');
         throw new Error();
       })
     );
@@ -182,7 +185,7 @@ export class AuthFacade {
         if (r.status == 'ok') {
           return of(r.status);
         } else if (r.status == 'email-already-exist') {
-          this._snackBar.error('Email already exist.');
+          this.snackBar.error('Email already exist.');
         }
         throw new Error();
       })
@@ -195,7 +198,7 @@ export class AuthFacade {
         if (r.status == 'ok') {
           return of(r.status);
         } else if (r.status == 'wrong-code') {
-          this._snackBar.error('Wrong Code.');
+          this.snackBar.error('Wrong Code.');
         }
         throw new Error();
       })
