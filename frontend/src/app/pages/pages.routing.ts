@@ -5,13 +5,14 @@ import {
   HomePageComponent,
   UIPageComponent,
   ProfilePageComponent,
-  PlaygroundMapPageComponent,
   PagesComponent,
   PlaygroundDetailsPage,
   AboutPageComponent,
+  PlaygroundsListPage,
+  PlaygroundMapPage,
+  UserListPage,
 } from './index';
 import { PagesResolver } from './pages.resolver';
-import { RouterGuard } from 'app/domain';
 
 const routes: Routes = [
   {
@@ -25,12 +26,31 @@ const routes: Routes = [
       },
       {
         path: 'map',
-        component: PlaygroundMapPageComponent,
+        component: PlaygroundMapPage,
         resolve: { pagesResolver: PagesResolver },
       },
       {
-        path: 'playground/:slug',
-        component: PlaygroundDetailsPage,
+        path: 'playgrounds',
+        children: [
+          {
+            path: '',
+            component: PlaygroundsListPage,
+            pathMatch: 'full',
+          },
+          {
+            path: ':slug',
+            component: PlaygroundDetailsPage,
+          },
+        ],
+      },
+      {
+        path: 'users',
+        children: [
+          {
+            path: '',
+            component: UserListPage,
+          },
+        ],
       },
       {
         path: 'about',

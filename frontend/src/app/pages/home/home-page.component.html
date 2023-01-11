@@ -70,12 +70,11 @@
     <div class="col-12 col-md-6 mb-4 mb-md-0">
       <section class="l-section c-updates">
         <h4 class="l-section__title">
-          New Locations
-          <a class="l-section__link" href="javascript:void(0)">(view all)</a>
+          New Locations <a class="l-section__link" [routerLink]="['playgrounds']">(view all)</a>
         </h4>
         <div class="c-list">
           <ng-container *ngFor="let item of vm.newPlaygrounds">
-            <div class="c-item">
+            <a class="c-item" [routerLink]="['playgrounds', item.slug]">
               <div class="c-item__img-wrapper">
                 <img class="c-item__img" [src]="item.imageUrl" alt="" />
               </div>
@@ -83,7 +82,7 @@
                 <div class="c-item__title">{{ item.title }}</div>
                 <div class="c-item__subtitle">{{ item.createdUtc | date: 'YYY-MM-dd' }}</div>
               </div>
-            </div>
+            </a>
             <hr class="c-list__hr" />
           </ng-container>
         </div>
@@ -91,11 +90,11 @@
     </div>
     <div class="col-12 col-md-6">
       <section class="l-section">
-        <h4 class="l-section__title">New Members (view all)</h4>
+        <h4 class="l-section__title">New Members <a class="l-section__link" [routerLink]="['users']">(view all)</a></h4>
         <div class="c-list">
           <ng-container *ngFor="let item of vm.newMembers">
             <a class="c-item" [routerLink]="['profile', item.slug]">
-              <div class="c-item__img-wrapper">
+              <div class="c-item__img-wrapper br-50">
                 <img class="c-item__img" [src]="item.imageUrl" alt="" />
               </div>
               <div class="c-item__right">

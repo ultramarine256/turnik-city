@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, finalize, Observable, tap } from 'rxjs';
+import { BehaviorSubject, catchError, finalize, first, Observable, tap } from 'rxjs';
 import { PlaygroundDto, PlaygroundRepository } from 'app/data';
 import { SnackbarService } from 'app/common';
 
@@ -7,36 +7,62 @@ import { SnackbarService } from 'app/common';
   providedIn: 'root',
 })
 export class PlaygroundFacade {
+  // fields
+  readonly list$ = new BehaviorSubject<PlaygroundDto[]>([]);
+
   // predicates
-  isProcessing$ = new BehaviorSubject<boolean>(false);
+  readonly isProcessing$ = new BehaviorSubject<boolean>(false);
 
-  constructor(private playgroundRepository: PlaygroundRepository, private snackBar: SnackbarService) {}
+  // query
+  readonly filters = {
+    page: 0,
+    pageSize: 0,
+  };
 
-  get(id: number): Observable<PlaygroundDto> {
-    return this.playgroundRepository.get(id);
+  constructor(private repository: PlaygroundRepository, private snackBar: SnackbarService) {}
+
+  // query
+  fetch() {
+    this.isProcessing$.next(true);
+    this.repository
+      .query()
+      .pipe(first())
+      .pipe(finalize(() => this.isProcessing$.next(false)))
+      .subscribe(r => {
+        this.list$.next(r);
+      });
   }
 
-  update(dto: any): Observable<PlaygroundDto> {
-    this.isProcessing$.next(true);
-    return this.playgroundRepository.update(dto).pipe(
-      tap(r => r),
-      catchError(err => {
-        this.snackBar.error(`Error: ${err.status}`);
-        throw 'http-status-code: ' + err.status;
-      }),
-      finalize(() => this.isProcessing$.next(false))
-    );
+  nextPage() {}
+
+  // crud
+  get(id: number): Observable<PlaygroundDto> {
+    return this.repository.get(id);
   }
 
   create(dto: any): Observable<PlaygroundDto> {
     this.isProcessing$.next(true);
-    return this.playgroundRepository.create(dto).pipe(
+    return this.repository.create(dto).pipe(
       tap(r => r),
+      finalize(() => this.isProcessing$.next(false)),
       catchError(err => {
         this.snackBar.error(`Error: ${err.status}`);
         throw 'http-status-code: ' + err.status;
-      }),
-      finalize(() => this.isProcessing$.next(false))
+      })
     );
   }
+
+  update(dto: any): Observable<PlaygroundDto> {
+    this.isProcessing$.next(true);
+    return this.repository.update(dto).pipe(
+      tap(r => r),
+      finalize(() => this.isProcessing$.next(false)),
+      catchError(err => {
+        this.snackBar.error(`Error: ${err.status}`);
+        throw 'http-status-code: ' + err.status;
+      })
+    );
+  }
+
+  /// helpers
 }

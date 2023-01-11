@@ -45,8 +45,10 @@ namespace Data.EFRepository.Common
         public async Task<CountersEntity> GetCounters()
         {
             var value = Cache.Get<CountersEntity>(CacheKeys.Counters);
+            var alwaysTrue = true;
+            // TODO: replace later with dynamic cache refresh
 
-            if (value == null)
+            if (value == null || alwaysTrue)
             {
                 // Not found, get from db
                 var playgrounds = Context.Playgrounds.AsNoTracking()

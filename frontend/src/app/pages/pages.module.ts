@@ -6,21 +6,23 @@ import {
   PagesComponent,
   PagesRouting,
   ProfilePageComponent,
-  PlaygroundMapPageComponent,
+  PlaygroundMapPage,
   UIPageComponent,
   HomePageComponent,
   PlaygroundDetailsPage,
   PlaygroundsListPage,
+  UserListPage,
 } from './index';
 
 const COMPONENTS = [
   AboutPageComponent,
   ProfilePageComponent,
   HomePageComponent,
-  PlaygroundMapPageComponent,
   PlaygroundDetailsPage,
   PlaygroundsListPage,
+  PlaygroundMapPage,
   UIPageComponent,
+  UserListPage,
   PagesComponent,
 ];
 

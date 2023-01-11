@@ -11,7 +11,7 @@ export abstract class CrudRepository<T> extends BaseRepository {
     this.pathName = pathName;
   }
 
-  query(query: string, reset: boolean = false): Observable<T[]> {
+  query(query: string = '', reset: boolean = false): Observable<T[]> {
     return this.httpClient.get<T[]>(`${this.apiBaseUrl}/${this.pathName}${query}`, {
       headers: new HttpHeaders({ reset: reset ? 'y' : '' }),
     });

@@ -3,12 +3,9 @@ export type CountersDto = {
   users: number;
   cities: number;
   likes: number;
-
-  newMembers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  newLocations: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 };
 
-export type NewMemberDto = {
+export type FreshMemberDto = {
   slug: string;
   imageUrl: string;
   fullName: string;
@@ -16,7 +13,7 @@ export type NewMemberDto = {
   createdUtc: Date;
 };
 
-export type NewPlaygroundDto = {
+export type FreshPlaygroundDto = {
   slug: string;
   title: string;
   imageUrl: string;

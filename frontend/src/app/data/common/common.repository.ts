@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { IpDetailsDto } from './dtos/ip-details.dto';
-import { CountersDto, NewMemberDto, NewPlaygroundDto } from './dtos/counters.dto';
+import { CountersDto, FreshMemberDto, FreshPlaygroundDto } from './dtos/counters.dto';
 import { QueryClientService, UseQuery } from '@ngneat/query';
 
 @Injectable()
@@ -30,15 +30,15 @@ export class CommonRepository extends BaseRepository {
     return this.httpClient.get<CountersDto>(`${this.apiBaseUrl}/common/counters`);
   }
 
-  newMembers(): Observable<NewMemberDto[]> {
+  newMembers(): Observable<FreshMemberDto[]> {
     return this.httpClient
-      .get<NewMemberDto[]>(`${this.apiBaseUrl}/common/new-members`)
+      .get<FreshMemberDto[]>(`${this.apiBaseUrl}/common/new-members`)
       .pipe(map(r => r.map(o => ({ ...o, createdUtc: new Date(o.createdUtc) }))));
   }
 
-  newPlaygrounds(): Observable<NewPlaygroundDto[]> {
+  newPlaygrounds(): Observable<FreshPlaygroundDto[]> {
     return this.httpClient
-      .get<NewPlaygroundDto[]>(`${this.apiBaseUrl}/common/new-playgrounds`)
+      .get<FreshPlaygroundDto[]>(`${this.apiBaseUrl}/common/new-playgrounds`)
       .pipe(map(r => r.map(o => ({ ...o, createdUtc: new Date(o.createdUtc) }))));
   }
 }

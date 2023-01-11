@@ -9,10 +9,10 @@ import { ExtendedDialogService } from 'app/common';
     <app-map class="map-component" [center]="center$" [markers]="markers$" (markerClick)="markerClick($event)">
     </app-map>
   `,
-  styleUrls: ['./playground-map-page.component.scss'],
+  styleUrls: ['./playground-map.page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PlaygroundMapPageComponent {
+export class PlaygroundMapPage {
   readonly center$ = this.store.ipDetails$.pipe(map(r => ({ lat: r.lat, lng: r.lng })));
   readonly markers$ = this.store.markers$.pipe(
     map(items => items.map(r => new PlaygroundMarkerModel({ id: r.id, slug: r.slug, lat: r.lat, lng: r.lng })))
