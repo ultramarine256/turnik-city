@@ -21,7 +21,7 @@ export class PlaygroundMapPage {
   constructor(public facade: PlaygroundFacade, public store: AppStore, private dialogService: ExtendedDialogService) {}
 
   markerClick(e: { id: number; slug: string }) {
-    const entity = this.facade.get(e.id);
-    this.dialogService.openDialog(PlaygroundPreviewComponent, 'preview-dialog', { entity });
+    this.facade.selectPlayground(e.id);
+    this.dialogService.openDialog(PlaygroundPreviewComponent, 'preview-dialog');
   }
 }
