@@ -41,7 +41,7 @@ export class PlaygroundFacade {
   readonly list$ = new BehaviorSubject<PlaygroundDto[]>([]);
   private readonly selectedPlaygroundId = new BehaviorSubject<number>(0);
   readonly selectedPlayground$ = this.selectedPlaygroundId.pipe(
-    switchMap(id => this.get(123)),
+    switchMap(id => this.get(id)),
     map(data => loaded<PlaygroundDto>(data)),
     startWith(loading()),
     catchError(e => throwError(e))
