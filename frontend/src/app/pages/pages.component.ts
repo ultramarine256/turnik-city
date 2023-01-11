@@ -51,10 +51,7 @@ export class PagesComponent implements OnInit {
       })
       .subscribe(x => this.playgroundFacade.create(x).subscribe().unsubscribe());
 
-    const x: PlaygroundCreateDto = { size: '', type: '', lat: 0, lng: 0, imageUrls: [] };
-    this.playgroundFacade.create(x).subscribe(r => {
-      console.log(r);
-    });
+    this.playgroundFacade.create(model).subscribe();
   }
 
   loginClick() {

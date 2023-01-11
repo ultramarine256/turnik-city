@@ -19,6 +19,10 @@
             <fa-icon class="w-20" [icon]="['far', 'map']" size="xl"></fa-icon>
             <span class="nav-button__text">Map</span>
           </a>
+          <button mat-stroked-button class="nav-button" (click)="playgroundCreateDialogOpen()">
+            <fa-icon [icon]="['fas', 'plus']" size="xl"></fa-icon>
+            <span class="nav-button__text">Add</span>
+          </button>
           <button mat-stroked-button class="nav-button" (click)="loginClick()" *ngIf="!userPolicy.isAuthorized()">
             <fa-icon [icon]="['far', 'user']" size="xl"></fa-icon>
             <span class="nav-button__text">Profile</span>
