@@ -12,29 +12,19 @@
         <div class="header-nav__section pe-2">
           <div class="t-location">
             <div class="t-location__city">TurnikCity</div>
-            <ng-container *ngIf="store.vm$ | async as vm; else loading">
-              <div class="t-location__ip">{{ vm.ipDetails.city }}</div>
-            </ng-container>
-            <ng-template #loading>
-              <div class="t-location__ip">Loading...</div>
-            </ng-template>
           </div>
         </div>
         <div class="header-nav__section">
-          <button mat-stroked-button class="nav-button" (click)="playgroundCreateDialogOpen()">
-            <fa-icon [icon]="['fas', 'plus']" size="xl"></fa-icon>
-            <span class="nav-button__text">Add</span>
-          </button>
           <a mat-stroked-button class="nav-button" [routerLink]="'/map'">
             <fa-icon class="w-20" [icon]="['far', 'map']" size="xl"></fa-icon>
             <span class="nav-button__text">Map</span>
           </a>
           <button mat-stroked-button class="nav-button" (click)="loginClick()" *ngIf="!userPolicy.isAuthorized()">
-            <fa-icon [icon]="['far', 'face-smile']" size="xl"></fa-icon>
+            <fa-icon [icon]="['far', 'user']" size="xl"></fa-icon>
             <span class="nav-button__text">Profile</span>
           </button>
           <button mat-stroked-button class="nav-button" [matMenuTriggerFor]="prMenu" *ngIf="userPolicy.isAuthorized()">
-            <fa-icon [icon]="['far', 'face-smile']" size="xl"></fa-icon>
+            <fa-icon [icon]="['far', 'user']" size="xl"></fa-icon>
             <span class="nav-button__text">{{ authFacade.identity.fullName }}</span>
           </button>
           <mat-menu #prMenu="matMenu" class="profile-menu">
@@ -53,9 +43,9 @@
   </header>
 
   <!-- content -->
-  <div class="page__content">
+  <main class="page__content">
     <router-outlet></router-outlet>
-  </div>
+  </main>
 
   <!-- footer -->
   <footer class="page__footer footer" *ngIf="router.url != '/map'">
