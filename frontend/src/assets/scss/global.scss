@@ -31,10 +31,16 @@
 * ------------------------------------------------------------------------
 */
 
+html {
+  height: 100%;
+}
+
 body {
-  overflow-y: overlay;
-  // TODO: deprecated property
-  // https://stackoverflow.com/questions/18548465/prevent-scroll-bar-from-adding-up-to-the-width-of-page-on-chrome
+  height: 100%;
+}
+
+app-root {
+  height: 100%;
 }
 
 h1,
