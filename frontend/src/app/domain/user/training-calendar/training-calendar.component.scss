@@ -1,0 +1,27 @@
+.ContributionCalendar-label {
+  padding: 0.125em 0.5em 0.125em 0;
+  font-size: 12px;
+  font-weight: var(--base-text-weight-normal, 400);
+  color: var(--color-fg-default);
+  text-align: left;
+  fill: var(--color-fg-default);
+}
+
+.ContributionCalendar-day,
+.ContributionCalendar-day[data-level='0'] {
+  fill: #ebedf0;
+  shape-rendering: geometricPrecision;
+  background-color: #ebedf0;
+  border-radius: 2px;
+  outline: 1px solid rgba(27, 31, 35, 0.06);
+  outline-offset: -1px;
+  cursor: pointer;
+}
+
+.ContributionCalendar-day[data-level='2'],
+.ContributionCalendar-day[data-level='3'],
+.ContributionCalendar-day[data-level='4'] {
+  fill: #40c463;
+  background-color: #40c463;
+  outline: 1px solid rgba(27, 31, 35, 0.06);
+}

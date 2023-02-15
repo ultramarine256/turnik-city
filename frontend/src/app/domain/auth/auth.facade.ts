@@ -130,13 +130,14 @@ export class AuthFacade {
                             this.permissionChecker.setIsAuthorized(true);
                             this.permissionChecker.setRolePermissions('user');
                             this.isConfirmationProcessing$.next(false);
+                            this.isRegistrationProcessing$.next(false);
                             this.registrationDialogRef.close();
                             this.confirmationDialogRef.close();
                             this.router.navigate(['/profile']).then();
                           });
                       });
                   },
-                  error => this.isRegistrationProcessing$.next(false)
+                  error => this.isConfirmationProcessing$.next(false)
                 );
               });
             }),
@@ -170,10 +171,12 @@ export class AuthFacade {
           return of(r.data);
         } else if (r.status == 'wrong-password') {
           // TODO: pass action to dialog
-          // (this.form.controls as any).password.setValue('');
+          // this.form.controls.password.setValue('');
           this.snackBar.error('Login or password was incorrect.');
+        } else {
+          this.snackBar.error('500 error');
         }
-        this.snackBar.error('Our API is down >_<');
+        this.isLoginProcessing$.next(false);
         throw new Error();
       })
     );

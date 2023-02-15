@@ -1,141 +1,138 @@
-@import '../../assets/scss/variables';
+@import 'src/assets/scss/variables';
 
-:host {
-  height: 100%;
-}
-
-/* PAGE CONTENT */
 .page__wrapper {
   display: flex;
   flex-direction: column;
   background-color: #f5f5f5;
-  height: 100%;
+  min-height: 100vh;
 
   .page__content {
     flex: 1;
   }
 
-  .page__header,
+  .page__header {
+    flex-shrink: 0;
+    background-color: #fff;
+
+    &.page__header--fixed {
+      position: fixed;
+      width: 100%;
+      z-index: 401;
+    }
+  }
+
   .page__footer {
     flex-shrink: 0;
+    background-color: #fff;
   }
 }
 
-/* HEADER */
-.header {
+.header__container {
   display: flex;
   background-color: #fff;
-  padding: 10px 0;
-  min-height: 4rem;
-
-  @media (max-width: $lt-md) {
-    padding: 10px 0;
-  }
-
-  .header__content {
-    display: flex;
-    overflow-x: auto;
-    overflow-y: auto;
-  }
+  min-height: 64px;
+  justify-content: space-between;
 }
 
-.header-logo {
+.c-logo {
   display: flex;
   justify-content: flex-start;
   align-items: center;
   margin-right: 14px;
+  text-decoration: none;
+  gap: 10px;
+  color: #000;
 
-  @media (max-width: $lt-md) {
-    margin-right: 8px;
-  }
-
-  .header-logo__img {
+  .c-logo__img {
     height: 40px;
     border-radius: 6px;
+  }
+
+  .c-logo__right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 40px;
+    gap: 4px;
+
+    .c-logo__title {
+      font-weight: 500;
+    }
+
+    .c-logo__bottom {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+
+      .c-logo__flag {
+        height: 16px;
+      }
+
+      .c-logo__city {
+        font-size: 90%;
+        padding-top: 2px; // TODO: refactor this! >_<
+      }
+    }
+  }
+}
+
+.c-nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+
+  .c-nav__button {
+    display: flex;
+    border-radius: 100px;
+    padding: 4px 14px;
+
+    ::ng-deep {
+      .mat-button-wrapper {
+        display: flex !important;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+      }
+    }
+
+    .c-nav__icon {
+      display: flex;
+      align-items: center;
+    }
+
+    .c-nav__text {
+      display: flex;
+    }
 
     @media (max-width: $lt-md) {
-      height: 34px;
+      min-width: fit-content;
+      padding: 0 5px;
+
+      .c-nav__icon {
+        padding: 6px;
+      }
+
+      .c-nav__text {
+        display: none;
+      }
     }
   }
 }
 
-.t-location {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  height: 40px;
-  margin-top: 4px;
-
-  .t-location__city {
-    font-weight: 500;
-  }
-
-  .t-location__ip {
-    font-size: 90%;
-  }
-}
-
-.header-nav {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-
-  .header-nav__section {
-    display: flex;
-    align-items: center;
-  }
-}
-
-.nav-button {
-  margin-right: 8px;
-  border-radius: 100px;
-  padding: 4px 14px;
-
-  &:last-child {
-    margin-right: 0;
-  }
-
-  .ng-fa-icon {
-    margin-right: 6px;
-  }
-
-  @media (max-width: $lt-md) {
-    padding: 0 5px;
-    min-width: 0;
-
-    &.nav-button--long {
-      padding: 0 10px;
-    }
-
-    .ng-fa-icon {
-      margin-right: 0 !important;
-      padding: 0 4px;
-    }
-
-    .nav-button__text {
-      display: none;
-    }
-  }
-}
-
-/* FOOTER */
-.footer {
-  background-color: #fff;
-  padding: 25px 0;
-}
-
-.f-slogan {
+.c-slogan {
   @media (max-width: $lt-md) {
     text-align: center;
   }
 
-  .f-slogan__title {
+  .c-slogan__title {
     font-size: 1rem;
     font-weight: 500;
     margin-bottom: 10px;
   }
 
-  .f-slogan__text {
+  .c-slogan__text {
     display: flex;
     font-size: 16px;
     font-style: italic;
@@ -147,14 +144,14 @@
   }
 }
 
-.c-list {
-  .c-list__title {
+.footer-list {
+  .footer-list__title {
     font-size: 1rem;
     font-weight: 500;
     margin-bottom: 10px;
   }
 
-  .c-list__ul {
+  ul {
     padding-left: 0;
     list-style: none;
     font-size: 16px;
@@ -173,23 +170,15 @@
   }
 }
 
-// shared
-.c-icons {
+.social-list {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
+  gap: 8px;
+  justify-content: flex-end;
 
-  .c-icons__item {
+  .social-list__item {
     text-decoration: none;
-    padding-right: 8px;
     color: #000;
-
-    &:last-child {
-      padding-right: 0;
-    }
   }
-}
-
-.w-20 {
-  max-width: 20px;
 }

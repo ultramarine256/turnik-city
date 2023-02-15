@@ -16,9 +16,9 @@ import { PlaygroundCreateDto } from 'app/data';
       }
     `,
   ],
-  templateUrl: './playground-create.component.html',
+  templateUrl: './playground-create.dialog.html',
 })
-export class PlaygroundCreateComponent extends BaseDialogComponent<PlaygroundCreateDto> implements OnInit {
+export class PlaygroundCreateDialog extends BaseDialogComponent<PlaygroundCreateDto> implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -36,15 +36,6 @@ export class PlaygroundCreateComponent extends BaseDialogComponent<PlaygroundCre
     super.ngOnInit();
   }
 
-  public newMarkerAdded(e: any) {
-    this.form.patchValue({ lat: e.lat });
-    this.form.patchValue({ lng: e.lng });
-  }
-
-  public imagesAdded(images: string[]) {
-    this.form.patchValue({ imageUrls: images });
-  }
-
   override closeDialog() {
     if (!this.validationHelper.validateForm(this.form)) {
       return;
@@ -52,6 +43,15 @@ export class PlaygroundCreateComponent extends BaseDialogComponent<PlaygroundCre
 
     const data = this.createModelFromForm(this.entity, this.form);
     super.closeDialog(data);
+  }
+
+  newMarkerAdded(e: any) {
+    this.form.patchValue({ lat: e.lat });
+    this.form.patchValue({ lng: e.lng });
+  }
+
+  imagesAdded(images: string[]) {
+    this.form.patchValue({ imageUrls: images });
   }
 
   createModelFromForm(model: PlaygroundCreateDto, formGroup: FormGroup): PlaygroundCreateDto {

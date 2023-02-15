@@ -1,43 +1,52 @@
 <div class="page__wrapper">
   <!-- header -->
-  <header class="page__header header">
-    <div class="container--grow header__content">
-      <!-- header-logo -->
-      <a class="header-logo" [routerLink]="'/'">
-        <img class="header-logo__img" [src]="'/assets/img/logo/logo__menu.png'" alt="TurnikCity Logo" />
+  <header class="page__header" [ngClass]="{ 'page__header--fixed': router.url == '/map' }">
+    <div class="header__container container">
+      <!-- c-logo -->
+      <a class="c-logo" [routerLink]="'/'">
+        <img class="c-logo__img" [src]="'/assets/img/logo/logo__menu.png'" alt="TurnikCity Logo" />
+        <div class="c-logo__right">
+          <div class="c-logo__title">TurnikCity</div>
+          <ng-container *ngIf="store.vm$ | async as vm; else loading">
+            <div class="c-logo__bottom">
+              <img class="c-logo__flag" [src]="'https://flagcdn.com/' + vm.ipDetails.countryCode + '.svg'" alt="" />
+              <div class="c-logo__city">{{ vm.ipDetails.city }}</div>
+            </div>
+          </ng-container>
+          <ng-template #loading>
+            <div class="c-logo__city">Loading...</div>
+          </ng-template>
+        </div>
       </a>
 
-      <!-- header-nav -->
-      <div class="header-nav">
-        <div class="header-nav__section pe-2">
-          <div class="t-location">
-            <div class="t-location__city">TurnikCity</div>
-          </div>
-        </div>
-        <div class="header-nav__section">
-          <a mat-stroked-button class="nav-button" [routerLink]="'/map'">
-            <fa-icon class="w-20" [icon]="['far', 'map']" size="xl"></fa-icon>
-            <span class="nav-button__text">Map</span>
-          </a>
-          <button mat-stroked-button class="nav-button" (click)="loginClick()" *ngIf="!userPolicy.isAuthorized()">
-            <fa-icon [icon]="['far', 'user']" size="xl"></fa-icon>
-            <span class="nav-button__text">Profile</span>
+      <!-- c-nav -->
+      <div class="c-nav">
+        <button mat-stroked-button class="c-nav__button" (click)="playgroundCreateDialogOpen()">
+          <fa-icon class="c-nav__icon" [icon]="['fas', 'plus']" size="xl"></fa-icon>
+          <span class="c-nav__text">Add</span>
+        </button>
+        <a mat-stroked-button class="c-nav__button" [routerLink]="'/map'">
+          <fa-icon class="c-nav__icon" [icon]="['far', 'map']" size="xl"></fa-icon>
+          <span class="c-nav__text">Map</span>
+        </a>
+        <button mat-stroked-button class="c-nav__button" (click)="loginClick()" *ngIf="!userPolicy.isAuthorized()">
+          <fa-icon class="c-nav__icon" [icon]="['far', 'user']" size="xl"></fa-icon>
+          <span class="c-nav__text">Profile</span>
+        </button>
+        <button class="c-nav__button" mat-stroked-button [matMenuTriggerFor]="prMenu" *ngIf="userPolicy.isAuthorized()">
+          <fa-icon class="c-nav__icon" [icon]="['far', 'user']" size="xl"></fa-icon>
+          <span class="c-nav__text">{{ authFacade.identity.fullName }}</span>
+        </button>
+        <mat-menu #prMenu="matMenu" class="profile-menu">
+          <button mat-menu-item (click)="profileClick()">
+            <mat-icon>person</mat-icon>
+            <span>Profile</span>
           </button>
-          <button mat-stroked-button class="nav-button" [matMenuTriggerFor]="prMenu" *ngIf="userPolicy.isAuthorized()">
-            <fa-icon [icon]="['far', 'user']" size="xl"></fa-icon>
-            <span class="nav-button__text">{{ authFacade.identity.fullName }}</span>
+          <button mat-menu-item (click)="logoutClick()">
+            <mat-icon>logout</mat-icon>
+            <span>Log Out</span>
           </button>
-          <mat-menu #prMenu="matMenu" class="profile-menu">
-            <button mat-menu-item (click)="profileClick()">
-              <mat-icon>person</mat-icon>
-              <span>Profile</span>
-            </button>
-            <button mat-menu-item (click)="logoutClick()">
-              <mat-icon>logout</mat-icon>
-              <span>Log Out</span>
-            </button>
-          </mat-menu>
-        </div>
+        </mat-menu>
       </div>
     </div>
   </header>
@@ -48,26 +57,26 @@
   </main>
 
   <!-- footer -->
-  <footer class="page__footer footer" *ngIf="router.url != '/map'">
-    <div class="container--grow">
+  <footer class="page__footer" *ngIf="router.url != '/map'">
+    <div class="container my-4">
       <div class="row">
         <div class="col-md col-12 mb-4 mb-md-0">
-          <div class="f-slogan">
-            <div class="f-slogan__title">TurnikCity</div>
-            <div class="f-slogan__text">
+          <div class="c-slogan">
+            <div class="c-slogan__title">TurnikCity</div>
+            <div class="c-slogan__text">
               Tomorrow, tomorrow, tomorrow, ain't no such thing as tomorrow, we only got today!
             </div>
-            <div class="c-icons d-flex d-md-none justify-content-center mt-3">
-              <a *ngFor="let s of social" [href]="s.href" target="_blank" class="c-icons__item">
+            <div class="social-list d-flex d-md-none justify-content-center mt-3">
+              <a *ngFor="let s of social" [href]="s.href" target="_blank" class="social-list__item">
                 <fa-icon [icon]="[s.prefix, s.icon]" size="2xl"></fa-icon>
               </a>
             </div>
           </div>
         </div>
         <div class="col-md-2 col-6">
-          <div class="c-list">
-            <h6 class="c-list__title">Quick Nav</h6>
-            <ul class="c-list__ul">
+          <div class="footer-list">
+            <h6 class="footer-list__title">Quick Nav</h6>
+            <ul>
               <li>
                 <a routerLink="/about">About Us</a>
               </li>
@@ -81,9 +90,9 @@
           </div>
         </div>
         <div class="col-md-2 col-6">
-          <div class="c-list">
-            <h6 class="c-list__title">Connect</h6>
-            <ul class="c-list__ul">
+          <div class="footer-list">
+            <h6 class="footer-list__title">Connect</h6>
+            <ul>
               <li>
                 <a href="mailto:info@turnik.city">info@turnik.city</a>
               </li>
@@ -91,10 +100,10 @@
           </div>
         </div>
         <div class="col-md-2 col-12 d-none d-md-flex">
-          <div class="c-list">
-            <h6 class="c-list__title">HELLO!</h6>
-            <div class="c-icons">
-              <a *ngFor="let s of social" [href]="s.href" target="_blank" class="c-icons__item">
+          <div class="footer-list">
+            <h6 class="footer-list__title">HELLO!</h6>
+            <div class="social-list">
+              <a class="social-list__item" *ngFor="let s of social" [href]="s.href" target="_blank">
                 <fa-icon [icon]="[s.prefix, s.icon]" size="2xl"></fa-icon>
               </a>
             </div>

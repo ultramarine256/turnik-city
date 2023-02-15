@@ -22,7 +22,7 @@ namespace Domain.DomainServices._Abstractions
             UowManager = uowManager;
         }
 
-        public virtual IQueryable<TEntity> Query(int skip = 0, int take = 100) => 
+        public virtual IQueryable<TEntity> Query(int skip = 0, int take = 100000) => 
             Policy.InnerRetrieveAllFilter(Repository.Query.Take(take));
 
         public virtual async Task<TEntity> GetAsync(TPrimaryKey id)

@@ -29,7 +29,8 @@ builder.Services
     .AddControllers()
     .AddOData(options =>
     {
-        options.Select().Expand().Filter().OrderBy().SetMaxTop(100).Count();
+        options.Select().Expand().OrderBy().Count();
+        options.Filter();
         options.EnableNoDollarQueryOptions = true;
     });
 

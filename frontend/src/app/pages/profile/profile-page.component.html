@@ -1,53 +1,60 @@
-<div class="container--grow">
-  <div *ngIf="!(userFacade.isProfileLoaded$ | async)">loaging...</div>
-  <div *ngIf="userFacade.isUserNotFound$ | async">not found</div>
+<div class="container" *ngIf="facade.profileStatus$ | async as status">
+  <div *ngIf="status == 'loading'">loading...</div>
+  <div *ngIf="status == 'not-found'">not found</div>
 
-  <div class="row mt-4" *ngIf="userFacade.isProfileLoaded$ | async">
+  <div class="row my-4" *ngIf="facade.profile$ | async as vm">
     <div class="col-md-3">
       <div class="l-section c-profile">
         <div class="c-profile__wrapper">
-          <img class="c-profile__photo" src="https://syw.blob.core.windows.net/svg/item-placeholder.svg" alt="" />
+          <img
+            class="c-profile__photo"
+            [src]="vm.imageUrl || 'https://syw.blob.core.windows.net/svg/item-placeholder.svg'"
+          />
         </div>
-
-        <h2 class="c-profile__name">Evgeny Platonov</h2>
-
-        <p class="c-profile__bio">
-          In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual
-          form of a document or a typeface without relying on meaningful content.
-        </p>
-
+        <h2 class="c-profile__name">{{ vm.fullName }}</h2>
+        <p class="c-profile__bio">{{ vm.bio }}</p>
         <ul class="c-list">
-          <li class="c-list__item">
+          <a
+            class="c-list__item"
+            [target]="vm.instagramId ? '_blank' : ''"
+            [href]="vm.telegramId ? 'https://instagram.com/' + vm.instagramId : 'javascript:void(0)'"
+          >
             <fa-icon class="c-list__icon" [icon]="['fab', 'instagram']" size="xl"></fa-icon>
-
-            <a href=""></a>
-
-            <a class="c-list__text" target="_blank" href="javascript:void(0)">@ultramar256</a>
-          </li>
-          <li class="c-list__item">
+            <span class="c-list__text">{{ vm.instagramId || 'missing...' }}</span>
+          </a>
+          <a
+            class="c-list__item"
+            [target]="vm.telegramId ? '_blank' : ''"
+            [href]="vm.telegramId ? 'https://t.me/' + vm.telegramId : 'javascript:void(0)'"
+          >
             <fa-icon class="c-list__icon" [icon]="['fab', 'telegram']" size="xl"></fa-icon>
-            <a class="c-list__text" target="_blank" href="javascript:void(0)">@ultramarine256</a>
-          </li>
-          <li class="c-list__item">
+            <span class="c-list__text">{{ vm.telegramId || 'missing...' }}</span>
+          </a>
+          <div class="c-list__item">
             <fa-icon class="c-list__icon" [icon]="['fas', 'location-dot']" size="xl"></fa-icon>
-            <a class="c-list__text" target="_blank" href="javascript:void(0)">Kiev</a>
-          </li>
+            <span class="c-list__text">{{ vm.city }}</span>
+          </div>
         </ul>
 
         <div class="l-buttons">
-          <button mat-flat-button class="profile-button">Edit profile</button>
-          <!--          <button mat-flat-button class="profile-button" (click)="logout()">logout</button>-->
+          <button mat-flat-button class="profile-button" (click)="facade.openProfileDialog()">Edit profile</button>
         </div>
       </div>
     </div>
     <div class="col-md-9">
-      <div class="l-section mt-3 mt-md-0">
-        <h3 class="c-profile__name">Favorite locations</h3>
-
+      <div class="l-section mt-4 mt-md-0">
+        <h3 class="c-profile__name">Training Days</h3>
+        <div class="c-calendar__wrapper">
+          <app-training-calendar></app-training-calendar>
+        </div>
+      </div>
+      <div class="l-section mt-4">
+        <h3 class="c-profile__name">Active Locations</h3>
         <div class="locations">
-          <div class="locations__item">1</div>
-          <div class="locations__item">2</div>
-          <div class="locations__item">3</div>
+          <div class="locations__item">map</div>
+          <div class="locations__item">map</div>
+          <div class="locations__item">map</div>
+          <div class="locations__item">map</div>
         </div>
       </div>
     </div>

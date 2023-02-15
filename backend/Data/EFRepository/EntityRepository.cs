@@ -30,6 +30,11 @@ namespace Data.EFRepository
             return await query.FirstOrDefaultAsync(r => r.Id.Equals(id));
         }
 
+        public Task<TEntity> GetBySlugAsync(string slug, params Expression<Func<TEntity, object>>[] includes)
+        {
+            throw new NotImplementedException();
+        }
+
         public virtual async Task CreateAsync(TEntity entity)
         {
             entity = await ExtendedWithStorage(entity);

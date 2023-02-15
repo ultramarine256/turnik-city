@@ -1,7 +1,6 @@
 ﻿using Data.Entities.Abstract;
 using Domain.DomainServices._Abstractions;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using WebApi.Controllers._Abstract.Dtos;
 
 namespace WebApi.Controllers._Abstract

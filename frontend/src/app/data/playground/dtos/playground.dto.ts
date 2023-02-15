@@ -9,8 +9,8 @@ export type PlaygroundDto = {
   imageUrls: string[];
   equipment: string[];
   createdUtc: Date;
-  likes: number;
-  views: number;
+  likesCount: number;
+  viewsCount: number;
 };
 
 export enum PLAYGROUND_TYPE {

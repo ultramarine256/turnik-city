@@ -1,7 +1,18 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, finalize, first, Observable, startWith, switchMap, tap, throwError } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  ReplaySubject,
+  catchError,
+  finalize,
+  first,
+  startWith,
+  switchMap,
+  tap,
+  throwError,
+} from 'rxjs';
 import { PlaygroundDto, PlaygroundRepository } from 'app/data';
-import { SnackbarService } from 'app/common';
+import { DATA_STATE, SnackbarService } from 'app/common';
 import { map } from 'rxjs/operators';
 
 const enum AsyncStatus {
@@ -46,52 +57,62 @@ export class PlaygroundFacade {
     startWith(loading()),
     catchError(e => throwError(e))
   );
-  readonly isProcessing$ = new BehaviorSubject<boolean>(false);
+
+  // fields
+  readonly details$: ReplaySubject<PlaygroundDto> = new ReplaySubject<PlaygroundDto>();
+
+  // status
+  readonly status$: ReplaySubject<DATA_STATE> = new ReplaySubject<DATA_STATE>();
 
   constructor(private repository: PlaygroundRepository, private snackBar: SnackbarService) {}
 
-  selectPlayground(id: number) {
-    this.selectedPlaygroundId.next(id);
-  }
-
   // query
   fetch() {
-    this.isProcessing$.next(true);
-    this.repository
-      .query()
-      .pipe(first())
-      .pipe(finalize(() => this.isProcessing$.next(false)))
-      .subscribe(r => {
-        this.list$.next(r);
-      });
+    this.status$.next('loading');
+    return this.repository.query().pipe(
+      first(),
+      finalize(() => this.status$.next('loaded')),
+      tap(r => this.list$.next(r))
+    );
   }
 
   // crud
   get(id: number): Observable<PlaygroundDto> {
-    return this.repository.get(id);
+    this.status$.next('loading');
+    return this.repository.get(id).pipe(
+      first(),
+      finalize(() => this.status$.next('loaded'))
+    );
+  }
+
+  getBySlug(slug: string): Observable<PlaygroundDto> {
+    this.status$.next('loading');
+    return this.repository.getBySlug(slug).pipe(
+      first(),
+      tap(r => this.details$.next(r)),
+      finalize(() => this.status$.next('loaded'))
+    );
   }
 
   create(dto: any): Observable<PlaygroundDto> {
-    this.isProcessing$.next(true);
+    this.status$.next('updating');
     return this.repository.create(dto).pipe(
-      tap(r => r),
-      finalize(() => this.isProcessing$.next(false)),
       catchError(err => {
         this.snackBar.error(`Error: ${err.status}`);
         throw 'http-status-code: ' + err.status;
-      })
+      }),
+      finalize(() => this.status$.next('loaded'))
     );
   }
 
   update(dto: any): Observable<PlaygroundDto> {
-    this.isProcessing$.next(true);
+    this.status$.next('updating');
     return this.repository.update(dto).pipe(
-      tap(r => r),
-      finalize(() => this.isProcessing$.next(false)),
       catchError(err => {
         this.snackBar.error(`Error: ${err.status}`);
         throw 'http-status-code: ' + err.status;
-      })
+      }),
+      finalize(() => this.status$.next('loaded'))
     );
   }
 

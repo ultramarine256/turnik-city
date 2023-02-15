@@ -31,9 +31,10 @@ export class CommonRepository extends BaseRepository {
   }
 
   newMembers(): Observable<FreshMemberDto[]> {
-    return this.httpClient
-      .get<FreshMemberDto[]>(`${this.apiBaseUrl}/common/new-members`)
-      .pipe(map(r => r.map(o => ({ ...o, createdUtc: new Date(o.createdUtc) }))));
+    return this.httpClient.get<FreshMemberDto[]>(`${this.apiBaseUrl}/common/new-members`).pipe(
+      map(r => r.map(o => ({ ...o, createdUtc: new Date(o.createdUtc) }))),
+      map(r => r.map(o => ({ ...o, imageUrl: o.imageUrl == null ? this.generateBackground(o.fullName, 0.4) : null })))
+    );
   }
 
   newPlaygrounds(): Observable<FreshPlaygroundDto[]> {

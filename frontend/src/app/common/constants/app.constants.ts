@@ -1,5 +1,7 @@
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types';
 
+export type DATA_STATE = 'loading' | 'loaded' | 'updating' | 'not-found';
+
 export const APP_CONST = {
   // app title
   APP_TITLE: 'TurnikCity',
@@ -9,11 +11,6 @@ export const APP_CONST = {
 
   // images
   LOGIN_LOGO: '/assets/img/logo/logo__login-1.png',
-};
-
-export const USER_ROLES = {
-  ADMIN: 'admin',
-  VISITOR: 'visitor',
 };
 
 export const SOCIAL: { icon: IconName; prefix: IconPrefix; href: string }[] = [

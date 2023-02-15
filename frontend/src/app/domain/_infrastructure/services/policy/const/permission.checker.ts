@@ -1,6 +1,6 @@
 import { Permissions } from './permissions';
 import { Injectable } from '@angular/core';
-import { AuthStorage } from '../../../../../data';
+import { AuthStorage } from 'app/data';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +8,7 @@ import { AuthStorage } from '../../../../../data';
 export class PermissionChecker {
   private permissions: Permissions;
 
-  public get perms() {
+  get perms() {
     return this.permissions;
   }
 
@@ -24,11 +24,11 @@ export class PermissionChecker {
     }
   }
 
-  public setIsAuthorized(isAuthorized: boolean) {
+  setIsAuthorized(isAuthorized: boolean) {
     this.permissions.isAuthorized = isAuthorized;
   }
 
-  public setPermissions(permissionsArr: string[]) {
+  setPermissions(permissionsArr: string[]) {
     const has = (_: string) => permissionsArr.includes(_);
 
     this.permissions.global.canAll = has('CanAllAll');
@@ -37,7 +37,7 @@ export class PermissionChecker {
     // TODO: refactor or extend
   }
 
-  public setRolePermissions(role: 'anonymous' | 'user' | 'admin') {
+  setRolePermissions(role: 'anonymous' | 'user' | 'admin') {
     if (role == 'anonymous') {
       this.permissions = {
         isAuthorized: false,

@@ -9,6 +9,5 @@ import { AppFontAwesomeModule, MaterialThemeModule } from '../../libs';
   declarations: [CrudDialogWrapperComponent, ConfirmationDialogComponent],
   exports: [CrudDialogWrapperComponent],
   providers: [ExtendedDialogService],
-  entryComponents: [CrudDialogWrapperComponent, ConfirmationDialogComponent],
 })
 export class ExtendedDialogModule {}

@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BaseRepository } from './base.repository';
 import { ObjectExtensions } from 'app/common';
+import { map } from 'rxjs/operators';
 
 export abstract class CrudRepository<T> extends BaseRepository {
   protected pathName: string;
@@ -21,6 +22,17 @@ export abstract class CrudRepository<T> extends BaseRepository {
     return this.httpClient.get<T>(`${this.apiBaseUrl}/${this.pathName}/${id}`, {
       headers: new HttpHeaders({ reset: reset ? 'y' : '' }),
     });
+  }
+
+  getBySlug(slug: string): Observable<T> {
+    return this.httpClient.get<T[]>(`${this.apiBaseUrl}/${this.pathName}?filter=slug eq '${slug}'`).pipe(
+      map(r => {
+        if (r.length == 0) {
+          throw new Error('not-found'); // TODO: specify not-found exception
+        }
+        return r[0];
+      })
+    );
   }
 
   create(json: T): Observable<T> {

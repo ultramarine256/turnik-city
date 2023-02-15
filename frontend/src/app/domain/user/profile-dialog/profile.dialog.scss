@@ -1,0 +1,43 @@
+.login__logo {
+  display: flex;
+  justify-content: center;
+
+  img {
+    max-width: 280px;
+  }
+}
+
+// buttons
+.login-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  .login-buttons__break {
+    flex-basis: 100%;
+  }
+
+  .login-buttons__button {
+    text-transform: uppercase;
+  }
+
+  .login-buttons__button-login {
+    flex-basis: 100%;
+  }
+
+  .login-buttons__forgot-pass {
+    background-color: #efefef;
+    color: #6a6a6a;
+    flex-grow: 1;
+  }
+}
+
+// common
+.login__content {
+  padding: 1rem;
+}
+
+.mat-form-field-wrapper {
+  margin: 0 !important;
+  padding-bottom: 1em !important;
+}

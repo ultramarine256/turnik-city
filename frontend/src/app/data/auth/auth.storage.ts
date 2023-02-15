@@ -5,11 +5,11 @@ export class AuthStorage {
   private userIdentity: UserIdentityDto;
 
   get TokenInfo() {
-    return this.userToken;
+    return this._getTokenFromStorage(LOCAL_STORAGE_KEYS.USER_TOKEN);
   }
 
   get IdentityInfo() {
-    return this.userIdentity;
+    return this._getIdentityFromStorage(LOCAL_STORAGE_KEYS.USER_IDENTITY);
   }
 
   constructor() {

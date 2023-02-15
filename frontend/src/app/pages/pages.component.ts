@@ -2,15 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { ExtendedDialogService, SOCIAL } from 'app/common';
-import {
-  AppStore,
-  AuthFacade,
-  PlaygroundCreateComponent,
-  PlaygroundFacade,
-  PlaygroundPolicyService,
-  UserPolicyService,
-} from 'app/domain';
-import { PlaygroundCreateDto, PlaygroundSizes, PlaygroundTypes } from 'app/data';
+import { AppStore, AuthFacade, PlaygroundFacade, PlaygroundPolicyService, UserPolicyService } from 'app/domain';
+import { PlaygroundCreateDto } from 'app/data';
 
 @Component({
   selector: 'app-pages-component',
@@ -41,20 +34,25 @@ export class PagesComponent implements OnInit {
       return;
     }
 
-    const model: PlaygroundCreateDto = { size: '', type: '', lat: 0, lng: 0, imageUrls: [] };
-    this.dialogService
-      .openCreateDialog<PlaygroundCreateDto>(PlaygroundCreateComponent, model, {
-        panelClass: 'playground-create-dialog',
-        types: PlaygroundTypes,
-        sizes: PlaygroundSizes,
-        center: this.center$,
-      })
-      .subscribe(x => this.playgroundFacade.create(x).subscribe().unsubscribe());
+    // TODO: dude, why are the comments in our code??
 
-    const x: PlaygroundCreateDto = { size: '', type: '', lat: 0, lng: 0, imageUrls: [] };
-    this.playgroundFacade.create(x).subscribe(r => {
-      console.log(r);
-    });
+    // const model: PlaygroundCreateDto = { size: '', type: '', lat: 0, lng: 0, imageUrls: [] };
+    // this.dialogService
+    //   .openCreateDialog<PlaygroundCreateDto>(PlaygroundCreateComponent, model, {
+    //     panelClass: 'playground-create-dialog',
+    //     types: PlaygroundTypes,
+    //     sizes: PlaygroundSizes,
+    //     center: this.center$,
+    //   })
+    //   .subscribe(x => {
+    //     debugger;
+    //     // this.playgroundFacade.create(x).pipe(first()).subscribe();
+    //   });
+
+    // const x: PlaygroundCreateDto = { size: '', type: '', lat: 0, lng: 0, imageUrls: [] };
+    // this.playgroundFacade.create(x).subscribe(r => {
+    //   console.log(r);
+    // });
   }
 
   loginClick() {

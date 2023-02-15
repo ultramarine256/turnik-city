@@ -1,13 +1,13 @@
 import { FormControl, FormGroup } from '@angular/forms';
 
 export class ValidationHelper {
-  public static getFormattedPhoneNumber(phone: string): string {
+  static getFormattedPhoneNumber(phone: string): string {
     if (!phone) console.error('phone is null');
     const x = phone.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/) as any;
     return !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
   }
 
-  public static validateForm(form: FormGroup): boolean {
+  static validateForm(form: FormGroup): boolean {
     const controls = Object.values(form.controls);
     controls.forEach(control => {
       control.markAsTouched();

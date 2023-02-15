@@ -4,6 +4,6 @@ export const environment = {
   googleMapsApiKey: null,
   googleTrackingCode: '',
   mapbox: {
-    accessToken: 'pk.eyJ1IjoiYnJhc2thbSIsImEiOiJja3NqcXBzbWoyZ3ZvMm5ybzA4N2dzaDR6In0.RUAYJFnNgOnn80wXkrV9ZA',
+    accessToken: 'pk.eyJ1IjoidWx0cmFtYXJpbmUyNTYiLCJhIjoiY2xkZWZzYXRwMGQyYTN2bzZldGxhajhwcCJ9.EjaHmBLq7jio3z0fv6l_OA',
   },
 };

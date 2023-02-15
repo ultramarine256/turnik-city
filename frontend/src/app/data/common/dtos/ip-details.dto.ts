@@ -8,7 +8,7 @@ export class IpDetailsDto {
   mapFromJson(json: any): this {
     this.ip = json.ip;
     this.city = json.city;
-    this.countryCode = json.country_code;
+    this.countryCode = json.country_code.toLowerCase();
     this.lat = json.latitude;
     this.lng = json.longitude;
     return this;

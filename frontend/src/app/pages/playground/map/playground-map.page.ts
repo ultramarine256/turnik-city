@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { AppStore, PlaygroundFacade, PlaygroundMarkerModel, PlaygroundPreviewComponent } from 'app/domain';
+import { AppStore, PlaygroundFacade, PlaygroundMarkerModel, PlaygroundPreviewDialog } from 'app/domain';
 import { ExtendedDialogService } from 'app/common';
 
 @Component({
@@ -18,10 +18,10 @@ export class PlaygroundMapPage {
     map(items => items.map(r => new PlaygroundMarkerModel({ id: r.id, slug: r.slug, lat: r.lat, lng: r.lng })))
   );
 
-  constructor(public facade: PlaygroundFacade, public store: AppStore, private dialogService: ExtendedDialogService) {}
+  constructor(public facade: PlaygroundFacade, private store: AppStore, private dialogService: ExtendedDialogService) {}
 
   markerClick(e: { id: number; slug: string }) {
-    this.facade.selectPlayground(e.id);
-    this.dialogService.openDialog(PlaygroundPreviewComponent, 'preview-dialog');
+    const entity = this.facade.get(e.id);
+    this.dialogService.openDialog(PlaygroundPreviewDialog, 'preview-dialog', { entity });
   }
 }

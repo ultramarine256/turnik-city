@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AuthFacade, UserFacade } from 'app/domain';
+import { ActivatedRoute } from '@angular/router';
 import { first } from 'rxjs';
+import { AuthFacade, UserFacade } from 'app/domain';
 
 @Component({
   selector: 'app-profile-page',
@@ -9,13 +9,10 @@ import { first } from 'rxjs';
   styleUrls: ['./profile-page.component.scss'],
 })
 export class ProfilePageComponent implements OnInit {
-  constructor(private authFacade: AuthFacade, public userFacade: UserFacade, private route: ActivatedRoute) {}
+  constructor(private authFacade: AuthFacade, public facade: UserFacade, private route: ActivatedRoute) {}
 
   ngOnInit() {
-    // angryshrimp64
-
-    this.route.params.pipe(first()).subscribe(params => {
-      this.userFacade.fetchUserProfile(params['slug']).pipe(first()).subscribe();
-    });
+    const slug = this.route.snapshot.paramMap.get('slug') || '';
+    this.facade.fetchProfile(slug).pipe(first()).subscribe();
   }
 }

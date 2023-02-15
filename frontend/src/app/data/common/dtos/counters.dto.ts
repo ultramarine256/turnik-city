@@ -7,7 +7,7 @@ export type CountersDto = {
 
 export type FreshMemberDto = {
   slug: string;
-  imageUrl: string;
+  imageUrl: string | null;
   fullName: string;
   instagramId: string;
   createdUtc: Date;

@@ -8,6 +8,7 @@ namespace Data.EFRepository
         IQueryable<TEntity> Query { get; }
 
         Task<TEntity> GetAsync(TPrimaryKey id, params Expression<Func<TEntity, object>>[] includes);
+        Task<TEntity> GetBySlugAsync(string slug, params Expression<Func<TEntity, object>>[] includes);
         Task CreateAsync(TEntity entity);
         Task CreateRange(IEnumerable<TEntity> entities);
         Task UpdateAsync(TEntity entity);

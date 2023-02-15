@@ -23,8 +23,6 @@ export class AppHttpInterceptor implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    let authReq = req.clone();
-
     if (req.headers.has('skip-auth-interceptor') || req.url.includes('blob.core.windows.net')) {
       const headers = req.headers.delete('skip-auth-interceptor');
       const directRequest = req.clone({ headers });
@@ -37,14 +35,14 @@ export class AppHttpInterceptor implements HttpInterceptor {
         'Authorization',
         `${this.authStorage.TokenInfo.tokenType} ${this.authStorage.TokenInfo.token}`
       );
-      headers = headers.append('Access-Control-Allow-Origin', '*');
-      authReq = req.clone({ headers });
+      req = req.clone({ headers });
     }
 
     return next.handle(req).pipe(
       catchError((err: HttpErrorResponse) => {
         if (err.status === 401) {
-          this.router.navigate(['/login']).then(() => this.authStorage.clearStorageInfo());
+          // this.router.navigate(['/login']).then(() => this.authStorage.clearStorageInfo());
+          // do nothing...
         }
 
         if (err.error instanceof Error) {
@@ -56,7 +54,7 @@ export class AppHttpInterceptor implements HttpInterceptor {
           // console.error(`Backend returned code ${err.status}, body was: ${err.error}`);
         }
 
-        return next.handle(req);
+        throw new Error('http-error');
       })
     );
   }

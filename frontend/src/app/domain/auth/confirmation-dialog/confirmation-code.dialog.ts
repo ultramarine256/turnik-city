@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ValidationHelper } from '../../../common';
+import { ValidationHelper } from 'app/common';
 
 @Component({
   selector: 'app-confirmation-code-dialog',

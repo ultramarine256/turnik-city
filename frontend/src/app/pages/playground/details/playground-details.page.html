@@ -1,1 +1,66 @@
-<div class="container--grow">details 2</div>
+<div class="container my-5">
+  <div class="l-content" *ngIf="facade.details$ | async as vm">
+    <!-- main-content -->
+    <div class="l-content__left">
+      <section class="l-section p-3">
+        #{{vm.id}} <br />
+        Size: {{ vm.size }} <br />
+        Type: {{ vm.type }} <br />
+      </section>
+      <section class="l-section mt-3 p-3">
+        <app-map class="c-map" [center]="center$" [markers]="markers$"> </app-map>
+      </section>
+      <section class="l-section p-3 mt-3">
+        <div class="c-photo__grid">
+          <div class="c-photo__item" *ngFor="let img of vm.imageUrls">
+            <img class="c-photo__img" [src]="img" [alt]="vm.size" />
+          </div>
+        </div>
+      </section>
+      <section class="l-section py-5 mt-3">Equipment</section>
+      <section class="l-section py-5 mt-3">Comments</section>
+    </div>
+
+    <!-- side-panel -->
+    <div class="l-content__right">
+      <section class="l-section">
+        <h4 class="mb-3">Author</h4>
+        <app-user-bullet
+          imageUrl="https://ui-avatars.com/api/?name=Rocky Balboa&size=128&background=bd115c&color=fff&font-size=0.4"
+          title="John Doe"
+          subtitle="Kiev"
+        >
+        </app-user-bullet>
+      </section>
+
+      <section class="l-section mt-3">
+        <div class="c-stats">
+          <div class="c-stats__item">
+            <fa-icon class="t-stats__icon" matRipple [icon]="['far', 'heart']" size="xl"></fa-icon>
+            <span class="t-stats__title">{{ vm.likesCount }}</span>
+          </div>
+          <div class="c-stats__item">
+            <fa-icon class="t-stats__icon" matRipple [icon]="['far', 'eye']" size="xl"></fa-icon>
+            <span class="t-stats__title">{{ vm.viewsCount }}</span>
+          </div>
+          <div class="c-stats__item">
+            <fa-icon class="t-stats__icon" matRipple [icon]="['far', 'comment']" size="xl"></fa-icon>
+            <span class="t-stats__title">{{ vm.viewsCount }}</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="l-section mt-3">
+        <h4 class="mb-3">Active Athletes</h4>
+        <div class="c-members">
+          <a class="c-members__item" [routerLink]="'/profile/doodle1'" *ngFor="let item of [0,1,2,3,4,5]">
+            <app-user-circle
+              imageUrl="https://ui-avatars.com/api/?name=Rocky Balboa&size=128&background=bd115c&color=fff&font-size=0.4"
+            >
+            </app-user-circle>
+          </a>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
