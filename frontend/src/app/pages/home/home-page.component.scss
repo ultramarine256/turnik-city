@@ -109,7 +109,8 @@
       place-content: center;
       overflow: hidden;
       border-radius: 8%;
-      background-color: #242424;
+      background-image: linear-gradient(225deg, #d4a7a8, #445cd6); // TODO: looks awesome!
+      // background-color: #f9cc5f;
 
       .c-item__img {
         width: 100%;

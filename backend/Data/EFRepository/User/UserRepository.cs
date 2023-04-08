@@ -31,7 +31,6 @@ namespace Data.EFRepository.User
 
         public Task<bool> CheckConfirmationCode(string email, string code)
             => Task.FromResult(code == Cache.Get<string>(email));
-        
 
         public Task SetConfirmationCode(string email, string code)
             => Task.FromResult(Cache.Set(email, code));

@@ -1,4 +1,12 @@
 @import './global';
-@import './libs';
 @import './ui-controls';
 @import './variables';
+
+// material
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+@import '~material-icons/iconfont/material-icons.css';
+
+// swiper
+@import '~swiper/swiper.min.css';
+@import '~swiper/modules/pagination/pagination.min.css';
+@import '~swiper/modules/navigation/navigation.min.css';

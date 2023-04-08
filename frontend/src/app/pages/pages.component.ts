@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { ExtendedDialogService, SOCIAL } from 'app/common';
-import { AppStore, AuthFacade, PlaygroundFacade, PlaygroundPolicyService, UserPolicyService } from 'app/domain';
+import { AuthFacade, DomainFacade, PlaygroundFacade, PlaygroundPolicyService, UserPolicyService } from 'app/domain';
 import { PlaygroundCreateDto } from 'app/data';
 
 @Component({
@@ -16,7 +16,7 @@ export class PagesComponent implements OnInit {
 
   constructor(
     public router: Router,
-    public store: AppStore,
+    public store: DomainFacade,
     private dialogService: ExtendedDialogService,
     public playgroundFacade: PlaygroundFacade,
     public authFacade: AuthFacade,
@@ -34,7 +34,7 @@ export class PagesComponent implements OnInit {
       return;
     }
 
-    // TODO: dude, why are the comments in our code??
+    // TODO: dude, why are this comments in our code??
 
     // const model: PlaygroundCreateDto = { size: '', type: '', lat: 0, lng: 0, imageUrls: [] };
     // this.dialogService

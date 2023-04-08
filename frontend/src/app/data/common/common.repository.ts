@@ -1,11 +1,11 @@
 import { inject, Injectable } from '@angular/core';
-import { BaseRepository } from '../base.repository';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { IpDetailsDto } from './dtos/ip-details.dto';
-import { CountersDto, FreshMemberDto, FreshPlaygroundDto } from './dtos/counters.dto';
 import { QueryClientService, UseQuery } from '@ngneat/query';
+import { IpDetailsDto } from './dtos/ip-details.dto';
+import { BaseRepository } from '../base.repository';
+import { CountersDto, FreshMemberDto, FreshPlaygroundDto } from './dtos/counters.dto';
 
 @Injectable()
 export class CommonRepository extends BaseRepository {

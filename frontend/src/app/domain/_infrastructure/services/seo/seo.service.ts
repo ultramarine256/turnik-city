@@ -15,7 +15,7 @@ export class SeoService {
     if (this.data.length == 0) {
       // TODO: refactor :)
       try {
-        this.data = (await this.httpClient.get<PageMeta[]>('/assets/json/seo-ru.json').toPromise()) || [];
+        this.data = (await this.httpClient.get<PageMeta[]>('/assets/json/seo-en.json').toPromise()) || [];
       } catch (e) {}
     }
 

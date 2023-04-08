@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AppStore } from 'app/domain';
+import { DomainFacade } from 'app/domain';
 
 @Component({
   selector: 'app-home-page',
@@ -21,5 +21,6 @@ export class HomePageComponent {
     'Черкассы',
   ];
 
-  constructor(public store: AppStore) {}
+  constructor(public store: DomainFacade) {
+  }
 }

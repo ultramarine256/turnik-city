@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AppStore, PlaygroundFacade, PlaygroundMarkerModel } from 'app/domain';
+import { DomainFacade, PlaygroundFacade, PlaygroundMarkerModel } from 'app/domain';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { ReplaySubject, Subject } from 'rxjs';
@@ -13,7 +13,7 @@ export class PlaygroundDetailsPage implements OnInit {
   readonly center$ = new ReplaySubject<{ lng: number; lat: number }>();
   readonly markers$ = new ReplaySubject<PlaygroundMarkerModel[]>();
 
-  constructor(public facade: PlaygroundFacade, public store: AppStore, private route: ActivatedRoute) {}
+  constructor(public facade: PlaygroundFacade, public store: DomainFacade, private route: ActivatedRoute) {}
 
   ngOnInit() {
     // TODO: uncomment

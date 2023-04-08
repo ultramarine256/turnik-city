@@ -25,38 +25,38 @@ import {
   faXmark,
 } from '@fortawesome/free-solid-svg-icons';
 
+const ICONS = [
+  faInstagram,
+  faTelegram,
+  faGithub,
+  faNewspaper,
+  faFolder,
+  faHeart,
+  faPlus,
+  faTrello,
+  faLocationDot,
+  faPeopleGroup,
+  faEarthEurope,
+  faTreeCity,
+  faMapLocationDot,
+  faUser,
+  faSkull,
+  faCircleUser,
+  faStreetView,
+  faFaceSmile,
+  faLocationCrosshairs,
+  faMap,
+  faEye,
+  faComment,
+  faXmark,
+];
+
 @NgModule({
   imports: [FontAwesomeModule],
   exports: [FontAwesomeModule],
 })
 export class AppFontAwesomeModule {
   constructor(library: FaIconLibrary) {
-    library.addIcons(
-      ...[
-        faInstagram,
-        faTelegram,
-        faGithub,
-        faNewspaper,
-        faFolder,
-        faHeart,
-        faPlus,
-        faTrello,
-        faLocationDot,
-        faPeopleGroup,
-        faEarthEurope,
-        faTreeCity,
-        faMapLocationDot,
-        faUser,
-        faSkull,
-        faCircleUser,
-        faStreetView,
-        faFaceSmile,
-        faLocationCrosshairs,
-        faMap,
-        faEye,
-        faComment,
-        faXmark,
-      ]
-    );
+    library.addIcons(...ICONS);
   }
 }

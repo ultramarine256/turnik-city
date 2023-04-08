@@ -11,22 +11,22 @@ import { PermissionChecker } from '../_infrastructure';
   providedIn: 'root',
 })
 export class AuthFacade {
+  /// fields
+  private userIdentity: UserIdentityDto;
+
+  /// services
+  private readonly authStorage: AuthStorage;
+
   // predicates
   readonly isAuthorized$ = new BehaviorSubject(false);
   readonly isLoginProcessing$ = new BehaviorSubject(false);
   readonly isRegistrationProcessing$ = new BehaviorSubject(false);
   readonly isConfirmationProcessing$ = new BehaviorSubject(false);
 
-  /// fields
-  private userIdentity: UserIdentityDto;
-
   /// attributes
   private confirmationDialogRef: MatDialogRef<ConfirmationCodeDialog, any>;
   private loginDialogRef: MatDialogRef<LoginDialog, any>;
   private registrationDialogRef: MatDialogRef<RegisterationDialog, any>;
-
-  /// services
-  private readonly authStorage: AuthStorage;
 
   public get identity() {
     return this.userIdentity;
