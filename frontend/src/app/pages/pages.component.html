@@ -7,10 +7,10 @@
         <img class="c-logo__img" [src]="'/assets/img/logo/logo__menu.png'" alt="TurnikCity Logo" />
         <div class="c-logo__right">
           <div class="c-logo__title">TurnikCity</div>
-          <ng-container *ngIf="store.vm$ | async as vm; else loading">
+          <ng-container *ngIf="facade.ipDetails$ | async as ipDetails; else loading">
             <div class="c-logo__bottom">
-              <img class="c-logo__flag" [src]="'https://flagcdn.com/' + vm.ipDetails.countryCode + '.svg'" alt="" />
-              <div class="c-logo__city">{{ vm.ipDetails.city }}</div>
+              <img class="c-logo__flag" [src]="'https://flagcdn.com/' + ipDetails.countryCode + '.svg'" alt="" />
+              <div class="c-logo__city">{{ ipDetails.city }}</div>
             </div>
           </ng-container>
           <ng-template #loading>

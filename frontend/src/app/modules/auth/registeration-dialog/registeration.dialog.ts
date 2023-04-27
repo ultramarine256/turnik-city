@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ValidationHelper } from 'app/common';
+import { validateForm } from 'app/common';
 
 @Component({
   selector: 'app-login-dialog',
@@ -50,7 +50,6 @@ import { ValidationHelper } from 'app/common';
   `,
   styles: [
     `
-      // buttons
       .login-buttons {
         display: flex;
         flex-wrap: wrap;
@@ -75,7 +74,6 @@ import { ValidationHelper } from 'app/common';
         }
       }
 
-      // common
       .login__content {
         padding: 1rem;
       }
@@ -106,7 +104,7 @@ export class RegisterationDialog implements OnInit {
   }
 
   registrationClickInner(formGroup: FormGroup): void {
-    if (!ValidationHelper.validateForm(formGroup)) {
+    if (!validateForm(formGroup)) {
       return;
     }
     this.registrationClick.emit({

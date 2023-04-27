@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PlaygroundFacade } from 'app/domain';
+import { PlaygroundFacade } from 'app/modules';
 
 @Component({
   selector: 'app-playground-list-page',

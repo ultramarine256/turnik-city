@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { DATA_STATE, ValidationHelper } from 'app/common';
+import { DATA_STATE, validateForm } from 'app/common';
 import { UserProfileDto } from 'app/data';
 
 @Component({
@@ -32,7 +32,7 @@ export class ProfileDialog implements OnInit {
   }
 
   loginClickInner(formGroup: FormGroup) {
-    if (!ValidationHelper.validateForm(formGroup)) {
+    if (!validateForm(formGroup)) {
       return;
     }
     const result = this.getFromValue({} as any, formGroup);

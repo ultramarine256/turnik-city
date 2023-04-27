@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ValidationHelper } from 'app/common';
+import { validateForm } from 'app/common';
 
 @Component({
   selector: 'app-confirmation-code-dialog',
@@ -34,7 +34,6 @@ import { ValidationHelper } from 'app/common';
   `,
   styles: [
     `
-      // buttons
       .login-buttons {
         display: flex;
         flex-wrap: wrap;
@@ -59,7 +58,6 @@ import { ValidationHelper } from 'app/common';
         }
       }
 
-      // common
       .code__text {
         margin-bottom: 14px;
         color: #5c5c5c;
@@ -99,7 +97,7 @@ export class ConfirmationCodeDialog implements OnInit {
   }
 
   confirmationClickInner(formGroup: FormGroup): void {
-    if (!ValidationHelper.validateForm(formGroup)) {
+    if (!validateForm(formGroup)) {
       return;
     }
     this.submitClick.emit({

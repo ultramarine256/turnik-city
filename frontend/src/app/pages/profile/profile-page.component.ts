@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { first } from 'rxjs';
-import { AuthFacade, UserFacade } from 'app/domain';
+import { AuthFacade, UserFacade } from 'app/modules';
 
 @Component({
   selector: 'app-profile-page',

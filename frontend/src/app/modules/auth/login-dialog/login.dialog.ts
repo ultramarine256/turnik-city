@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ValidationHelper } from 'app/common';
+import { validateForm } from 'app/common';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
@@ -126,7 +126,7 @@ export class LoginDialog implements OnInit {
   }
 
   loginClickInner(formGroup: FormGroup): void {
-    if (!ValidationHelper.validateForm(formGroup)) {
+    if (!validateForm(formGroup)) {
       return;
     }
 

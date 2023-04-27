@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { catchError, finalize, Observable, ReplaySubject, Subject, tap } from 'rxjs';
+import { catchError, finalize, Observable, ReplaySubject, tap } from 'rxjs';
 import { UserProfileDto, UserRepository } from 'app/data';
-import { LoginClickEvent, ProfileDialog } from 'app/domain';
 import { DATA_STATE, ExtendedDialogService } from 'app/common';
+import { ProfileDialog } from 'app/modules';
 
 @Injectable({
   providedIn: 'root',

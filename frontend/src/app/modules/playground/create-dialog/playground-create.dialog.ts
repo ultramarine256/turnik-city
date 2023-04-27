@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { BaseDialogComponent } from 'app/common';
+import { BaseDialogComponent, validateForm } from 'app/common';
 import { PlaygroundCreateDto } from 'app/data';
 
 @Component({
@@ -37,7 +37,7 @@ export class PlaygroundCreateDialog extends BaseDialogComponent<PlaygroundCreate
   }
 
   override closeDialog() {
-    if (!this.validationHelper.validateForm(this.form)) {
+    if (!validateForm(this.form)) {
       return;
     }
 

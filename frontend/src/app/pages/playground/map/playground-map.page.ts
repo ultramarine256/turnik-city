@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { DomainFacade, PlaygroundFacade, PlaygroundMarkerModel, PlaygroundPreviewDialog } from 'app/domain';
+import { DomainFacade, PlaygroundFacade, PlaygroundMarkerModel, PlaygroundPreviewDialog } from 'app/modules';
 import { ExtendedDialogService } from 'app/common';
 
 @Component({

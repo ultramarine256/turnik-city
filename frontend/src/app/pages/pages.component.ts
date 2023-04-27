@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
-import { ExtendedDialogService, SOCIAL } from 'app/common';
-import { AuthFacade, DomainFacade, PlaygroundFacade, PlaygroundPolicyService, UserPolicyService } from 'app/domain';
-import { PlaygroundCreateDto } from 'app/data';
+import { SOCIAL } from 'app/common';
+import { AuthFacade, DomainFacade, PlaygroundPolicyService, UserPolicyService } from 'app/modules';
 
 @Component({
   selector: 'app-pages-component',
@@ -12,13 +11,11 @@ import { PlaygroundCreateDto } from 'app/data';
 })
 export class PagesComponent implements OnInit {
   social = SOCIAL;
-  readonly center$ = this.store.ipDetails$.pipe(map(r => ({ lat: r.lat, lng: r.lng })));
+  readonly center$ = this.facade.ipDetails$.pipe(map(r => ({ lat: r.lat, lng: r.lng })));
 
   constructor(
     public router: Router,
-    public store: DomainFacade,
-    private dialogService: ExtendedDialogService,
-    public playgroundFacade: PlaygroundFacade,
+    public facade: DomainFacade,
     public authFacade: AuthFacade,
     public userPolicy: UserPolicyService,
     public playgroundPolicy: PlaygroundPolicyService
@@ -33,8 +30,6 @@ export class PagesComponent implements OnInit {
       this.authFacade.openLoginDialog();
       return;
     }
-
-    // TODO: dude, why are this comments in our code??
 
     // const model: PlaygroundCreateDto = { size: '', type: '', lat: 0, lng: 0, imageUrls: [] };
     // this.dialogService

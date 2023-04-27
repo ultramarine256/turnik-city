@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DomainFacade } from 'app/domain';
+import { DomainFacade } from 'app/modules';
 
 @Component({
   selector: 'app-home-page',
@@ -8,19 +8,17 @@ import { DomainFacade } from 'app/domain';
 })
 export class HomePageComponent {
   cities = [
-    'Киев',
-    'Харьков',
-    'Одесса',
-    'Днепр',
-    'Запорожье',
-    'Львов',
-    'Львов',
-    'Кривой Рог',
-    'Николаев',
-    'Винница',
-    'Черкассы',
+    'Kiev',
+    'Kharkov',
+    'Odessa',
+    'Dnipro',
+    'Zaporizhia',
+    'Lviv',
+    'Kryvyi Rih',
+    'Mykolaiv',
+    'Vinnytsia',
+    'Cherkasy',
   ];
 
-  constructor(public store: DomainFacade) {
-  }
+  constructor(public facade: DomainFacade) {}
 }

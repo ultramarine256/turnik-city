@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { DomainFacade, PlaygroundFacade, PlaygroundMarkerModel } from 'app/domain';
 import { ActivatedRoute } from '@angular/router';
-import { map } from 'rxjs/operators';
+import { DomainFacade, PlaygroundFacade, PlaygroundMarkerModel } from 'app/modules';
 import { ReplaySubject, Subject } from 'rxjs';
 
 @Component({

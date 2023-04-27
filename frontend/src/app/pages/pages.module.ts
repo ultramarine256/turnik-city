@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { AppCommonModule } from 'app/common';
-import { DomainModule } from 'app/domain';
+import { DomainModule } from 'app/modules';
 import {
   AboutPageComponent,
   PagesComponent,

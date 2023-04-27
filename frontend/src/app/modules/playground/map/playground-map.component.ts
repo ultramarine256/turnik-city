@@ -29,7 +29,7 @@ import { environment } from '../../../../environments/environment';
       }
 
       .map__home-button {
-        position: absolute;
+        position: relative;
         z-index: 1000;
         bottom: 20px;
         right: 20px;

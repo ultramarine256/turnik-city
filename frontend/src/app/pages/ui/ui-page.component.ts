@@ -5,7 +5,6 @@ import { FormControl } from '@angular/forms';
   selector: 'app-ui-page',
   styleUrls: ['./ui-page.component.scss'],
   templateUrl: './ui-page.component.html',
-  encapsulation: ViewEncapsulation.None,
 })
 export class UIPageComponent {
   toppings = new FormControl('');
