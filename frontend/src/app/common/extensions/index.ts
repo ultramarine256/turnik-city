@@ -1,4 +1,4 @@
-export * from './async/toAsyncState';
+export * from './async/async.extenstions';
 export * from './ssr/browser-api.service';
 export * from './ssr/window.token';
 

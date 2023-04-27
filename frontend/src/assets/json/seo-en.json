@@ -2,8 +2,8 @@
   {
     "url": "/",
     "data": {
-      "title": "TurnikCity - Street Sports",
-      "description": "Карта турников и спортивных площадок в твоем городе. Спорт городских улиц.",
+      "title": "TurnikCity | Street Sports",
+      "description": "Map of pull-up bars and sports fields in your city. Urban street sports.",
       "keywords": [
         "playgrounds map",
         "calisthenics pars map",
@@ -22,7 +22,7 @@
   {
     "url": "/map",
     "data": {
-      "title": "TurnikCity | Карта Турников",
+      "title": "TurnikCity | Street Sports",
       "description": "Карта турников и спортивных площадок.",
       "keywords": [
         "спортивные площадки",

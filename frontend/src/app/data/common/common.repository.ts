@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { QueryClientService, UseQuery } from '@ngneat/query';
 import { IpDetailsDto } from './dtos/ip-details.dto';
-import { BaseRepository } from '../base.repository';
+import { BaseRepository, generateBackground } from '../base.repository';
 import { CountersDto, FreshMemberDto, FreshPlaygroundDto } from './dtos/counters.dto';
 
 @Injectable()
@@ -33,7 +33,7 @@ export class CommonRepository extends BaseRepository {
   newMembers(): Observable<FreshMemberDto[]> {
     return this.httpClient.get<FreshMemberDto[]>(`${this.apiBaseUrl}/common/new-members`).pipe(
       map(r => r.map(o => ({ ...o, createdUtc: new Date(o.createdUtc) }))),
-      map(r => r.map(o => ({ ...o, imageUrl: o.imageUrl == null ? this.generateBackground(o.fullName, 0.4) : null })))
+      map(r => r.map(o => ({ ...o, imageUrl: o.imageUrl == null ? generateBackground(o.fullName, 0.4) : null })))
     );
   }
 

@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { CrudRepository } from '../crud.repository';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { UserDto, UserProfileDto } from './dtos/user.dto';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { generateBackground } from '../base.repository';
 
 @Injectable()
 export class UserRepository extends CrudRepository<UserDto> {
@@ -15,13 +16,13 @@ export class UserRepository extends CrudRepository<UserDto> {
     return super
       .query(query, reset)
       .pipe(
-        map(r => r.map(o => ({ ...o, imageUrl: o.imageUrl == null ? this.generateBackground(o.fullName, 0.4) : null })))
+        map(r => r.map(o => ({ ...o, imageUrl: o.imageUrl == null ? generateBackground(o.fullName, 0.4) : null })))
       );
   }
 
   userProfile(slug: string): Observable<UserProfileDto> {
     return this.httpClient
       .get<UserProfileDto>(`${this.apiBaseUrl}/${this.pathName}/profile/${slug}`)
-      .pipe(map(r => ({ ...r, imageUrl: r.imageUrl == null ? this.generateBackground(r.fullName, 0.4) : null })));
+      .pipe(map(r => ({ ...r, imageUrl: r.imageUrl == null ? generateBackground(r.fullName, 0.4) : null })));
   }
 }
