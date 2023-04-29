@@ -2,7 +2,7 @@
 Frontend part of our project.
 
 ## Development server
-Run `npm run start:prod` or `npm run start:local` for local API. 
+Run `npm run start:local` for local API. 
 Navigate to `http://localhost:4601`. 
 
 ## Build
