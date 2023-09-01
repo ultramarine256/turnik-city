@@ -5,7 +5,9 @@ import { PlaygroundDto } from './dtos/playground.dto';
 import { Observable } from 'rxjs';
 import { MarkerDto } from './dtos/marker.dto';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class PlaygroundRepository extends CrudRepository<PlaygroundDto> {
   constructor(httpClient: HttpClient) {
     super(httpClient, 'playground');

@@ -1,42 +1,41 @@
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { swiperOptions } from 'app/common';
-import { PlaygroundDto } from 'app/data';
 import { Observable } from 'rxjs';
+import { PlaygroundDto } from 'app/data';
 
 @Component({
   selector: 'app-playground-preview',
   template: `
-    <ng-template #loading>
-      <div class="details-progress__wrapper">
-        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-      </div>
-    </ng-template>
-    <div class="details" *ngIf="entity$ | async as vm; else loading">
-      <swiper class="details__carousel" [config]="swiperOptions">
-        <ng-template swiperSlide *ngFor="let item of vm.imageUrls">
-          <img [src]="item" alt="" class="my-slider-image" />
-        </ng-template>
-      </swiper>
-      <div class="l-body">
-        <h4 class="l-body__title">#{{ vm.id }} {{ vm.size }} {{ vm.type }}</h4>
-        <div class="l-body__added">{{ vm.createdUtc | date: 'd MMM yyyy' }}</div>
-        <div class="c-actions">
-          <div class="c-actions__item">
-            <fa-icon class="t-action__icon" [icon]="['far', 'heart']" size="lg"></fa-icon>
-            <span>{{ vm.likesCount }}</span>
-          </div>
-          <div class="c-actions__item">
-            <fa-icon class="t-action__icon" [icon]="['far', 'eye']" size="lg"></fa-icon>
-            <span>{{ vm.viewsCount }}</span>
-          </div>
-          <div class="c-actions__item">
-            <fa-icon class="t-action__icon" [icon]="['far', 'comment']" size="lg"></fa-icon>
-            <span>{{ vm.viewsCount }}</span>
-          </div>
-        </div>
-      </div>
-    </div>
+    <!--    <ng-template #loading>-->
+    <!--      <div class="details-progress__wrapper">-->
+    <!--        <mat-progress-bar mode="indeterminate"></mat-progress-bar>-->
+    <!--      </div>-->
+    <!--    </ng-template>-->
+    <!--    <div class="details" *ngIf="entity$ | async as vm; else loading">-->
+    <!--      <swiper class="details__carousel" [config]="swiperOptions">-->
+    <!--        <ng-template swiperSlide *ngFor="let item of vm.imageUrls">-->
+    <!--          <img [src]="item" alt="" class="my-slider-image" />-->
+    <!--        </ng-template>-->
+    <!--      </swiper>-->
+    <!--      <div class="l-body">-->
+    <!--        <h4 class="l-body__title">#{{ vm.id }} {{ vm.size }} {{ vm.type }}</h4>-->
+    <!--        <div class="l-body__added">{{ vm.createdUtc | date : 'd MMM yyyy' }}</div>-->
+    <!--        <div class="c-actions">-->
+    <!--          <div class="c-actions__item">-->
+    <!--            <fa-icon class="t-action__icon" [icon]="['far', 'heart']" size="lg"></fa-icon>-->
+    <!--            <span>{{ vm.likesCount }}</span>-->
+    <!--          </div>-->
+    <!--          <div class="c-actions__item">-->
+    <!--            <fa-icon class="t-action__icon" [icon]="['far', 'eye']" size="lg"></fa-icon>-->
+    <!--            <span>{{ vm.viewsCount }}</span>-->
+    <!--          </div>-->
+    <!--          <div class="c-actions__item">-->
+    <!--            <fa-icon class="t-action__icon" [icon]="['far', 'comment']" size="lg"></fa-icon>-->
+    <!--            <span>{{ vm.viewsCount }}</span>-->
+    <!--          </div>-->
+    <!--        </div>-->
+    <!--      </div>-->
+    <!--    </div>-->
   `,
   styles: [
     `
@@ -90,7 +89,6 @@ import { Observable } from 'rxjs';
 })
 export class PlaygroundPreviewDialog {
   entity$ = this.data.entity;
-  swiperOptions = swiperOptions;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: { entity: Observable<PlaygroundDto> }) {
     this.entity$.subscribe(r => {});

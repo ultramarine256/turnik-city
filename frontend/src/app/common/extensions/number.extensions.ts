@@ -1,13 +1,11 @@
-export class NumberExtensions {
-  static milesToMeters(i: number): number {
-    return i * 0.000621371192;
-  }
+export function milesToMeters(i: number): number {
+  return i * 0.000621371192;
+}
 
-  static metersToMiles(i: number): number {
-    return i * 1609.344;
-  }
+export function metersToMiles(i: number): number {
+  return i * 1609.344;
+}
 
-  static roundNumber(num: number) {
-    return Math.round(num * 100) / 100;
-  }
+export function roundNumber(num: number) {
+  return Math.round(num * 100) / 100;
 }

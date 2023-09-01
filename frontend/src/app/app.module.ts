@@ -12,7 +12,7 @@ import { environment } from '../environments';
   imports: [
     HttpClientModule,
     BrowserAnimationsModule,
-    BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    BrowserModule,
     NgxGoogleAnalyticsModule.forRoot(environment.googleTrackingCode),
     AppRouting,
   ],

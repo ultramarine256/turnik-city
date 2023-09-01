@@ -3,9 +3,11 @@ import { Injectable } from '@angular/core';
 import { catchError, Observable, of } from 'rxjs';
 import { environment } from 'environments/environment';
 import { BaseRepository } from '../base.repository';
-import { UserIdentityDto, JtwTokenResponse } from './json';
+import { UserIdentityDto, JtwTokenResponse } from './index';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AuthRepository extends BaseRepository {
   constructor(httpClient: HttpClient) {
     super(httpClient);
@@ -16,7 +18,7 @@ export class AuthRepository extends BaseRepository {
       .post<JtwTokenResponse>(
         `${environment.apiBaseUrl}/auth/token`,
         { login, password, grantType },
-        { headers: { 'skip-auth-interceptor': '' } }
+        { headers: { 'skip-auth-interceptor': '' } },
       )
       .pipe(catchError(r => of(r.error)));
   }
@@ -35,7 +37,7 @@ export class AuthRepository extends BaseRepository {
       .post<{ status: 'ok' | 'email-already-exist' }>(
         `${environment.apiBaseUrl}/auth/registration`,
         { email, password },
-        { headers: { 'skip-auth-interceptor': '' } }
+        { headers: { 'skip-auth-interceptor': '' } },
       )
       .pipe(catchError(r => of(r.error)));
   }
@@ -49,7 +51,7 @@ export class AuthRepository extends BaseRepository {
       .post<{ status: 'ok' | 'wrong-code' }>(
         `${environment.apiBaseUrl}/auth/validate-code`,
         { email, code },
-        { headers: { 'skip-auth-interceptor': '' } }
+        { headers: { 'skip-auth-interceptor': '' } },
       )
       .pipe(catchError(r => of(r.error)));
   }

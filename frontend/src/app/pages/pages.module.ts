@@ -28,14 +28,6 @@ const COMPONENTS = [
 
 @NgModule({
   declarations: [...COMPONENTS],
-  imports: [
-    AppCommonModule,
-    DomainModule,
-
-    /// routing
-    PagesRouting,
-  ],
-  exports: [],
-  providers: [],
+  imports: [AppCommonModule, DomainModule, PagesRouting],
 })
 export class PagesModule {}

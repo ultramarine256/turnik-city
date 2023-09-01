@@ -5,7 +5,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { DirectivesModule, ThemeModule } from 'app/common';
 
 const MODULES = [
-  // angular
   CommonModule,
   HttpClientModule,
   ReactiveFormsModule,
