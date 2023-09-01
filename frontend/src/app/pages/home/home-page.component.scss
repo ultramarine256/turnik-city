@@ -1,3 +1,23 @@
+.menu-item {
+  background-color: #214352;
+  color: white;
+  height: 40px;
+  width: 40px;
+  transition: all 0.3s linear;
+  border-radius: 30px;
+  cursor: pointer;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding-left: 8px;
+  overflow: hidden;
+}
+
+.menu-item:hover {
+  width: 146px;
+  padding-left: 8px;
+}
+
 .container__top-70 {
   top: -70px;
   position: relative;

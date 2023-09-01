@@ -1,7 +1,3 @@
-export * from './profile-dialog/profile.dialog';
-export * from './training-calendar/training-calendar.component';
-export * from './user-circle/user-circle.component';
-export * from './user-circle/user-bullet.component';
-
+export * from './components';
 export * from './user.facade';
 export * from './user.module';

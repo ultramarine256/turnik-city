@@ -10,7 +10,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-
         padding: 16px;
 
         .dialog__close {

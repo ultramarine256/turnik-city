@@ -14,6 +14,7 @@ import {
 import { PlaygroundDto, PlaygroundRepository } from 'app/data';
 import { DATA_STATE, SnackbarService } from 'app/common';
 import { map } from 'rxjs/operators';
+import { createSyncObserverResult } from '@ngneat/query';
 
 const enum AsyncStatus {
   Loading = 'loading',
@@ -115,6 +116,4 @@ export class PlaygroundFacade {
       finalize(() => this.status$.next('loaded'))
     );
   }
-
-  /// helpers
 }

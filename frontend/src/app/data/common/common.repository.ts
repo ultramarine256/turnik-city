@@ -7,19 +7,12 @@ import { IpDetailsDto } from './dtos/ip-details.dto';
 import { BaseRepository, generateBackground } from '../base.repository';
 import { CountersDto, FreshMemberDto, FreshPlaygroundDto } from './dtos/counters.dto';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CommonRepository extends BaseRepository {
-  private queryClient = inject(QueryClientService);
-  private useQuery = inject(UseQuery);
-
   constructor(http: HttpClient) {
     super(http);
-  }
-
-  getPlaygrounds() {
-    return this.useQuery(['doodle'], () => {
-      return this.httpClient.get<IpDetailsDto[]>('https://api.turnik.city/playground/');
-    });
   }
 
   ipDetails(): Observable<IpDetailsDto> {
@@ -33,7 +26,7 @@ export class CommonRepository extends BaseRepository {
   newMembers(): Observable<FreshMemberDto[]> {
     return this.httpClient.get<FreshMemberDto[]>(`${this.apiBaseUrl}/common/new-members`).pipe(
       map(r => r.map(o => ({ ...o, createdUtc: new Date(o.createdUtc) }))),
-      map(r => r.map(o => ({ ...o, imageUrl: o.imageUrl == null ? generateBackground(o.fullName, 0.4) : null })))
+      map(r => r.map(o => ({ ...o, imageUrl: o.imageUrl == null ? generateBackground(o.fullName, 0.4) : null }))),
     );
   }
 

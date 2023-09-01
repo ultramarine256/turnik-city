@@ -1,4 +1,4 @@
-import { UserIdentityDto, JtwTokenDto } from './json';
+import { UserIdentityDto, JtwTokenDto } from './index';
 
 export class AuthStorage {
   private userToken: JtwTokenDto;

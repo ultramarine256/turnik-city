@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'https://api.turnik.city',
+  apiBaseUrl: 'https://turnik-api-prod.azurewebsites.net',
   googleMapsApiKey: 'google-maps-api-key',
   googleTrackingCode: '-',
   mapbox: {

@@ -6,7 +6,9 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { generateBackground } from '../base.repository';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class UserRepository extends CrudRepository<UserDto> {
   constructor(httpClient: HttpClient) {
     super(httpClient, 'user');
