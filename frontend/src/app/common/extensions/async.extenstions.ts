@@ -1,5 +1,6 @@
 import { of, OperatorFunction, pipe } from 'rxjs';
-import { catchError, map, scan, startWith } from 'rxjs/operators';
+import { catchError, filter, map, scan, startWith } from 'rxjs/operators';
+import { QueryOutput } from 'rx-query';
 
 export class AsyncState<T, E = any> {
   res: T | undefined = undefined;
@@ -60,14 +61,14 @@ export function toAsyncState<T, E = any>(): OperatorFunction<T, AsyncState<T, E>
           error,
           loading: false,
           complete: true,
-        })
+        }),
       );
-    })
+    }),
   );
 }
 
 export function retainResponse<T, E = any>(
-  startWithValue: AsyncState<T, E> = createAsyncState<T, E>()
+  startWithValue: AsyncState<T, E> = createAsyncState<T, E>(),
 ): OperatorFunction<AsyncState<T, E>, AsyncState<T, E>> {
   return pipe(
     startWith(startWithValue),
@@ -76,7 +77,14 @@ export function retainResponse<T, E = any>(
         new AsyncState<T, E>({
           ...val,
           res: val.success ? val.res : acc.res,
-        })
-    )
+        }),
+    ),
+  );
+}
+
+export function filterSuccess<T>(): OperatorFunction<QueryOutput<T>, T> {
+  return pipe(
+    filter((r: QueryOutput<T>) => r.status === 'success'),
+    map((r: QueryOutput<T>) => r.data as T),
   );
 }

@@ -27,7 +27,7 @@ export class PlaygroundCreateDialog extends BaseDialogComponent<PlaygroundCreate
       sizes: { title: string; slug: string }[];
       center: Observable<{ lat: number; lng: number }>;
     },
-    public override dialogRef: MatDialogRef<BaseDialogComponent<PlaygroundCreateDto>>
+    public override dialogRef: MatDialogRef<BaseDialogComponent<PlaygroundCreateDto>>,
   ) {
     super('create', data.model, dialogRef);
   }

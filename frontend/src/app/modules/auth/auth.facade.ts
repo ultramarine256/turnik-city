@@ -37,7 +37,7 @@ export class AuthFacade {
     private authRepository: AuthRepository,
     private permissionChecker: PermissionChecker,
     private snackBar: SnackbarService,
-    private router: Router
+    private router: Router,
   ) {
     this.authStorage = new AuthStorage();
   }
@@ -83,74 +83,66 @@ export class AuthFacade {
               this.isAuthorized$.next(true);
               this.loginDialogRef.close();
               this.router.navigate(['/profile']).then();
-            })
-        )
+            }),
+        ),
     );
   }
 
   openRegistrationDialog() {
-    this.registrationDialogRef = this.dialogService.openDialog<RegisterationDialog>(
-      RegisterationDialog,
-      'login-dialog'
-    );
+    this.registrationDialogRef = this.dialogService.openDialog<RegisterationDialog>(RegisterationDialog, 'login-dialog');
     const instance = this.registrationDialogRef.componentInstance;
     instance.isRegistrationProcessing$ = this.isRegistrationProcessing$;
-    instance.registrationClick
-      .pipe(tap(_ => this.isRegistrationProcessing$.next(true)))
-      .subscribe(registrationEvent => {
-        // 1. create account
-        this.createAccount({ email: registrationEvent.email, password: registrationEvent.password }).subscribe(
-          r =>
-            // 2. send confirmation email
-            this.authRepository.sendConfirmationEmail(registrationEvent.email).subscribe(r => {
-              this.isRegistrationProcessing$.next(true);
-              this.loginDialogRef.close();
-              this.registrationDialogRef.close();
-              // 3. validate code
-              this.openConfirmationDialog().subscribe(confirmationEvent => {
-                this.isConfirmationProcessing$.next(true);
-                this.validateConfirmationCode(registrationEvent.email, confirmationEvent.code).subscribe(
-                  r => {
-                    // 4. login user
-                    this.getJwtToken({
-                      email: registrationEvent.email,
-                      password: registrationEvent.password,
-                      grantType: AUTH_GRANT_TYPE.EMAIL,
-                    })
-                      .pipe(first())
-                      .subscribe(token => {
-                        this.authRepository
-                          .getUserIdentityInfo(token.tokenType, token.token)
-                          .pipe(first())
-                          .subscribe(identityJson => {
-                            this.userIdentity = identityJson;
-                            this.authStorage.setUserTokenInfo(token, true);
-                            this.authStorage.setUserIdentityInfo(identityJson, true);
-                            this.isAuthorized$.next(true);
-                            this.permissionChecker.setIsAuthorized(true);
-                            this.permissionChecker.setRolePermissions('user');
-                            this.isConfirmationProcessing$.next(false);
-                            this.isRegistrationProcessing$.next(false);
-                            this.registrationDialogRef.close();
-                            this.confirmationDialogRef.close();
-                            this.router.navigate(['/profile']).then();
-                          });
-                      });
-                  },
-                  error => this.isConfirmationProcessing$.next(false)
-                );
-              });
-            }),
-          error => this.isRegistrationProcessing$.next(false)
-        );
-      });
+    instance.registrationClick.pipe(tap(_ => this.isRegistrationProcessing$.next(true))).subscribe(registrationEvent => {
+      // 1. create account
+      this.createAccount({ email: registrationEvent.email, password: registrationEvent.password }).subscribe(
+        r =>
+          // 2. send confirmation email
+          this.authRepository.sendConfirmationEmail(registrationEvent.email).subscribe(r => {
+            this.isRegistrationProcessing$.next(true);
+            this.loginDialogRef.close();
+            this.registrationDialogRef.close();
+            // 3. validate code
+            this.openConfirmationDialog().subscribe(confirmationEvent => {
+              this.isConfirmationProcessing$.next(true);
+              this.validateConfirmationCode(registrationEvent.email, confirmationEvent.code).subscribe(
+                r => {
+                  // 4. login user
+                  this.getJwtToken({
+                    email: registrationEvent.email,
+                    password: registrationEvent.password,
+                    grantType: AUTH_GRANT_TYPE.EMAIL,
+                  })
+                    .pipe(first())
+                    .subscribe(token => {
+                      this.authRepository
+                        .getUserIdentityInfo(token.tokenType, token.token)
+                        .pipe(first())
+                        .subscribe(identityJson => {
+                          this.userIdentity = identityJson;
+                          this.authStorage.setUserTokenInfo(token, true);
+                          this.authStorage.setUserIdentityInfo(identityJson, true);
+                          this.isAuthorized$.next(true);
+                          this.permissionChecker.setIsAuthorized(true);
+                          this.permissionChecker.setRolePermissions('user');
+                          this.isConfirmationProcessing$.next(false);
+                          this.isRegistrationProcessing$.next(false);
+                          this.registrationDialogRef.close();
+                          this.confirmationDialogRef.close();
+                          this.router.navigate(['/profile']).then();
+                        });
+                    });
+                },
+                error => this.isConfirmationProcessing$.next(false),
+              );
+            });
+          }),
+        error => this.isRegistrationProcessing$.next(false),
+      );
+    });
   }
 
   openConfirmationDialog(): EventEmitter<{ code: string }> {
-    this.confirmationDialogRef = this.dialogService.openDialog<ConfirmationCodeDialog>(
-      ConfirmationCodeDialog,
-      'login-dialog'
-    );
+    this.confirmationDialogRef = this.dialogService.openDialog<ConfirmationCodeDialog>(ConfirmationCodeDialog, 'login-dialog');
     const instance = this.confirmationDialogRef.componentInstance;
     instance.isProcessing$ = this.isConfirmationProcessing$;
     return instance.submitClick;
@@ -178,7 +170,7 @@ export class AuthFacade {
         }
         this.isLoginProcessing$.next(false);
         throw new Error();
-      })
+      }),
     );
   }
 
@@ -191,7 +183,7 @@ export class AuthFacade {
           this.snackBar.error('Email already exist.');
         }
         throw new Error();
-      })
+      }),
     );
   }
 
@@ -204,21 +196,19 @@ export class AuthFacade {
           this.snackBar.error('Wrong Code.');
         }
         throw new Error();
-      })
+      }),
     );
   }
 
   private fetchIdentityInfo(): Observable<UserIdentityDto> {
-    return this.authRepository
-      .getUserIdentityInfo(this.authStorage.TokenInfo.tokenType, this.authStorage.TokenInfo.token)
-      .pipe(
-        catchError(err => {
-          if (err.status === 401) {
-            this.router.navigate(['/login']).then(() => this.authStorage.clearStorageInfo());
-          }
-          throw 'unauthorized: ' + err.status;
-        })
-      );
+    return this.authRepository.getUserIdentityInfo(this.authStorage.TokenInfo.tokenType, this.authStorage.TokenInfo.token).pipe(
+      catchError(err => {
+        if (err.status === 401) {
+          this.router.navigate(['/login']).then(() => this.authStorage.clearStorageInfo());
+        }
+        throw 'unauthorized: ' + err.status;
+      }),
+    );
   }
 
   private clearStorageInfo() {

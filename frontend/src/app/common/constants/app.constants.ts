@@ -24,19 +24,4 @@ export const SOCIAL: { icon: IconName; prefix: IconPrefix; href: string }[] = [
     prefix: 'fab',
     href: 'https://github.com/ultramarine256/turnik-city',
   },
-  {
-    icon: 'trello',
-    prefix: 'fab',
-    href: 'https://trello.com/b/dzdlmCE2/turnikcity',
-  },
-  // {
-  //   icon: 'folder',
-  //   prefix: 'far',
-  //   href: 'https://turnik-city.notion.site/Main-114dd86dc6554830a7cc0f337f3d3f7c',
-  // },
-  // {
-  //   icon: 'telegram',
-  //   prefix: 'fab',
-  //   href: 'https://t.me/+joCpD7hvRMxhMzgy',
-  // },
 ];

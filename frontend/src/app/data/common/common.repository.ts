@@ -1,11 +1,11 @@
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { QueryClientService, UseQuery } from '@ngneat/query';
 import { IpDetailsDto } from './dtos/ip-details.dto';
 import { BaseRepository, generateBackground } from '../base.repository';
 import { CountersDto, FreshMemberDto, FreshPlaygroundDto } from './dtos/counters.dto';
+import { query, QueryOutput } from 'rx-query';
 
 @Injectable({
   providedIn: 'root',
@@ -15,8 +15,10 @@ export class CommonRepository extends BaseRepository {
     super(http);
   }
 
-  ipDetails(): Observable<IpDetailsDto> {
-    return this.httpClient.get<IpDetailsDto>(`https://ipapi.co/json`).pipe(map(_ => new IpDetailsDto().mapFromJson(_)));
+  ipDetails(): Observable<QueryOutput<IpDetailsDto>> {
+    return query('ip-details', () =>
+      this.httpClient.get<IpDetailsDto>(`https://ipapi.co/json`).pipe(map(x => new IpDetailsDto().mapFromJson(x))),
+    );
   }
 
   counters(): Observable<CountersDto> {

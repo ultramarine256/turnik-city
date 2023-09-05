@@ -82,13 +82,13 @@
   align-items: center;
   gap: 8px;
 
-  .c-nav__button {
+  .c-nav__btn {
     display: flex;
     border-radius: 100px;
     padding: 4px 14px;
 
     ::ng-deep {
-      .mat-button-wrapper {
+      .mdc-button__label {
         display: flex !important;
         flex-direction: row;
         justify-content: center;
@@ -97,12 +97,12 @@
       }
     }
 
-    .c-nav__icon {
+    .c-nav__btn-icon {
       display: flex;
       align-items: center;
     }
 
-    .c-nav__text {
+    .c-nav__btn-text {
       display: flex;
     }
 
@@ -110,11 +110,11 @@
       min-width: fit-content;
       padding: 0 5px;
 
-      .c-nav__icon {
+      .c-nav__btn-icon {
         padding: 6px;
       }
 
-      .c-nav__text {
+      .c-nav__btn-text {
         display: none;
       }
     }

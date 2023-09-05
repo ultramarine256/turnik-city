@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DomainFacade, PlaygroundFacade, PlaygroundMarkerModel } from 'app/modules';
-import { ReplaySubject, Subject } from 'rxjs';
+import { AppStore, PlaygroundFacade, PlaygroundMarkerModel } from 'app/modules';
+import { ReplaySubject } from 'rxjs';
 
 @Component({
   selector: 'app-playground-details-page',
@@ -12,7 +12,11 @@ export class PlaygroundDetailsPage implements OnInit {
   readonly center$ = new ReplaySubject<{ lng: number; lat: number }>();
   readonly markers$ = new ReplaySubject<PlaygroundMarkerModel[]>();
 
-  constructor(public facade: PlaygroundFacade, public store: DomainFacade, private route: ActivatedRoute) {}
+  constructor(
+    private readonly store: AppStore,
+    private readonly route: ActivatedRoute,
+    public readonly facade: PlaygroundFacade,
+  ) {}
 
   ngOnInit() {
     // TODO: uncomment

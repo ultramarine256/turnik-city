@@ -12,14 +12,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
         </div>
       </ng-container>
     </div>
-    <input
-      #file
-      multiple
-      type="file"
-      style="display: none;"
-      accept="image/png, image/jpeg"
-      (change)="inputChanged($event)"
-    />
+    <input #file multiple type="file" style="display: none;" accept="image/png, image/jpeg" (change)="inputChanged($event)" />
   `,
   styles: [
     `
@@ -54,7 +47,9 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
             place-content: center;
             top: 4px;
             border-radius: 50%;
-            box-shadow: 0 1px 2px rgb(60 64 67 / 30%), 0 1px 3px 1px rgb(60 64 67 / 15%);
+            box-shadow:
+              0 1px 2px rgb(60 64 67 / 30%),
+              0 1px 3px 1px rgb(60 64 67 / 15%);
             cursor: pointer;
           }
 

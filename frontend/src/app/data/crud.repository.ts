@@ -13,16 +13,12 @@ export abstract class CrudRepository<T> extends BaseRepository {
   }
 
   /// crud
-  query(query: string = '', reset: boolean = false): Observable<T[]> {
-    return this.httpClient.get<T[]>(`${this.apiBaseUrl}/${this.pathName}${query}`, {
-      headers: new HttpHeaders({ reset: reset ? 'y' : '' }),
-    });
+  query(query: string = ''): Observable<T[]> {
+    return this.httpClient.get<T[]>(`${this.apiBaseUrl}/${this.pathName}${query}`);
   }
 
-  get(id: number, reset: boolean = false): Observable<T> {
-    return this.httpClient.get<T>(`${this.apiBaseUrl}/${this.pathName}/${id}`, {
-      headers: new HttpHeaders({ reset: reset ? 'y' : '' }),
-    });
+  get(id: number): Observable<T> {
+    return this.httpClient.get<T>(`${this.apiBaseUrl}/${this.pathName}/${id}`);
   }
 
   create(json: T): Observable<T> {
@@ -39,15 +35,15 @@ export abstract class CrudRepository<T> extends BaseRepository {
     return this.httpClient.delete<boolean>(`${this.apiBaseUrl}/${this.pathName}/${id}`);
   }
 
-  /// todo: remove this
+  /// TODO: refactor to use `query` method
   getBySlug(slug: string): Observable<T> {
     return this.httpClient.get<T[]>(`${this.apiBaseUrl}/${this.pathName}?filter=slug eq '${slug}'`).pipe(
       map(r => {
         if (r.length == 0) {
-          throw new Error('not-found'); // TODO: specify not-found exception
+          throw new Error('not-found'); // TODO: specify `not-found` exception
         }
         return r[0];
-      })
+      }),
     );
   }
 }

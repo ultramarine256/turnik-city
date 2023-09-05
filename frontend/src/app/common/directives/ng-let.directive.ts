@@ -14,7 +14,10 @@ export class NgLetDirective<T> {
   private hasView: boolean = false;
 
   // eslint-disable-next-line no-unused-vars
-  constructor(private viewContainer: ViewContainerRef, private templateRef: TemplateRef<NgLetContext<T>>) {}
+  constructor(
+    private viewContainer: ViewContainerRef,
+    private templateRef: TemplateRef<NgLetContext<T>>,
+  ) {}
 
   @Input()
   set ngLet(value: T) {
@@ -46,7 +49,7 @@ export class NgLetDirective<T> {
    */
   static ngTemplateContextGuard<T>(
     dir: NgLetDirective<T>,
-    ctx: any
+    ctx: any,
   ): ctx is NgLetContext<Exclude<T, false | 0 | '' | null | undefined>> {
     return true;
   }

@@ -6,7 +6,10 @@ import { UserPolicyService } from '../services';
   providedIn: 'root',
 })
 export class RouterGuard implements CanActivate {
-  constructor(private router: Router, private userPolicy: UserPolicyService) {}
+  constructor(
+    private router: Router,
+    private userPolicy: UserPolicyService,
+  ) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     if (this.userPolicy.isAuthorized()) {
