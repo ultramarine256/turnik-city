@@ -1,12 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  EventEmitter,
-  Component,
-  Input,
-  Output,
-  OnDestroy,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, EventEmitter, Component, Input, Output, OnDestroy } from '@angular/core';
 import * as L from 'leaflet';
 import { PlaygroundMarker, PlaygroundMarkerModel } from './model';
 import { Observable, Subject, takeUntil } from 'rxjs';
@@ -29,7 +21,7 @@ import { environment } from '../../../../environments/environment';
       }
 
       .map__home-button {
-        position: relative;
+        position: absolute;
         z-index: 1000;
         bottom: 20px;
         right: 20px;
@@ -37,7 +29,9 @@ import { environment } from '../../../../environments/environment';
         background: #fff;
         border: 0;
         border-radius: 8px;
-        box-shadow: 0 1px 2px rgb(60 64 67 / 30%), 0 1px 3px 1px rgb(60 64 67 / 15%);
+        box-shadow:
+          0 1px 2px rgb(60 64 67 / 30%),
+          0 1px 3px 1px rgb(60 64 67 / 15%);
         width: 29px;
         height: 29px;
         cursor: pointer;
@@ -80,14 +74,12 @@ export class PlaygroundMapComponent implements AfterViewInit, OnDestroy {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position: any) =>
-          this.center
-            .subscribe(x => this.map.setView([position.coords.latitude, position.coords.longitude]))
-            .unsubscribe(),
-        () => this.center.subscribe(x => this.map.setView([x.lat, x.lng])).unsubscribe()
+          this.center.subscribe(x => this.map.setView([position.coords.latitude, position.coords.longitude])).unsubscribe(),
+        () => this.center.subscribe(x => this.map.setView([x.lat, x.lng])).unsubscribe(),
       );
     } else {
       alert(
-        'It seems like Geolocation, which is required for this page, is not enabled in your browser. Please use a browser which supports it.'
+        'It seems like Geolocation, which is required for this page, is not enabled in your browser. Please use a browser which supports it.',
       );
     }
   }

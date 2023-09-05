@@ -1,12 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  HttpErrorResponse,
-  HttpEvent,
-  HttpHandler,
-  HttpHeaders,
-  HttpInterceptor,
-  HttpRequest,
-} from '@angular/common/http';
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -31,10 +24,7 @@ export class AppHttpInterceptor implements HttpInterceptor {
 
     if (this.authStorage.TokenInfo?.token) {
       let headers = new HttpHeaders();
-      headers = headers.append(
-        'Authorization',
-        `${this.authStorage.TokenInfo.tokenType} ${this.authStorage.TokenInfo.token}`
-      );
+      headers = headers.append('Authorization', `${this.authStorage.TokenInfo.tokenType} ${this.authStorage.TokenInfo.token}`);
       req = req.clone({ headers });
     }
 
@@ -55,7 +45,7 @@ export class AppHttpInterceptor implements HttpInterceptor {
         }
 
         throw new Error('http-error');
-      })
+      }),
     );
   }
 }

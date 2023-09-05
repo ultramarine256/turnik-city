@@ -14,12 +14,10 @@ export class UserRepository extends CrudRepository<UserDto> {
     super(httpClient, 'user');
   }
 
-  override query(query: string = '', reset: boolean = false): Observable<UserDto[]> {
+  override query(query: string = ''): Observable<UserDto[]> {
     return super
-      .query(query, reset)
-      .pipe(
-        map(r => r.map(o => ({ ...o, imageUrl: o.imageUrl == null ? generateBackground(o.fullName, 0.4) : null })))
-      );
+      .query(query)
+      .pipe(map(r => r.map(o => ({ ...o, imageUrl: o.imageUrl == null ? generateBackground(o.fullName, 0.4) : null }))));
   }
 
   userProfile(slug: string): Observable<UserProfileDto> {

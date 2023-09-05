@@ -13,7 +13,7 @@ export abstract class BaseDialogComponent<T> implements OnInit, IFormComponent<T
   protected constructor(
     crudMode: 'details' | 'create' | 'update',
     model: T,
-    public dialogRef: MatDialogRef<BaseDialogComponent<T>>
+    public dialogRef: MatDialogRef<BaseDialogComponent<T>>,
   ) {
     this.crudMode = crudMode;
     this.model = model;

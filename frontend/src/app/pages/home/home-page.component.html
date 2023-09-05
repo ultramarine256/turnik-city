@@ -54,12 +54,7 @@
     <div class="row">
       <div class="col-12 mb-4">
         <div class="l-section city-list">
-          <a
-            mat-stroked-button
-            class="app-stroked-button city-list__item"
-            routerLink="/map"
-            *ngFor="let item of cities"
-          >
+          <a mat-stroked-button class="app-stroked-button city-list__item" routerLink="/map" *ngFor="let item of cities">
             {{ item }}
           </a>
         </div>
@@ -67,9 +62,7 @@
 
       <div class="col-12 col-md-6 mb-4 mb-md-0">
         <section class="l-section c-updates">
-          <h4 class="l-section__title">
-            New Locations <a class="l-section__link" [routerLink]="['playgrounds']">(view all)</a>
-          </h4>
+          <h4 class="l-section__title">New Locations <a class="l-section__link" [routerLink]="['playgrounds']">(view all)</a></h4>
           <div class="c-list">
             <ng-container *ngFor="let item of vm.newPlaygrounds.res">
               <a class="c-item" [routerLink]="['playgrounds', item.slug]">
@@ -78,7 +71,7 @@
                 </div>
                 <div class="c-item__right">
                   <div class="c-item__title">{{ item.title }}</div>
-                  <div class="c-item__subtitle">{{ item.createdUtc | date : 'YYY-MM-dd' }}</div>
+                  <div class="c-item__subtitle">{{ item.createdUtc | date: 'YYY-MM-dd' }}</div>
                 </div>
               </a>
               <hr class="c-list__hr" />
@@ -88,9 +81,7 @@
       </div>
       <div class="col-12 col-md-6">
         <section class="l-section">
-          <h4 class="l-section__title">
-            New Members <a class="l-section__link" [routerLink]="['users']">(view all)</a>
-          </h4>
+          <h4 class="l-section__title">New Members <a class="l-section__link" [routerLink]="['users']">(view all)</a></h4>
           <div class="c-list">
             <ng-container *ngFor="let item of vm.newMembers.res">
               <a class="c-item" [routerLink]="['profile', item.slug]">
@@ -99,7 +90,7 @@
                 </div>
                 <div class="c-item__right">
                   <div class="c-item__title">{{ item.fullName }}</div>
-                  <div class="c-item__subtitle">{{ item.createdUtc | date : 'YYY-MM-dd' }}</div>
+                  <div class="c-item__subtitle">{{ item.createdUtc | date: 'YYY-MM-dd' }}</div>
                 </div>
               </a>
               <hr class="c-list__hr" />

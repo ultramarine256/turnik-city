@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
-import { SOCIAL } from 'app/common';
-import { AuthFacade, DomainFacade, PlaygroundPolicyService, UserPolicyService } from 'app/modules';
+import { filterSuccess, SOCIAL } from 'app/common';
+import { AppStore, AuthFacade, PlaygroundPolicyService, UserPolicyService } from 'app/modules';
 
 @Component({
   selector: 'app-pages-component',
@@ -11,14 +11,17 @@ import { AuthFacade, DomainFacade, PlaygroundPolicyService, UserPolicyService } 
 })
 export class PagesComponent implements OnInit {
   social = SOCIAL;
-  readonly center$ = this.facade.ipDetails$.pipe(map(r => ({ lat: r.lat, lng: r.lng })));
+  readonly center$ = this.store.ipDetails$.pipe(
+    filterSuccess(),
+    map(r => ({ lat: r.lat, lng: r.lng })),
+  );
 
   constructor(
-    public router: Router,
-    public facade: DomainFacade,
-    public authFacade: AuthFacade,
-    public userPolicy: UserPolicyService,
-    public playgroundPolicy: PlaygroundPolicyService
+    public readonly router: Router,
+    public readonly store: AppStore,
+    public readonly authFacade: AuthFacade,
+    public readonly userPolicy: UserPolicyService,
+    public readonly playgroundPolicy: PlaygroundPolicyService,
   ) {}
 
   ngOnInit(): void {

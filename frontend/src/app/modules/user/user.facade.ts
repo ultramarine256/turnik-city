@@ -19,7 +19,10 @@ export class UserFacade {
   // dependencies
   private profileDialogRef: MatDialogRef<ProfileDialog, any>;
 
-  constructor(private userRepository: UserRepository, private dialogService: ExtendedDialogService) {}
+  constructor(
+    private userRepository: UserRepository,
+    private dialogService: ExtendedDialogService,
+  ) {}
 
   fetchProfile(slug: string): Observable<UserProfileDto> {
     this.profileStatus$.next('loading');
@@ -31,7 +34,7 @@ export class UserFacade {
         }
         throw err.status;
       }),
-      finalize(() => this.profileStatus$.next('loaded'))
+      finalize(() => this.profileStatus$.next('loaded')),
     );
   }
 
@@ -45,20 +48,18 @@ export class UserFacade {
     instance.status$ = this.profileDialogStatus$;
 
     this.profileDialogStatus$.next('loading');
-    instance.submitClick
-      .pipe(tap(_ => this.profileDialogStatus$.next('updating')))
-      .subscribe((model: UserProfileDto) => {
-        console.log(model);
+    instance.submitClick.pipe(tap(_ => this.profileDialogStatus$.next('updating'))).subscribe((model: UserProfileDto) => {
+      console.log(model);
 
-        // this.getJwtToken({
-        //   email: model.email,
-        //   password: model.password,
-        //   grantType: AUTH_GRANT_TYPE.EMAIL,
-        // })
-        //   .pipe(first())
-        //   .subscribe(token => {
-        //     console.log(123);
-        //   })
-      });
+      // this.getJwtToken({
+      //   email: model.email,
+      //   password: model.password,
+      //   grantType: AUTH_GRANT_TYPE.EMAIL,
+      // })
+      //   .pipe(first())
+      //   .subscribe(token => {
+      //     console.log(123);
+      //   })
+    });
   }
 }

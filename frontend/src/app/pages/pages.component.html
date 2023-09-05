@@ -1,41 +1,43 @@
 <div class="page__wrapper">
   <!-- header -->
-  <header class="page__header" [ngClass]="{ 'page__header--fixed': router.url == '/map' }">
+  <header class="page__header" [ngClass]="{ 'page__header--fixed': router.url === '/map' }">
     <div class="header__container container">
       <!-- c-logo -->
       <a class="c-logo" [routerLink]="'/'">
         <img class="c-logo__img" [src]="'/assets/img/logo/logo__menu.png'" alt="TurnikCity Logo" />
         <div class="c-logo__right">
           <div class="c-logo__title">TurnikCity</div>
-          <ng-container *ngIf="facade.ipDetails$ | async as ipDetails; else loading">
-            <div class="c-logo__bottom">
-              <img class="c-logo__flag" [src]="'https://flagcdn.com/' + ipDetails.countryCode + '.svg'" alt="" />
-              <div class="c-logo__city">{{ ipDetails.city }}</div>
-            </div>
+          <ng-container *ngIf="store.ipDetails$ | async as ipDetails">
+            <ng-container *ngIf="ipDetails.status == 'success'">
+              <div class="c-logo__bottom">
+                <img class="c-logo__flag" [src]="'https://flagcdn.com/' + ipDetails.data?.countryCode + '.svg'" />
+                <div class="c-logo__city">{{ ipDetails.data?.city }}</div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="ipDetails.status == 'loading'">
+              <div class="c-logo__city">Loading...</div>
+            </ng-container>
           </ng-container>
-          <ng-template #loading>
-            <div class="c-logo__city">Loading...</div>
-          </ng-template>
         </div>
       </a>
 
       <!-- c-nav -->
       <div class="c-nav">
-        <button mat-stroked-button class="c-nav__button" (click)="playgroundCreateDialogOpen()">
-          <fa-icon class="c-nav__icon" [icon]="['fas', 'plus']" size="xl"></fa-icon>
-          <span class="c-nav__text">Add</span>
+        <button mat-stroked-button class="c-nav__btn" (click)="playgroundCreateDialogOpen()">
+          <fa-icon class="c-nav__btn-icon" [icon]="['fas', 'plus']" size="xl"></fa-icon>
+          <span class="c-nav__btn-text">Add</span>
         </button>
-        <a mat-stroked-button class="c-nav__button" [routerLink]="'/map'">
-          <fa-icon class="c-nav__icon" [icon]="['far', 'map']" size="xl"></fa-icon>
-          <span class="c-nav__text">Map</span>
+        <a mat-stroked-button class="c-nav__btn" [routerLink]="'/map'">
+          <fa-icon class="c-nav__btn-icon" [icon]="['far', 'map']" size="xl"></fa-icon>
+          <span class="c-nav__btn-text">Map</span>
         </a>
-        <button mat-stroked-button class="c-nav__button" (click)="loginClick()" *ngIf="!userPolicy.isAuthorized()">
-          <fa-icon class="c-nav__icon" [icon]="['far', 'user']" size="xl"></fa-icon>
-          <span class="c-nav__text">Profile</span>
+        <button mat-stroked-button class="c-nav__btn" (click)="loginClick()" *ngIf="!userPolicy.isAuthorized()">
+          <fa-icon class="c-nav__btn-icon" [icon]="['far', 'user']" size="xl"></fa-icon>
+          <span class="c-nav__btn-text">Profile</span>
         </button>
-        <button class="c-nav__button" mat-stroked-button [matMenuTriggerFor]="prMenu" *ngIf="userPolicy.isAuthorized()">
-          <fa-icon class="c-nav__icon" [icon]="['far', 'user']" size="xl"></fa-icon>
-          <span class="c-nav__text">{{ authFacade.identity.fullName }}</span>
+        <button class="c-nav__btn" mat-stroked-button [matMenuTriggerFor]="prMenu" *ngIf="userPolicy.isAuthorized()">
+          <fa-icon class="c-nav__btn-icon" [icon]="['far', 'user']" size="xl"></fa-icon>
+          <span class="c-nav__btn-text">{{ authFacade.identity.fullName }}</span>
         </button>
         <mat-menu #prMenu="matMenu" class="profile-menu">
           <button mat-menu-item (click)="profileClick()">
@@ -63,9 +65,7 @@
         <div class="col-md col-12 mb-4 mb-md-0">
           <div class="c-slogan">
             <div class="c-slogan__title">TurnikCity</div>
-            <div class="c-slogan__text">
-              Tomorrow, tomorrow, tomorrow, ain't no such thing as tomorrow, we only got today!
-            </div>
+            <div class="c-slogan__text">Tomorrow, tomorrow, tomorrow, ain't no such thing as tomorrow, we only got today!</div>
             <div class="social-list d-flex d-md-none justify-content-center mt-3">
               <a *ngFor="let s of social" [href]="s.href" target="_blank" class="social-list__item">
                 <fa-icon [icon]="[s.prefix, s.icon]" size="2xl"></fa-icon>
@@ -80,12 +80,11 @@
               <li>
                 <a routerLink="/about">About Us</a>
               </li>
-              <!--  <li>-->
-              <!--    <a routerLink="/">Codex</a>-->
-              <!--  </li>-->
-              <!--  <li>-->
-              <!--    <a routerLink="/">Members</a>-->
-              <!--  </li>-->
+              <li>
+                <a target="_blank" href="https://ultramarine256.notion.site/Codex-v1-2-3fb575a762a84ed4a14e4c5ab232e6d5">
+                  Codex
+                </a>
+              </li>
             </ul>
           </div>
         </div>

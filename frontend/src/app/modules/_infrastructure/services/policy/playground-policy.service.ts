@@ -11,17 +11,11 @@ export class PlaygroundPolicyService extends AbstractPolicyService {
   }
 
   canCreate() {
-    return (
-      this.permissions.global.canAll || this.permissions.playground.canAll || this.permissions.playground.canCreate
-    );
+    return this.permissions.global.canAll || this.permissions.playground.canAll || this.permissions.playground.canCreate;
   }
 
   canRetrieve() {
-    return (
-      this.permissions.playground.canAll ||
-      this.permissions.playground.canAll ||
-      this.permissions.playground.canRetrieve
-    );
+    return this.permissions.playground.canAll || this.permissions.playground.canAll || this.permissions.playground.canRetrieve;
   }
 
   canUpdate() {

@@ -8,7 +8,11 @@ import { HttpClient } from '@angular/common/http';
 export class SeoService {
   data: PageMeta[] = [];
 
-  constructor(private metaService: Meta, private titleService: Title, private httpClient: HttpClient) {}
+  constructor(
+    private metaService: Meta,
+    private titleService: Title,
+    private httpClient: HttpClient,
+  ) {}
 
   async updateMetaTags(pageUrl: string) {
     // 1. load seo.json

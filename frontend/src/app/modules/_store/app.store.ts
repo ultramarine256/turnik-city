@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, share } from 'rxjs';
-import { CommonRepository, PlaygroundRepository } from 'app/data';
-import { toAsyncState } from 'app/common';
 import { map } from 'rxjs/operators';
+import { toAsyncState } from '../../common';
+import { CommonRepository, PlaygroundRepository } from '../../data';
 
 @Injectable({
   providedIn: 'root',
 })
-export class DomainFacade {
-  readonly ipDetails$ = this.commonRepository.ipDetails().pipe(share());
-  readonly markers$ = this.playgroundRepository.markers().pipe(share());
+export class AppStore {
+  readonly ipDetails$ = this.commonRepository.ipDetails();
+  readonly markers$ = this.playgroundRepository.markers();
   readonly homePage$ = combineLatest([
-    this.ipDetails$.pipe(toAsyncState()),
-    this.markers$.pipe(toAsyncState()),
+    this.ipDetails$,
+    this.markers$,
     this.commonRepository.counters().pipe(toAsyncState()),
     this.commonRepository.newMembers().pipe(toAsyncState()),
     this.commonRepository.newPlaygrounds().pipe(toAsyncState()),
@@ -24,8 +24,11 @@ export class DomainFacade {
       newMembers,
       newPlaygrounds,
     })),
-    share()
+    share(),
   );
 
-  constructor(private commonRepository: CommonRepository, private playgroundRepository: PlaygroundRepository) {}
+  constructor(
+    private commonRepository: CommonRepository,
+    private playgroundRepository: PlaygroundRepository,
+  ) {}
 }

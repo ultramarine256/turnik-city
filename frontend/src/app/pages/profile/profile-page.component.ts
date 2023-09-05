@@ -9,7 +9,11 @@ import { AuthFacade, UserFacade } from 'app/modules';
   styleUrls: ['./profile-page.component.scss'],
 })
 export class ProfilePageComponent implements OnInit {
-  constructor(private authFacade: AuthFacade, public facade: UserFacade, private route: ActivatedRoute) {}
+  constructor(
+    private authFacade: AuthFacade,
+    public facade: UserFacade,
+    private route: ActivatedRoute,
+  ) {}
 
   ngOnInit() {
     const slug = this.route.snapshot.paramMap.get('slug') || '';

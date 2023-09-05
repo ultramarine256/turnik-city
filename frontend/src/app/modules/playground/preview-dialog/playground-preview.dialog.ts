@@ -2,54 +2,60 @@ import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { PlaygroundDto } from 'app/data';
+import { AsyncState } from 'app/common';
 
 @Component({
   selector: 'app-playground-preview',
   template: `
-    <!--    <ng-template #loading>-->
-    <!--      <div class="details-progress__wrapper">-->
-    <!--        <mat-progress-bar mode="indeterminate"></mat-progress-bar>-->
-    <!--      </div>-->
-    <!--    </ng-template>-->
-    <!--    <div class="details" *ngIf="entity$ | async as vm; else loading">-->
-    <!--      <swiper class="details__carousel" [config]="swiperOptions">-->
-    <!--        <ng-template swiperSlide *ngFor="let item of vm.imageUrls">-->
-    <!--          <img [src]="item" alt="" class="my-slider-image" />-->
-    <!--        </ng-template>-->
-    <!--      </swiper>-->
-    <!--      <div class="l-body">-->
-    <!--        <h4 class="l-body__title">#{{ vm.id }} {{ vm.size }} {{ vm.type }}</h4>-->
-    <!--        <div class="l-body__added">{{ vm.createdUtc | date : 'd MMM yyyy' }}</div>-->
-    <!--        <div class="c-actions">-->
-    <!--          <div class="c-actions__item">-->
-    <!--            <fa-icon class="t-action__icon" [icon]="['far', 'heart']" size="lg"></fa-icon>-->
-    <!--            <span>{{ vm.likesCount }}</span>-->
-    <!--          </div>-->
-    <!--          <div class="c-actions__item">-->
-    <!--            <fa-icon class="t-action__icon" [icon]="['far', 'eye']" size="lg"></fa-icon>-->
-    <!--            <span>{{ vm.viewsCount }}</span>-->
-    <!--          </div>-->
-    <!--          <div class="c-actions__item">-->
-    <!--            <fa-icon class="t-action__icon" [icon]="['far', 'comment']" size="lg"></fa-icon>-->
-    <!--            <span>{{ vm.viewsCount }}</span>-->
-    <!--          </div>-->
-    <!--        </div>-->
-    <!--      </div>-->
-    <!--    </div>-->
+    <ng-container *ngIf="data.entity$ | async as entity">
+      <!-- state: loading -->
+      <div *ngIf="entity.loading" class="details-progress__wrapper">
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      </div>
+
+      <!-- state: success -->
+      <div *ngIf="entity.success" class="details">
+        <div class="c-swiper">
+          <!--  <ng-template swiperSlide *ngFor="let item of vm.imageUrls">-->
+          <!--    <img [src]="item" alt="" class="my-slider-image" />-->
+          <!--  </ng-template>-->
+          <!--  TODO: put swiper here-->
+        </div>
+
+        <div class="l-body">
+          <h4 class="l-body__title">#{{ entity.res?.id }} {{ entity.res?.size }} {{ entity.res?.type }}</h4>
+          <div class="l-body__added">{{ entity.res?.createdUtc | date: 'd MMM yyyy' }}</div>
+          <div class="c-actions">
+            <div class="c-actions__item">
+              <fa-icon class="t-action__icon" [icon]="['far', 'heart']" size="lg"></fa-icon>
+              <span>{{ entity.res?.likesCount }}</span>
+            </div>
+            <div class="c-actions__item">
+              <fa-icon class="t-action__icon" [icon]="['far', 'eye']" size="lg"></fa-icon>
+              <span>{{ entity.res?.viewsCount }}</span>
+            </div>
+            <div class="c-actions__item">
+              <fa-icon class="t-action__icon" [icon]="['far', 'comment']" size="lg"></fa-icon>
+              <span>{{ entity.res?.viewsCount }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
   `,
   styles: [
     `
-      /* DETAILS */
       .details {
         display: flex;
         flex-direction: column;
-
-        .details__carousel {
-          width: 100%;
-        }
       }
 
-      /* DETAILS BODY */
+      .c-swiper {
+        min-height: 300px;
+        width: 100%;
+        background-color: #6a6a6a;
+      }
+
       .l-body {
         padding: 10px;
 
@@ -65,7 +71,6 @@ import { PlaygroundDto } from 'app/data';
         }
       }
 
-      /* ACTIONS */
       .c-actions {
         display: flex;
         flex-direction: row;
@@ -88,9 +93,5 @@ import { PlaygroundDto } from 'app/data';
   encapsulation: ViewEncapsulation.None,
 })
 export class PlaygroundPreviewDialog {
-  entity$ = this.data.entity;
-
-  constructor(@Inject(MAT_DIALOG_DATA) public data: { entity: Observable<PlaygroundDto> }) {
-    this.entity$.subscribe(r => {});
-  }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { entity$: Observable<AsyncState<PlaygroundDto>> }) {}
 }
