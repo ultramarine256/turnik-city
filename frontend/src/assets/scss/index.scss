@@ -1,7 +1,6 @@
 // libs
-@import '~@angular/material/prebuilt-themes/indigo-pink.css';
-@import '~material-icons/iconfont/material-icons.css';
-// @import '~swiper/swiper.min.css';
+@import '/node_modules/@angular/material/prebuilt-themes/indigo-pink.css';
+@import '/node_modules/bootstrap/scss/bootstrap';
 
 // app styles
 @import './global';

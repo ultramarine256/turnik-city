@@ -1,6 +1,6 @@
 {
   "name": "turnik-city",
-  "version": "1.0.0",
+  "version": "1.0.8",
   "scripts": {
     "start:local": "ng serve -c=local --port 4601",
     "start:prod": "ng serve -c=prod --port 4601",
