@@ -4,8 +4,6 @@ import { CacheInterceptor } from './cache.interceptor';
 import { AppHttpInterceptor } from './http.interceptor';
 
 @NgModule({
-  imports: [],
-  declarations: [],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

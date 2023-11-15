@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { first } from 'rxjs';
-import { AuthFacade, UserFacade } from 'app/modules';
+import { Auth0Facade, UserFacade } from 'app/modules';
+import { toAsyncState } from '../../common';
 
 @Component({
   selector: 'app-profile-page',
@@ -9,14 +8,15 @@ import { AuthFacade, UserFacade } from 'app/modules';
   styleUrls: ['./profile-page.component.scss'],
 })
 export class ProfilePageComponent implements OnInit {
+  user$ = this.auth0Facade.user.pipe(toAsyncState());
+
   constructor(
-    private authFacade: AuthFacade,
-    public facade: UserFacade,
-    private route: ActivatedRoute,
+    public readonly auth0Facade: Auth0Facade,
+    public readonly facade: UserFacade,
   ) {}
 
   ngOnInit() {
-    const slug = this.route.snapshot.paramMap.get('slug') || '';
-    this.facade.fetchProfile(slug).pipe(first()).subscribe();
+    // const slug = this.route.snapshot.paramMap.get('slug') || '';
+    // this.facade.fetchProfile(slug).pipe(first()).subscribe();
   }
 }

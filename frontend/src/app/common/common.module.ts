@@ -8,10 +8,9 @@ const MODULES = [
   CommonModule,
   HttpClientModule,
   ReactiveFormsModule,
-
-  // app
-  ThemeModule,
+  // ----
   DirectivesModule,
+  ThemeModule,
 ];
 
 @NgModule({

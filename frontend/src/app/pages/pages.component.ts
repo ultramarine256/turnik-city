@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { filterSuccess, SOCIAL } from 'app/common';
-import { AppStore, AuthFacade, PlaygroundPolicyService, UserPolicyService } from 'app/modules';
+import { AppStore, Auth0Facade, AuthFacade, PlaygroundPolicyService, UserPolicyService } from 'app/modules';
+import { combineLatest, first, share, tap } from 'rxjs';
 
 @Component({
   selector: 'app-pages-component',
@@ -16,10 +17,19 @@ export class PagesComponent implements OnInit {
     map(r => ({ lat: r.lat, lng: r.lng })),
   );
 
+  readonly authState$ = combineLatest([this.auth0Facade.user, this.auth0Facade.isAuthenticated]).pipe(
+    map(([user, isAuthenticated]) => ({
+      user,
+      isAuthenticated,
+    })),
+    share(),
+  );
+
   constructor(
     public readonly router: Router,
     public readonly store: AppStore,
     public readonly authFacade: AuthFacade,
+    public readonly auth0Facade: Auth0Facade,
     public readonly userPolicy: UserPolicyService,
     public readonly playgroundPolicy: PlaygroundPolicyService,
   ) {}
@@ -54,16 +64,16 @@ export class PagesComponent implements OnInit {
   }
 
   loginClick() {
-    this.authFacade.openLoginDialog();
-  }
-
-  profileClick() {
-    const userSlug = this.authFacade.identity.slug;
-    this.router.navigate([`/profile/${userSlug}`]).then();
+    this.auth0Facade.login();
   }
 
   logoutClick() {
-    this.authFacade.signOut();
-    this.router.navigate(['/']).then();
+    this.auth0Facade
+      .logout()
+      .pipe(
+        first(),
+        tap(r => this.router.navigate(['/']).then()),
+      )
+      .subscribe();
   }
 }

@@ -1,8 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { DATA_STATE, validateForm } from 'app/common';
-import { UserProfileDto } from 'app/data';
+import { AsyncState, DATA_STATE, validateForm } from 'app/common';
+import { PlaygroundDto, UserProfileDto } from 'app/data';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-profile-dialog',
@@ -10,19 +11,19 @@ import { UserProfileDto } from 'app/data';
   styleUrls: ['./profile.dialog.scss'],
 })
 export class ProfileDialog implements OnInit {
-  @Input() status$: Observable<DATA_STATE> = new Observable();
-  @Input() userProfile$: Observable<UserProfileDto> = new Observable();
+  @Input() userModel$: Observable<AsyncState<UserProfileDto>> = new Observable();
   @Output() submitClick = new EventEmitter<UserProfileDto>();
 
   form: FormGroup = new FormGroup<any>({});
   form2: FormGroup;
 
-  constructor() {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { model$: Observable<AsyncState<UserProfileDto>> }) {}
 
   ngOnInit() {
-    this.status$.subscribe(r => (r == 'updating' ? this.form.disable() : this.form.enable()));
-    this.userProfile$.subscribe(r => {
-      this.form = this.initForm(r);
+    // this.status$.subscribe(r => (r == 'updating' ? this.form.disable() : this.form.enable()));
+    this.data.model$.subscribe(r => {
+      // @ts-ignore
+      this.form = this.initForm(r.res);
     });
     this.form2 = new FormGroup<any>({
       email: new FormControl('email!', [Validators.required, Validators.email]),
@@ -70,3 +71,5 @@ export class ProfileDialog implements OnInit {
     return result;
   }
 }
+
+export type UserModel = {};

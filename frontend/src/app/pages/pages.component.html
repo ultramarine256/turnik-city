@@ -31,24 +31,28 @@
           <fa-icon class="c-nav__btn-icon" [icon]="['far', 'map']" size="xl"></fa-icon>
           <span class="c-nav__btn-text">Map</span>
         </a>
-        <button mat-stroked-button class="c-nav__btn" (click)="loginClick()" *ngIf="!userPolicy.isAuthorized()">
-          <fa-icon class="c-nav__btn-icon" [icon]="['far', 'user']" size="xl"></fa-icon>
-          <span class="c-nav__btn-text">Profile</span>
-        </button>
-        <button class="c-nav__btn" mat-stroked-button [matMenuTriggerFor]="prMenu" *ngIf="userPolicy.isAuthorized()">
-          <fa-icon class="c-nav__btn-icon" [icon]="['far', 'user']" size="xl"></fa-icon>
-          <span class="c-nav__btn-text">{{ authFacade.identity.fullName }}</span>
-        </button>
-        <mat-menu #prMenu="matMenu" class="profile-menu">
-          <button mat-menu-item (click)="profileClick()">
-            <mat-icon>person</mat-icon>
-            <span>Profile</span>
+
+        <!-- section: profile -->
+        <ng-container *ngIf="authState$ | async as authState">
+          <button mat-stroked-button class="c-nav__btn" (click)="loginClick()" *ngIf="!authState.isAuthenticated">
+            <fa-icon class="c-nav__btn-icon" [icon]="['far', 'user']" size="xl"></fa-icon>
+            <span class="c-nav__btn-text">Login</span>
           </button>
-          <button mat-menu-item (click)="logoutClick()">
-            <mat-icon>logout</mat-icon>
-            <span>Log Out</span>
+          <button class="c-nav__btn" mat-stroked-button [matMenuTriggerFor]="prMenu" *ngIf="authState.isAuthenticated">
+            <fa-icon class="c-nav__btn-icon" [icon]="['far', 'user']" size="xl"></fa-icon>
+            <span class="c-nav__btn-text">{{ authState.user?.name }}</span>
           </button>
-        </mat-menu>
+          <mat-menu #prMenu="matMenu" class="profile-menu">
+            <a mat-menu-item routerLink="/profile">
+              <fa-icon class="me-3" [icon]="['far', 'user']" size="lg"></fa-icon>
+              <span>Profile</span>
+            </a>
+            <button mat-menu-item (click)="logoutClick()">
+              <fa-icon class="me-3" [icon]="['fas', 'arrow-right-from-bracket']" size="lg"></fa-icon>
+              <span>Log Out</span>
+            </button>
+          </mat-menu>
+        </ng-container>
       </div>
     </div>
   </header>

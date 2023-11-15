@@ -1,6 +1,4 @@
-{{status$ | async | json}}
-
-<div class="login__content" *ngIf="status$ | async as status">
+<div class="login__content" *ngIf="userModel$ | async as user">
   <form class="row" *ngIf="form" [formGroup]="form2" (keydown)="keyDownFunction($event)">
     <!-- email -->
     <mat-form-field class="col-12" appearance="outline">
@@ -9,38 +7,38 @@
       <mat-icon matSuffix>mail_outline</mat-icon>
     </mat-form-field>
 
-    <!--    &lt;!&ndash; full-name &ndash;&gt;-->
-    <!--    <mat-form-field class="col-md-6" appearance="outline">-->
-    <!--      <mat-label>Full Name</mat-label>-->
-    <!--      <input matInput formControlName="fullName" />-->
-    <!--    </mat-form-field>-->
+    <!-- full-name -->
+    <mat-form-field class="col-md-6" appearance="outline">
+      <mat-label>Full Name</mat-label>
+      <input matInput formControlName="fullName" />
+    </mat-form-field>
 
-    <!--    &lt;!&ndash; description &ndash;&gt;-->
-    <!--    <mat-form-field class="col-md-12" appearance="outline">-->
-    <!--      <mat-label>Description</mat-label>-->
-    <!--      <textarea matInput formControlName="description" rows="5"></textarea>-->
-    <!--    </mat-form-field>-->
+    <!-- description -->
+    <mat-form-field class="col-md-12" appearance="outline">
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description" rows="5"></textarea>
+    </mat-form-field>
 
-    <!--    &lt;!&ndash; buttons &ndash;&gt;-->
-    <!--    <div class="col-12 login-buttons">-->
-    <!--      <button-->
-    <!--        mat-flat-button-->
-    <!--        class="login-buttons__button login-buttons__button-login"-->
-    <!--        color="primary"-->
-    <!--        [disabled]="status == 'loading'"-->
-    <!--        (click)="loginClickInner(form); $event.preventDefault()"-->
-    <!--      >-->
-    <!--        Login-->
-    <!--        <mat-progress-bar *ngIf="status == 'loading'" mode="indeterminate"></mat-progress-bar>-->
-    <!--      </button>-->
-    <!--      <button-->
-    <!--        mat-flat-button-->
-    <!--        class="login-buttons__button login-buttons__forgot-pass"-->
-    <!--        [disabled]="status == 'loading'"-->
-    <!--        (click)="submitClick.emit(); $event.preventDefault()"-->
-    <!--      >-->
-    <!--        New Account-->
-    <!--      </button>-->
-    <!--    </div>-->
+    <!-- buttons -->
+    <div class="col-12 login-buttons">
+      <!--      <button-->
+      <!--        mat-flat-button-->
+      <!--        class="login-buttons__button login-buttons__button-login"-->
+      <!--        color="primary"-->
+      <!--        [disabled]="user == 'loading'"-->
+      <!--        (click)="loginClickInner(form); $event.preventDefault()"-->
+      <!--      >-->
+      <!--        Login-->
+      <!--        <mat-progress-bar *ngIf="status == 'loading'" mode="indeterminate"></mat-progress-bar>-->
+      <!--      </button>-->
+      <!--      <button-->
+      <!--        mat-flat-button-->
+      <!--        class="login-buttons__button login-buttons__forgot-pass"-->
+      <!--        [disabled]="status == 'loading'"-->
+      <!--        (click)="submitClick.emit(); $event.preventDefault()"-->
+      <!--      >-->
+      <!--        New Account-->
+      <!--      </button>-->
+    </div>
   </form>
 </div>
