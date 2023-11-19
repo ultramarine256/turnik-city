@@ -30,7 +30,6 @@
     "leaflet": "^1.9.4",
     "material-icons": "1.13.10",
     "ngx-google-analytics": "^14.0.1",
-    "rx-query": "2.0.1",
     "rxjs": "^7.8.1",
     "tslib": "^2.6.2",
     "zod": "^3.22.2",

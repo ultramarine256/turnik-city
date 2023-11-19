@@ -3,7 +3,6 @@ using Data.Entities;
 using Domain.DomainServices.Playground;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OData.Query;
 using WebApi.Controllers._Abstract;
 using WebApi.Controllers.App.Playground.Dtos;
 
@@ -21,10 +20,9 @@ namespace WebApi.Controllers.App.Playground
         }
 
         [AllowAnonymous]
-        [EnableQuery]
         [HttpGet("")]
         public IEnumerable<PlaygroundDto> Get()
-            =>  BaseQuery();
+            => BaseQuery();
 
         [AllowAnonymous]
         [HttpGet("{id}")]

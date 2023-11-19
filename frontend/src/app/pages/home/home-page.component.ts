@@ -1,7 +1,6 @@
-import { ChangeDetectionStrategy, Component, effect, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { UntilDestroy } from '@ngneat/until-destroy';
-import { AppStore, Auth0Facade } from 'app/modules';
-import { AuthService } from '@auth0/auth0-angular';
+import { PagesFacade } from 'app/modules';
 
 @UntilDestroy()
 @Component({
@@ -13,11 +12,7 @@ import { AuthService } from '@auth0/auth0-angular';
 export class HomePageComponent implements OnInit {
   cities = ['Kiev', 'Kharkov', 'Odessa', 'Dnipro', 'Zaporizhia', 'Lviv', 'Kryvyi Rih', 'Mykolaiv', 'Vinnytsia', 'Cherkasy'];
 
-  constructor(
-    public readonly facade: AppStore,
-    protected readonly auth: Auth0Facade,
-    public auth2: AuthService,
-  ) {}
+  constructor(public readonly facade: PagesFacade) {}
 
   ngOnInit() {
     // pipe(untilDestroyed(this))

@@ -1,27 +1,27 @@
 <div class="page__wrapper">
-  <!-- header -->
+  <!-- layout: header -->
   <header class="page__header" [ngClass]="{ 'page__header--fixed': router.url === '/map' }">
     <div class="header__container container">
-      <!-- c-logo -->
+      <!-- component: app-logo -->
       <a class="c-logo" [routerLink]="'/'">
         <img class="c-logo__img" [src]="'/assets/img/logo/logo__menu.png'" alt="TurnikCity Logo" />
         <div class="c-logo__right">
           <div class="c-logo__title">TurnikCity</div>
-          <ng-container *ngIf="store.ipDetails$ | async as ipDetails">
-            <ng-container *ngIf="ipDetails.status == 'success'">
+          <ng-container *ngIf="pagesFacade.ipDetailsVm$ | async as ipDetails">
+            <ng-container *ngIf="ipDetails.success">
               <div class="c-logo__bottom">
-                <img class="c-logo__flag" [src]="'https://flagcdn.com/' + ipDetails.data?.countryCode + '.svg'" />
-                <div class="c-logo__city">{{ ipDetails.data?.city }}</div>
+                <img class="c-logo__flag" [src]="'https://flagcdn.com/' + ipDetails.res?.countryCode + '.svg'" />
+                <div class="c-logo__city">{{ ipDetails.res?.city }}</div>
               </div>
             </ng-container>
-            <ng-container *ngIf="ipDetails.status == 'loading'">
+            <ng-container *ngIf="ipDetails.loading">
               <div class="c-logo__city">Loading...</div>
             </ng-container>
           </ng-container>
         </div>
       </a>
 
-      <!-- c-nav -->
+      <!-- component: navigation -->
       <div class="c-nav">
         <button mat-stroked-button class="c-nav__btn" (click)="playgroundCreateDialogOpen()">
           <fa-icon class="c-nav__btn-icon" [icon]="['fas', 'plus']" size="xl"></fa-icon>
@@ -32,7 +32,7 @@
           <span class="c-nav__btn-text">Map</span>
         </a>
 
-        <!-- section: profile -->
+        <!-- component: profile -->
         <ng-container *ngIf="authState$ | async as authState">
           <button mat-stroked-button class="c-nav__btn" (click)="loginClick()" *ngIf="!authState.isAuthenticated">
             <fa-icon class="c-nav__btn-icon" [icon]="['far', 'user']" size="xl"></fa-icon>
@@ -57,12 +57,12 @@
     </div>
   </header>
 
-  <!-- content -->
+  <!-- layout: content -->
   <main class="page__content">
     <router-outlet></router-outlet>
   </main>
 
-  <!-- footer -->
+  <!-- layout: footer -->
   <footer class="page__footer" *ngIf="router.url != '/map'">
     <div class="container my-4">
       <div class="row">

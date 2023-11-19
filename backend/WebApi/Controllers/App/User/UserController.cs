@@ -1,10 +1,8 @@
 ﻿using Data.Entities;
-using Domain.DomainServices._Abstractions;
 using Domain.DomainServices.User;
 using Domain.DomainServices.User.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OData.Query;
 using WebApi.Controllers._Abstract;
 using WebApi.Controllers.App.User.Dtos;
 
@@ -20,7 +18,6 @@ namespace WebApi.Controllers.App.User
             Domain = domain;
         }
 
-        [EnableQuery]
         [HttpGet("")]
         public IEnumerable<UserDto> Get()
             => BaseQuery();
