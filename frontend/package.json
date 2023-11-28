@@ -5,7 +5,8 @@
     "start:local": "ng serve -c=local --port 4601",
     "start:dev": "ng serve -c=prod --port 4601",
     "build:prod": "ng build -c=build-prod",
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open",
+    "extract-sources": "node extract-sources.js"
   },
   "private": true,
   "dependencies": {
