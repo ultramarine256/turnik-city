@@ -8,8 +8,7 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace Data.EFRepository
 {
-    public class EntityRepository<TEntity, TPrimaryKey> : BaseRepository, IEntityRepository<TEntity, TPrimaryKey>
-        where TEntity : class, IEntity<TPrimaryKey>, new()
+    public class EntityRepository<TEntity, TPrimaryKey> : BaseRepository, IEntityRepository<TEntity, TPrimaryKey> where TEntity : class, IEntity<TPrimaryKey>, new()
     {
         public IStorageService StorageService { get; }
         public bool OnSystemFilters { get; }

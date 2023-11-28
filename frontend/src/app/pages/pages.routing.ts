@@ -61,7 +61,7 @@ const routes: Routes = [
         component: AboutPageComponent,
       },
       {
-        path: 'profile/:slug',
+        path: 'profile',
         component: ProfilePageComponent,
         resolve: { pagesResolver: PagesResolver },
       },

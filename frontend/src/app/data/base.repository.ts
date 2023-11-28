@@ -1,5 +1,4 @@
 import { HttpClient } from '@angular/common/http';
-import { setQueryConfig } from 'rx-query';
 import { environment } from '../../environments';
 
 export abstract class BaseRepository {
@@ -7,13 +6,6 @@ export abstract class BaseRepository {
 
   protected constructor(protected httpClient: HttpClient) {
     this.apiBaseUrl = environment.apiBaseUrl;
-
-    setQueryConfig({
-      refetchOnWindowFocus: false,
-      retries: 0,
-      staleTime: 1000 * 60 * 60 * 24,
-      cacheTime: 1000 * 60 * 60 * 24, // 24 hours
-    });
   }
 }
 

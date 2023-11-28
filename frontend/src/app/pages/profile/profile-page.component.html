@@ -1,37 +1,56 @@
-<div class="container" *ngIf="facade.profileStatus$ | async as status">
-  <div *ngIf="status == 'loading'">loading...</div>
-  <div *ngIf="status == 'not-found'">not found</div>
+<div class="container" *ngIf="user$ | async as user">
+  <div class="l-section c-profile mt-4">
+    <div *ngIf="user.loading">loading...</div>
 
-  <div class="row my-4" *ngIf="facade.profile$ | async as vm">
+    <div *ngIf="user.success">
+      <pre>{{ user | json }}</pre>
+    </div>
+
+    <div>
+      <!--      <button (click)="">update color</button>-->
+    </div>
+  </div>
+</div>
+
+<div class="container" *ngIf="user$ | async as user">
+  <div class="l-section" *ngIf="user.loading">
+    <div>loading...</div>
+  </div>
+
+  <div class="row my-4" *ngIf="user.success">
     <div class="col-md-3">
       <div class="l-section c-profile">
         <div class="c-profile__wrapper">
-          <img class="c-profile__photo" [src]="vm.imageUrl || 'https://syw.blob.core.windows.net/svg/item-placeholder.svg'" />
+          <img
+            class="c-profile__photo"
+            referrerpolicy="no-referrer"
+            [src]="user.res?.picture || 'https://syw.blob.core.windows.net/svg/item-placeholder.svg'"
+          />
         </div>
-        <h2 class="c-profile__name">{{ vm.fullName }}</h2>
-        <p class="c-profile__bio">{{ vm.bio }}</p>
-        <ul class="c-list">
-          <a
-            class="c-list__item"
-            [target]="vm.instagramId ? '_blank' : ''"
-            [href]="vm.telegramId ? 'https://instagram.com/' + vm.instagramId : 'javascript:void(0)'"
-          >
-            <fa-icon class="c-list__icon" [icon]="['fab', 'instagram']" size="xl"></fa-icon>
-            <span class="c-list__text">{{ vm.instagramId || 'missing...' }}</span>
-          </a>
-          <a
-            class="c-list__item"
-            [target]="vm.telegramId ? '_blank' : ''"
-            [href]="vm.telegramId ? 'https://t.me/' + vm.telegramId : 'javascript:void(0)'"
-          >
-            <fa-icon class="c-list__icon" [icon]="['fab', 'telegram']" size="xl"></fa-icon>
-            <span class="c-list__text">{{ vm.telegramId || 'missing...' }}</span>
-          </a>
-          <div class="c-list__item">
-            <fa-icon class="c-list__icon" [icon]="['fas', 'location-dot']" size="xl"></fa-icon>
-            <span class="c-list__text">{{ vm.city }}</span>
-          </div>
-        </ul>
+        <h4 class="c-profile__name">{{ user.res?.name }}</h4>
+        <!--        <p class="c-profile__bio">{{ vm.bio }}</p>-->
+        <!--        <ul class="c-list">-->
+        <!--          <a-->
+        <!--            class="c-list__item"-->
+        <!--            [target]="vm.instagramId ? '_blank' : ''"-->
+        <!--            [href]="vm.telegramId ? 'https://instagram.com/' + vm.instagramId : 'javascript:void(0)'"-->
+        <!--          >-->
+        <!--            <fa-icon class="c-list__icon" [icon]="['fab', 'instagram']" size="xl"></fa-icon>-->
+        <!--            <span class="c-list__text">{{ vm.instagramId || 'missing...' }}</span>-->
+        <!--          </a>-->
+        <!--          <a-->
+        <!--            class="c-list__item"-->
+        <!--            [target]="vm.telegramId ? '_blank' : ''"-->
+        <!--            [href]="vm.telegramId ? 'https://t.me/' + vm.telegramId : 'javascript:void(0)'"-->
+        <!--          >-->
+        <!--            <fa-icon class="c-list__icon" [icon]="['fab', 'telegram']" size="xl"></fa-icon>-->
+        <!--            <span class="c-list__text">{{ vm.telegramId || 'missing...' }}</span>-->
+        <!--          </a>-->
+        <!--          <div class="c-list__item">-->
+        <!--            <fa-icon class="c-list__icon" [icon]="['fas', 'location-dot']" size="xl"></fa-icon>-->
+        <!--            <span class="c-list__text">{{ vm.city }}</span>-->
+        <!--          </div>-->
+        <!--        </ul>-->
 
         <div class="l-buttons">
           <button mat-flat-button class="profile-button" (click)="facade.openProfileDialog()">Edit profile</button>
@@ -40,13 +59,13 @@
     </div>
     <div class="col-md-9">
       <div class="l-section mt-4 mt-md-0">
-        <h3 class="c-profile__name">Training Days</h3>
+        <h5 class="c-profile__name">Training Days</h5>
         <div class="c-calendar__wrapper">
           <app-training-calendar></app-training-calendar>
         </div>
       </div>
       <div class="l-section mt-4">
-        <h3 class="c-profile__name">Active Locations</h3>
+        <h5 class="c-profile__name">Active Locations</h5>
         <div class="locations">
           <div class="locations__item">map</div>
           <div class="locations__item">map</div>

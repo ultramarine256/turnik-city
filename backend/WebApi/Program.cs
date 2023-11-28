@@ -1,5 +1,4 @@
 using System.IO.Compression;
-using Microsoft.AspNetCore.OData;
 using Microsoft.AspNetCore.ResponseCompression;
 using WebApi.Infrastructure;
 using WebApi.Infrastructure.AppSettings;
@@ -26,13 +25,7 @@ builder.Services.AddMemoryCache();
 
 // Add services to the container.
 builder.Services
-    .AddControllers()
-    .AddOData(options =>
-    {
-        options.Select().Expand().OrderBy().Count();
-        options.Filter();
-        options.EnableNoDollarQueryOptions = true;
-    });
+    .AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

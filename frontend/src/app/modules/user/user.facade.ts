@@ -3,7 +3,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { catchError, finalize, Observable, ReplaySubject, tap } from 'rxjs';
 import { UserProfileDto, UserRepository } from 'app/data';
 import { DATA_STATE, ExtendedDialogService } from 'app/common';
-import { ProfileDialog } from 'app/modules';
+import { Auth0Facade, ProfileDialog } from 'app/modules';
 
 @Injectable({
   providedIn: 'root',
@@ -12,29 +12,24 @@ export class UserFacade {
   // streams
   readonly profile$: ReplaySubject<UserProfileDto> = new ReplaySubject<UserProfileDto>();
 
-  // predicates
-  readonly profileStatus$: ReplaySubject<DATA_STATE> = new ReplaySubject<DATA_STATE>();
-  readonly profileDialogStatus$: ReplaySubject<DATA_STATE> = new ReplaySubject<DATA_STATE>();
-
   // dependencies
   private profileDialogRef: MatDialogRef<ProfileDialog, any>;
 
   constructor(
-    private userRepository: UserRepository,
-    private dialogService: ExtendedDialogService,
+    private readonly userRepository: UserRepository,
+    private readonly dialogService: ExtendedDialogService,
+    private readonly auth0Facade: Auth0Facade,
   ) {}
 
   fetchProfile(slug: string): Observable<UserProfileDto> {
-    this.profileStatus$.next('loading');
     return this.userRepository.userProfile(slug).pipe(
       tap(r => this.profile$.next(r)),
       catchError(err => {
         if (err.status === 404) {
-          this.profileStatus$.next('not-found');
         }
         throw err.status;
       }),
-      finalize(() => this.profileStatus$.next('loaded')),
+      finalize(() => {}),
     );
   }
 
@@ -43,23 +38,15 @@ export class UserFacade {
   }
 
   openProfileDialog() {
-    this.profileDialogRef = this.dialogService.openDialog(ProfileDialog, 'login-dialog', {});
+    // this.auth0Facade.user
+
+    this.profileDialogRef = this.dialogService.openDialog(ProfileDialog, 'login-dialog', {
+      model: this.profile$,
+    });
     const instance = this.profileDialogRef.componentInstance;
-    instance.status$ = this.profileDialogStatus$;
 
-    this.profileDialogStatus$.next('loading');
-    instance.submitClick.pipe(tap(_ => this.profileDialogStatus$.next('updating'))).subscribe((model: UserProfileDto) => {
+    instance.submitClick.pipe().subscribe((model: UserProfileDto) => {
       console.log(model);
-
-      // this.getJwtToken({
-      //   email: model.email,
-      //   password: model.password,
-      //   grantType: AUTH_GRANT_TYPE.EMAIL,
-      // })
-      //   .pipe(first())
-      //   .subscribe(token => {
-      //     console.log(123);
-      //   })
     });
   }
 }

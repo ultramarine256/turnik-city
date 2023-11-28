@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { UntilDestroy } from '@ngneat/until-destroy';
-import { AppStore } from 'app/modules';
+import { PagesFacade } from 'app/modules';
 
 @UntilDestroy()
 @Component({
@@ -12,7 +12,7 @@ import { AppStore } from 'app/modules';
 export class HomePageComponent implements OnInit {
   cities = ['Kiev', 'Kharkov', 'Odessa', 'Dnipro', 'Zaporizhia', 'Lviv', 'Kryvyi Rih', 'Mykolaiv', 'Vinnytsia', 'Cherkasy'];
 
-  constructor(public readonly facade: AppStore) {}
+  constructor(public readonly facade: PagesFacade) {}
 
   ngOnInit() {
     // pipe(untilDestroyed(this))

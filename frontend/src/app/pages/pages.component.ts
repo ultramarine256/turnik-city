@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
-import { filterSuccess, SOCIAL } from 'app/common';
-import { AppStore, AuthFacade, PlaygroundPolicyService, UserPolicyService } from 'app/modules';
+import { combineLatest, first, share, tap } from 'rxjs';
+import { SOCIAL } from 'app/common';
+import { Auth0Facade, AuthFacade, PlaygroundPolicyService, PagesFacade } from 'app/modules';
 
 @Component({
   selector: 'app-pages-component',
@@ -11,16 +12,21 @@ import { AppStore, AuthFacade, PlaygroundPolicyService, UserPolicyService } from
 })
 export class PagesComponent implements OnInit {
   social = SOCIAL;
-  readonly center$ = this.store.ipDetails$.pipe(
-    filterSuccess(),
-    map(r => ({ lat: r.lat, lng: r.lng })),
+  readonly center$ = this.pagesFacade.ipDetails$.pipe(map(r => ({ lat: r.lat, lng: r.lng })));
+
+  readonly authState$ = combineLatest([this.auth0Facade.user, this.auth0Facade.isAuthenticated]).pipe(
+    map(([user, isAuthenticated]) => ({
+      user,
+      isAuthenticated,
+    })),
+    share(),
   );
 
   constructor(
     public readonly router: Router,
-    public readonly store: AppStore,
+    public readonly pagesFacade: PagesFacade,
     public readonly authFacade: AuthFacade,
-    public readonly userPolicy: UserPolicyService,
+    public readonly auth0Facade: Auth0Facade,
     public readonly playgroundPolicy: PlaygroundPolicyService,
   ) {}
 
@@ -54,16 +60,16 @@ export class PagesComponent implements OnInit {
   }
 
   loginClick() {
-    this.authFacade.openLoginDialog();
-  }
-
-  profileClick() {
-    const userSlug = this.authFacade.identity.slug;
-    this.router.navigate([`/profile/${userSlug}`]).then();
+    this.auth0Facade.login();
   }
 
   logoutClick() {
-    this.authFacade.signOut();
-    this.router.navigate(['/']).then();
+    this.auth0Facade
+      .logout()
+      .pipe(
+        first(),
+        tap(r => this.router.navigate(['/']).then()),
+      )
+      .subscribe();
   }
 }

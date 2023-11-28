@@ -25,25 +25,35 @@ namespace WebApi
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             // authorization
-            services.AddTransient<JwtSecurityTokenHandler, JwtSecurityTokenHandler>();
-            services.AddAuthentication(options =>
-                {
-                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
-                .AddJwtBearer(options =>
-                {
-                    options.RequireHttpsMetadata = false;
-                    options.SaveToken = true;
-                    options.IncludeErrorDetails = true;
-                    options.TokenValidationParameters = new TokenValidationParameters()
-                    {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Settings.SecurityKey)),
-                        ValidateIssuer = false,
-                        ValidateAudience = false
-                    };
-                });
+            //services.AddTransient<JwtSecurityTokenHandler, JwtSecurityTokenHandler>();
+            //services.AddAuthentication(options =>
+            //    {
+            //        options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            //        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            //    })
+            //    .AddJwtBearer(options =>
+            //    {
+            //        options.RequireHttpsMetadata = false;
+            //        options.SaveToken = true;
+            //        options.IncludeErrorDetails = true;
+            //        options.TokenValidationParameters = new TokenValidationParameters()
+            //        {
+            //            ValidateIssuerSigningKey = true,
+            //            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Settings.SecurityKey)),
+            //            ValidateIssuer = false,
+            //            ValidateAudience = false
+            //        };
+            //    });
+
+            //services.AddAuthentication(options =>
+            //{
+            //    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            //    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            //}).AddJwtBearer(options =>
+            //{
+            //    options.Authority = "your-auth0-domain";
+            //    options.Audience = "your-auth0-audience";
+            //});
         }
     }
 

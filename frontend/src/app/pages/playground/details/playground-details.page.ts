@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AppStore, PlaygroundFacade, PlaygroundMarkerModel } from 'app/modules';
+import { PlaygroundFacade, PlaygroundMarkerModel } from 'app/modules';
 import { ReplaySubject } from 'rxjs';
 
 @Component({
@@ -13,7 +13,6 @@ export class PlaygroundDetailsPage implements OnInit {
   readonly markers$ = new ReplaySubject<PlaygroundMarkerModel[]>();
 
   constructor(
-    private readonly store: AppStore,
     private readonly route: ActivatedRoute,
     public readonly facade: PlaygroundFacade,
   ) {}

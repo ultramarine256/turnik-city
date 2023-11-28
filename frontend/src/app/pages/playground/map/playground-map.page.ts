@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { filter, map } from 'rxjs/operators';
-import { AppStore, PlaygroundFacade, PlaygroundMarkerModel, PlaygroundPreviewDialog } from 'app/modules';
-import { ExtendedDialogService, filterSuccess, toAsyncState } from 'app/common';
+import { map } from 'rxjs/operators';
+import { PagesFacade, PlaygroundFacade, PlaygroundMarkerModel, PlaygroundPreviewDialog } from 'app/modules';
+import { ExtendedDialogService, toAsyncState } from 'app/common';
 
 @Component({
   selector: 'app-map-page',
@@ -12,18 +12,14 @@ import { ExtendedDialogService, filterSuccess, toAsyncState } from 'app/common';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlaygroundMapPage {
-  readonly center$ = this.store.ipDetails$.pipe(
-    filterSuccess(),
-    map(r => ({ lat: r.lat, lng: r.lng })),
-  );
-  readonly markers$ = this.store.markers$.pipe(
-    filter(r => r.status == 'success' || !!r.data),
-    map(r => (r.data || []).map(r => new PlaygroundMarkerModel({ id: r.id, slug: r.slug, lat: r.lat, lng: r.lng }))),
+  readonly center$ = this.pagesFacade.ipDetails$.pipe(map(r => ({ lat: r.lat, lng: r.lng })));
+  readonly markers$ = this.pagesFacade.markers$.pipe(
+    map(r => r.map(r => new PlaygroundMarkerModel({ id: r.id, slug: r.slug, lat: r.lat, lng: r.lng }))),
   );
 
   constructor(
     public readonly facade: PlaygroundFacade,
-    public readonly store: AppStore,
+    public readonly pagesFacade: PagesFacade,
     private readonly dialogService: ExtendedDialogService,
   ) {}
 

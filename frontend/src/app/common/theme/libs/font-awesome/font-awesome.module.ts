@@ -13,6 +13,7 @@ import {
   faUser,
 } from '@fortawesome/free-regular-svg-icons';
 import {
+  faArrowRightFromBracket,
   faEarthEurope,
   faLocationCrosshairs,
   faLocationDot,
@@ -49,6 +50,7 @@ const ICONS = [
   faEye,
   faComment,
   faXmark,
+  faArrowRightFromBracket,
 ];
 
 @NgModule({
