@@ -59,7 +59,9 @@ namespace Data.Infrastructure.ContextManager
             lock (_syncRoot)
             {
                 if (_context == null)
+                {
                     throw new Exception("With the current logical flow is not associated DBcontext. Nothing to dispose");
+                }
                 else
                 {
                     _context.Dispose();

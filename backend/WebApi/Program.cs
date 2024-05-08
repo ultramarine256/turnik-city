@@ -51,7 +51,14 @@ new Bootstrap().ConfigureServices(builder.Services, appSettings);
 var app = builder.Build();
 
 // Debug stuff...
-if (app.Environment.IsEnvironment("Local")) { app.UseDeveloperExceptionPage(); } else { app.UseExceptionHandler("/error"); }
+if (app.Environment.IsEnvironment("Local"))
+{
+    app.UseDeveloperExceptionPage();
+}
+else
+{
+    app.UseExceptionHandler("/error");
+}
 
 // Swagger
 app.UseSwagger();

@@ -19,11 +19,11 @@ namespace WebApi.Controllers.App.User
         }
 
         [HttpGet("")]
-        public IEnumerable<UserDto> Get()
+        public IEnumerable<UserDto> Query()
             => BaseQuery();
 
         [HttpGet("{id}")]
-        public Task<UserDto> GetById(int id)
+        public Task<UserDto> Get(int id)
             => BaseGetAsync(id);
 
         [HttpPost]

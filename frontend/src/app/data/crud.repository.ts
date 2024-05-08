@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BaseRepository } from './base.repository';
 import { ObjectExtensions } from 'app/common';
@@ -12,7 +12,6 @@ export abstract class CrudRepository<T> extends BaseRepository {
     this.pathName = pathName;
   }
 
-  /// crud
   query(query: string = ''): Observable<T[]> {
     return this.httpClient.get<T[]>(`${this.apiBaseUrl}/${this.pathName}${query}`);
   }

@@ -21,12 +21,12 @@ namespace WebApi.Controllers.App.Playground
 
         [AllowAnonymous]
         [HttpGet("")]
-        public IEnumerable<PlaygroundDto> Get()
+        public IEnumerable<PlaygroundDto> Query()
             => BaseQuery();
 
         [AllowAnonymous]
         [HttpGet("{id}")]
-        public Task<PlaygroundDto> GetById(int id)
+        public Task<PlaygroundDto> Get(int id)
             => BaseGetAsync(id);
 
         [HttpPost]
