@@ -1,6 +1,6 @@
 ﻿using Data.EFRepository;
 using Data.EFRepository.Playground;
-using Data.EFRepository.Playground.Models;
+using Data.EFRepository.Playground.Entities;
 using Data.EFRepository.User;
 using Data.Entities;
 using Data.Infrastructure.UnitOfWork;

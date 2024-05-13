@@ -1,4 +1,4 @@
-﻿using Data.EFRepository.Playground.Models;
+﻿using Data.EFRepository.Playground.Entities;
 using Data.Entities;
 using Domain.DomainServices.Playground;
 using Microsoft.AspNetCore.Authorization;

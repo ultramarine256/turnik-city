@@ -1,4 +1,4 @@
-﻿namespace Data.EFRepository.Playground.Models
+﻿namespace Data.EFRepository.Playground.Entities
 {
     public class PlaygroundMarker
     {

@@ -10,7 +10,7 @@ import { PagesFacade } from 'app/modules';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomePageComponent implements OnInit {
-  cities = ['Kiev', 'Kharkov', 'Odessa', 'Dnipro', 'Zaporizhia', 'Lviv', 'Kryvyi Rih', 'Mykolaiv', 'Vinnytsia', 'Cherkasy'];
+  cities = ['City 1', 'City 2', 'City 3', 'City 4', 'City 5', 'City 6', 'City 7', 'City 8', 'City 9', 'City 10'];
 
   constructor(public readonly facade: PagesFacade) {}
 

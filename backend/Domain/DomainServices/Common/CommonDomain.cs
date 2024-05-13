@@ -1,5 +1,5 @@
 ﻿using Data.EFRepository.Common;
-using Data.EFRepository.Common.Models;
+using Data.EFRepository.Common.Entities;
 using Data.ThirdParty.IPStack.Models;
 
 namespace Domain.DomainServices.Common

@@ -1,4 +1,4 @@
-﻿using Data.EFRepository.Common.Models;
+﻿using Data.EFRepository.Common.Entities;
 using Data.Entities;
 using Data.Infrastructure.ContextManager;
 using Data.ThirdParty.IPStack;
@@ -69,9 +69,6 @@ namespace Data.EFRepository.Common
                 // write it to the cache
                 Cache.Set(CacheKeys.Counters, value, CacheOptions);
             }
-
-            value.NewUsers = Context.Users.AsNoTracking().OrderByDescending(r => r.CreatedUtc).Take(10).ToList();
-            value.NewPlaygorounds = Context.Playgrounds.AsNoTracking().OrderByDescending(r => r.CreatedUtc).Take(10).ToList();
 
             return value;
         }

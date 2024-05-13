@@ -1,5 +1,5 @@
 export * from './_infrastructure';
-export * from './auth';
+export * from './auth0';
 export * from './pages';
 export * from './playground';
 export * from './user';

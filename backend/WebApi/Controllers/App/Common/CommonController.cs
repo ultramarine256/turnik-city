@@ -1,4 +1,4 @@
-﻿using Data.EFRepository.Common.Models;
+﻿using Data.EFRepository.Common.Entities;
 using Data.ThirdParty.IPStack.Models;
 using Domain.DomainServices.Common;
 using Microsoft.AspNetCore.Mvc;

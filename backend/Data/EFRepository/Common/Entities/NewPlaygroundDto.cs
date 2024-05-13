@@ -1,4 +1,4 @@
-﻿namespace Data.EFRepository.Common.Models
+﻿namespace Data.EFRepository.Common.Entities
 {
     public class NewPlaygroundEntity
     {

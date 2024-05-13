@@ -1,3 +1,36 @@
-.c-table {
-  width: 100%;
+.table {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: 10px;
+  .table__header, .table__row {
+    display: contents;
+  }
+  .table__cell {
+    padding: 8px;
+    background-color: #f4f4f4;
+    border: 1px solid #ddd;
+    text-align: center;
+    &:first-child {
+      grid-column: span 9; // Header spans all columns
+    }
+  }
+  .table__header .table__cell {
+    background-color: #007bff;
+    color: white;
+  }
+  img {
+    width: 50px;
+    height: auto;
+  }
+  .table__button {
+    margin-right: 5px;
+    padding: 5px 10px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
 }

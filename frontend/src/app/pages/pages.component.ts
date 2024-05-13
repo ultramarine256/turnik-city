@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { combineLatest, first, share, tap } from 'rxjs';
 import { SOCIAL } from 'app/common';
-import { Auth0Facade, AuthFacade, PlaygroundPolicyService, PagesFacade } from 'app/modules';
+import { Auth0Facade, PlaygroundPolicyService, PagesFacade } from 'app/modules';
 
 @Component({
   selector: 'app-pages-component',
@@ -25,18 +25,16 @@ export class PagesComponent implements OnInit {
   constructor(
     public readonly router: Router,
     public readonly pagesFacade: PagesFacade,
-    public readonly authFacade: AuthFacade,
     public readonly auth0Facade: Auth0Facade,
     public readonly playgroundPolicy: PlaygroundPolicyService,
   ) {}
 
   ngOnInit(): void {
-    this.authFacade.refreshIdentityInfo().subscribe();
   }
 
   playgroundCreateDialogOpen() {
     if (!this.playgroundPolicy.canCreate()) {
-      this.authFacade.openLoginDialog();
+      // this.authFacade.openLoginDialog();
       return;
     }
 
